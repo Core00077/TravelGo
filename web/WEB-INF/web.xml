@@ -28,5 +28,28 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
+    <!-- 查找用户 -->
+    <servlet>
+        <servlet-name>FindUser</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.FindUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindUser</servlet-name>
+        <url-pattern>/findUser</url-pattern>
+    </servlet-mapping>
 
+    <!-- 修改用户 -->
+    <servlet>
+        <servlet-name>ChangeUser</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.ChangeUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeUser</servlet-name>
+        <url-pattern>/changeUser</url-pattern>
+    </servlet-mapping>
+
+
+
+
+    
 </web-app>
