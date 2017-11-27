@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public interface IUserDAO {
     Status doRegister(User user) throws SQLException;
 
-    Status doChange(User user) throws SQLException;
+    Status doChange(User newUser) throws SQLException;
 
     Status findByPhoneNumber(String phoneNumber) throws SQLException;
 

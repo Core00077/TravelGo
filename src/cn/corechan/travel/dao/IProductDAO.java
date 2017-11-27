@@ -1,5 +1,6 @@
 package cn.corechan.travel.dao;
 
+import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Product;
 
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ public interface IProductDAO {
      * @return 是否添加成功的标记
      * @throws SQLException 数据库异常交给调用出处理
      */
-    boolean doCreate(Product product) throws SQLException;
+    Status doCreate(Product product) throws SQLException;
 
     /**
      * 根据商品编号查询商品信息
@@ -19,5 +20,5 @@ public interface IProductDAO {
      * @return 商品的vo对象
      * @throws SQLException 数据库异常交给调用出处理
      */
-    Product findByPhoneNumber(String id) throws SQLException;
+    Status findByPhoneNumber(String id) throws SQLException;
 }

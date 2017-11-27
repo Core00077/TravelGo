@@ -21,14 +21,13 @@ public class UserDAOProxy implements IUserDAO {
     @Override
     public Status doRegister(User user) throws SQLException {
         // 初始化为注册失败
-        Status status = null;
+        Status status;
 
         try {
-            if (userDAO.findByPhoneNumber(user.getPhoneNumber()) == null) {
+            status = userDAO.findByPhoneNumber(user.getPhoneNumber());
+            if (status.getStatus().equals("phoneNotExist")) {
                 status = userDAO.doRegister(user);
             } else {            // 手机号已存在
-                status = new Status();
-                status.setContent("phoneHasExisted","");
                 status.setData(null);
             }
         } catch (SQLException e) {
@@ -40,16 +39,15 @@ public class UserDAOProxy implements IUserDAO {
     }
 
     @Override
-    public Status doChange(User user) throws SQLException {
+    public Status doChange(User newUser) throws SQLException {
         Status status;
         try {
-            status = userDAO.doChange(user);
+            status = userDAO.doChange(newUser);
         } catch (SQLException e) {
             throw e;
         } finally {
             dbc.close();
         }
-
         return status;
     }
 

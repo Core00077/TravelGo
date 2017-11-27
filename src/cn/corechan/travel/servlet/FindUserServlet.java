@@ -2,7 +2,6 @@ package cn.corechan.travel.servlet;
 
 import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.Jackson;
 import cn.corechan.travel.json.util.ResponseUtil;
 import cn.corechan.travel.vo.User;
 
@@ -14,23 +13,19 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class LoginServlet extends HttpServlet {
+public class FindUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
-        String phoneNumber = request.getParameter("phoneNumber");
-        String pwd = request.getParameter("password");
-        UserDAOProxy loginProxy;
-        Status loginStatus = null;
+        HttpSession session = request.getSession();
+        String phoneNumber = (String) session.getAttribute("phoneNumber");
+        UserDAOProxy findUserProxy;
+        Status findStatus;
         try {
-            loginProxy = new UserDAOProxy();
-            loginStatus = loginProxy.doLogin(phoneNumber, pwd);
-            if (loginStatus.getStatus().equals("sucess")) {
-                HttpSession session = request.getSession();
-                session.setAttribute("phoneNumber", ((User)loginStatus.getData()).getPhoneNumber());
-            }
-            ResponseUtil.Render(response, loginStatus);
+            findUserProxy = new UserDAOProxy();
+            findStatus = findUserProxy.findByPhoneNumber(phoneNumber);
+            ResponseUtil.Render(response, findStatus);
         } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(response);
         }

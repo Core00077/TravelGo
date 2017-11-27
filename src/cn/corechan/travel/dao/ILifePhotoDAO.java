@@ -1,5 +1,6 @@
 package cn.corechan.travel.dao;
 
+import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.LifePhoto;
 
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ public interface ILifePhotoDAO {
      * @return 是否添加成功的标记
      * @throws SQLException 数据库异常交给调用出处理
      */
-    boolean doCreate(LifePhoto lifePhoto) throws SQLException;
+    Status doCreate(LifePhoto lifePhoto) throws SQLException;
 
     /**
      * 根据商家手机号查询商家生活照片
@@ -20,5 +21,5 @@ public interface ILifePhotoDAO {
      * @return 商家生活照片的vo对象组
      * @throws SQLException 数据库异常交给调用出处理
      */
-    List<LifePhoto> findByPhoneNumber(String phoneNumber) throws SQLException;
+    Status findByPhoneNumber(String phoneNumber) throws SQLException;
 }
