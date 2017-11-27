@@ -1,12 +1,12 @@
 package cn.corechan.travel.vo;
 
-public class Product {
+public class Good {
     private String Id;
     private String name;
     private double price;
     private String city;
     private String route;
-    private String map;
+    private String picture;
     private String description;
     private String comment;
 
@@ -50,12 +50,12 @@ public class Product {
         this.route = route;
     }
 
-    public String getMap() {
-        return map;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setMap(String map) {
-        this.map = map;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getDescription() {

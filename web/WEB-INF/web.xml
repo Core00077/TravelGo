@@ -48,8 +48,34 @@
         <url-pattern>/changeUser</url-pattern>
     </servlet-mapping>
 
+    <!-- 通过Id查找商品 -->
+    <servlet>
+        <servlet-name>FindGoodById</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.FindGoodById</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindGoodById</servlet-name>
+        <url-pattern>/findGoodById</url-pattern>
+    </servlet-mapping>
 
+    <!-- 通过City查找商品 -->
+    <servlet>
+        <servlet-name>FindGoodByCity</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.FindGoodByCity</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindGoodByCity</servlet-name>
+        <url-pattern>/findGoodByCity</url-pattern>
+    </servlet-mapping>
 
-
+    <!-- 查找收藏夹 -->
+    <servlet>
+        <servlet-name>Love</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.LoveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Love</servlet-name>
+        <url-pattern>/love</url-pattern>
+    </servlet-mapping>
 
 </web-app>

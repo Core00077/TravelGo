@@ -14,9 +14,9 @@
     <schema id="8" parent="1" name="student_manage"/>
     <schema id="9" parent="1" name="sys"/>
     <table id="10" parent="2" name="business"/>
-    <table id="11" parent="2" name="lifephoto"/>
-    <table id="12" parent="2" name="product"/>
-    <table id="13" parent="2" name="userproduct"/>
+    <table id="11" parent="2" name="good"/>
+    <table id="12" parent="2" name="lifephoto"/>
+    <table id="13" parent="2" name="usergood"/>
     <table id="14" parent="2" name="usertable"/>
     <column id="15" parent="10" name="phonenumber">
       <Position>1</Position>
@@ -82,63 +82,63 @@
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>business_Id_uindex</UnderlyingIndexName>
     </key>
-    <column id="30" parent="11" name="phonenumber">
-      <Position>1</Position>
-      <DataType>char(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="31" parent="11" name="photourl">
-      <Position>2</Position>
-      <DataType>varchar(100)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="32" parent="11" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>phonenumber
-photourl</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="33" parent="12" name="Id">
+    <column id="30" parent="11" name="Id">
       <Position>1</Position>
       <DataType>char(5)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="34" parent="12" name="name">
+    <column id="31" parent="11" name="name">
       <Position>2</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="35" parent="12" name="price">
+    <column id="32" parent="11" name="price">
       <Position>3</Position>
       <DataType>float|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="36" parent="12" name="city">
+    <column id="33" parent="11" name="city">
       <Position>4</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="37" parent="12" name="route">
+    <column id="34" parent="11" name="route">
       <Position>5</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="38" parent="12" name="map">
+    <column id="35" parent="11" name="picture">
       <Position>6</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="39" parent="12" name="description">
+    <column id="36" parent="11" name="description">
       <Position>7</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="40" parent="12" name="comment">
+    <column id="37" parent="11" name="comment">
       <Position>8</Position>
       <DataType>text|0</DataType>
     </column>
-    <key id="41" parent="12" name="PRIMARY">
+    <key id="38" parent="11" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="39" parent="12" name="phonenumber">
+      <Position>1</Position>
+      <DataType>char(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="12" name="photourl">
+      <Position>2</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="41" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>phonenumber
+photourl</ColNames>
       <Primary>1</Primary>
     </key>
     <column id="42" parent="13" name="phoneNumber">
