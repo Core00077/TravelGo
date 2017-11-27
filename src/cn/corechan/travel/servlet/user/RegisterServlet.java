@@ -1,8 +1,7 @@
-package cn.corechan.travel.servlet;
+package cn.corechan.travel.servlet.user;
 
 import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.Jackson;
 import cn.corechan.travel.json.util.ResponseUtil;
 import cn.corechan.travel.vo.User;
 
