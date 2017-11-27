@@ -1,8 +1,10 @@
 (function () {
+
     //界面打开时输入框获取焦点
     window.onload = function () {
         inputGroup[0].focus();
     }
+
     //登录和注册的变换
     var on = document.querySelectorAll("#choose a");
     on[0].onclick = function () {
@@ -42,8 +44,9 @@
     var errorLabel = document.querySelectorAll(".body-login-register label");
     //输入框div
     var inputBox = document.querySelectorAll(".body-login-register .input-box");
+
     //登录响应事件
-    var login = function () {
+    loginButton.onclick = function () {
         var phoneNumber = inputGroup[0];
         var password = inputGroup[1];
         var md5Password = inputGroup[2];
@@ -59,25 +62,35 @@
         } else if (password.value.length < 6) {
             moveon(1, "密码错误");
         }
+        //前端验证成功，发送ajax请求
         if (phoneReg.test(phoneNumber.value) && password.value.length >= 6) {
-            //md5Password.value = toMD5(password.value);
-            var form = new FormData();
-            form.append("phoneNumber",phoneNumber.value);
-            form.append("password",password.value);
-            var p=ajaxRequest("post","/login",form);
-            p.then(function(text){
-                var result = JSON.parse(text);
+            var data={};
+            data.phoneNumber=phoneNumber.value;
+            data.password=password.value;
+            var promise=ajaxRequest("post","/login",stringfy(data));
+            promise.then(function(responseText){
+                //请求成功，根据响应内容判断
+                var result = JSON.parse(responseText);
                 if(result.status==="ok"){
                     window.location.href="main.html";
                 }
-            }).catch(function (status) { // 如果AJAX失败，获得响应代码
-                console.log(status);
+                if(result.status==="phoneNotExist"){
+                    moveon(0,"用户不存在");
+                }
+                if(result.status==="passwordWrong"){
+                    moveon(1,"密码错误");
+                }
+                else{
+                    alert("系统错误");
+                }
+            }).catch(function (wrongMessage) { // 如果AJAX失败，获得响应代码
+                alert(wrongMessage);
             });
         }
     }
-    loginButton.onclick = login;
+
     //注册响应事件
-    var register = function () {
+    registerButton.onclick = function () {
         var userName = inputGroup[3];
         var phoneNumber = inputGroup[4];
         var password = inputGroup[5];
@@ -101,12 +114,32 @@
         } else if (password.value.length < 6) {
             moveon(4, "请输入最少六位");
         }
+        //前端验证成功，发送ajax请求
         if (userNamereg.test(userName.value) && phoneReg.test(phoneNumber.value) && password.value.length >= 6) {
-            md5Password.value = toMD5(password.value);
-            registerForm.submit();
+            var data={};
+            data.userName=userName.value;
+            data.phoneNumber=phoneNumber.value;
+            data.password=password.value;
+            var promise=ajaxRequest("post","/register",stringfy(data));
+            promise.then(function(responseText){
+                var status=responseText.status;
+                if(status==='ok'){
+                    window.location.href="main.html";
+                }
+                if(status==="nameHasExisted"){
+                    moveon(2,"用户名已存在");
+                }
+                if(status==="phoneHasExisted"){
+                    moveon(3,"手机号已注册");
+                }
+                else{
+                    alert(系统错误);
+                }
+            }).catch(function(wrongMessage){
+                alert(wrongMessage);
+            });
         }
     }
-    registerButton.onclick = register;
 
     //错误信息提示弹出函数
     var moveon = function (num, errorText) {
@@ -139,4 +172,5 @@
     inputBox[4].onclick = function () {
         remove(4);
     }
+
 })(window);

@@ -1,18 +1,26 @@
-function ajaxRequest(method,url,data){
-    xmlHttp=new XMLHttpRequest();
-    return new Promise(function(sucess,failed){
-        xmlHttp.onreadystatechange=function(){
-            if(xmlHttp.readyState===4){
-                if(xmlHttp.status===200){
-                    sucess(xmlHttp.responseText);
-                }
-                else{
-                    failed(xmlHttp.status);
+function stringfy(data) {
+    var result = '';
+    for (let i in data) {
+
+        result = result + i + '=' + data[i] + '&';
+    }
+    return result.substring(0, result.length - 1);
+}
+
+function ajaxRequest(method, url, data) {
+    var xmlRequest = new XMLHttpRequest();
+    return new Promise(function (resolve, reject) {
+        xmlRequest.onreadystatechange = function () {
+            if (xmlRequest.readyState === 4) {
+                if (xmlRequest.status === 200) {
+                    resolve(xmlRequest.responseText);
+                } else {
+                    reject("网路错误");
                 }
             }
-        }();
-        xmlHttp.open(method,url,true);
-        xmlHttp.setRequestHeader("Content-Type","application/ x - www - form - urlencoded");
-        xmlHttp.send(data);
+        };
+        xmlRequest.open(method, url, true);
+        xmlRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlRequest.send(data);
     });
 }

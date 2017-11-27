@@ -4,6 +4,7 @@ import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.Jackson;
 import cn.corechan.travel.vo.User;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,33 +18,25 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // 判断session是否为空
-//        HttpSession session = request.getSession();
         response.setHeader("Access-Control-Allow-Origin", "*");
+        request.setCharacterEncoding("UTF-8");
         String phoneNumber = request.getParameter("phoneNumber");
         String pwd = request.getParameter("password");
         UserDAOProxy loginProxy;
-        User user = null;
+        Status loginStatus = null;
         try {
             loginProxy = new UserDAOProxy();
-            user = loginProxy.doLogin(phoneNumber, pwd);
-            System.out.println(phoneNumber);
-            System.out.println(pwd);
-            if (user == null) {
-
-            } else {
-//                Status status = new Status();
-//                status.setStatus("ok");
-//                status.setMsg("");
-//                status.setData(null);
-//
-//                String text = Jackson.toJson(status);
-//
-//                System.out.println(text);
-//                response.getWriter().write(text);
+            loginStatus = loginProxy.doLogin(phoneNumber, pwd);
+            if (loginStatus.getStatus().equals("sucess")) {
+                HttpSession session = request.getSession();
+                session.setAttribute("username", ((User)loginStatus.getData()).getName());
             }
         } catch (ClassNotFoundException | SQLException e) {
-
+            loginStatus = new Status();
+            loginStatus.setContent("loginFail","");
+            loginStatus.setData(null);
         }
+        String text = Jackson.toJson(loginStatus);
+        response.getWriter().write(text);
     }
 }

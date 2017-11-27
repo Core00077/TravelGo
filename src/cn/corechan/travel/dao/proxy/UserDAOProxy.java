@@ -14,60 +14,84 @@ public class UserDAOProxy implements IUserDAO {
     private IUserDAO userDAO = null;
 
     public UserDAOProxy() throws ClassNotFoundException, SQLException {
-        this.dbc = DatabaseConnectionFactor.getMySQLDatabaseConnection();
-        this.userDAO = new UserDAOImpl(this.dbc.getConnection());
+        dbc = DatabaseConnectionFactor.getMySQLDatabaseConnection();
+        userDAO = new UserDAOImpl(dbc.getConnection());
     }
 
     @Override
-    public boolean doCreate(User user) throws SQLException {
-        boolean flag = false;
+    public Status doRegister(User user) throws SQLException {
+        // 初始化为注册失败
+        Status status = null;
+
         try {
             if (userDAO.findByPhoneNumber(user.getPhoneNumber()) == null) {
-                flag = userDAO.doCreate(user);
+                status = userDAO.doRegister(user);
+            } else {            // 手机号已存在
+                status = new Status();
+                status.setContent("phoneHasExisted","");
+                status.setData(null);
             }
         } catch (SQLException e) {
             throw e;
         } finally {
             dbc.close();
         }
-        return flag;
+        return status;
     }
 
     @Override
-    public boolean doChange() throws SQLException {
-        return false;
-    }
-
-    @Override
-    public User findByPhoneNumber(String phoneNumber) throws SQLException {
-        User user;
-        try {
-            user = userDAO.findByPhoneNumber(phoneNumber);
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            dbc.close();
-        }
-        return user;
-    }
-
-    public User doLogin(String phoneNumber, String pwd) throws SQLException {
+    public Status doChange(User user) throws SQLException {
         Status status;
-        User user;
-
         try {
-            user = userDAO.findByPhoneNumber(phoneNumber);
-            if (user == null) {
-                return null;
-            }
+            status = userDAO.doChange(user);
         } catch (SQLException e) {
             throw e;
         } finally {
             dbc.close();
         }
-        if (user.getPwd().equals(pwd)) {
-            return user;
+
+        return status;
+    }
+
+    @Override
+    public Status findByPhoneNumber(String phoneNumber) throws SQLException {
+        Status status;
+        try {
+            status = userDAO.findByPhoneNumber(phoneNumber);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            dbc.close();
         }
+        return status;
+    }
+
+    public Status doLogin(String phoneNumber, String pwd) throws SQLException {
+        Status status;
+
+        try {
+            status = userDAO.findByPhoneNumber(phoneNumber);    // 根据手机号查找用户
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            dbc.close();
+        }
+
+        // 手机号存在
+        if (status.getStatus().equals("phoneExist")) {
+            if (((User)status.getData()).getPwd().equals(pwd)) {    // 密码相等，登录成功
+                status.setContent("success","");
+            } else {        // 否则失败
+                status.setData(null);
+                status.setContent("passwordWrong","");
+            }
+        }
+
+        return status;
+    }
+
+    @Override
+    public Status doDelete(String phoneNumber) throws SQLException {
         return null;
     }
 }

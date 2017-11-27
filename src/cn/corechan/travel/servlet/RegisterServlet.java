@@ -22,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
         UserDAOProxy registerProxy;
         try {
             registerProxy = new UserDAOProxy();
-            if (registerProxy.doCreate(user)) {
+            if (registerProxy.doRegister(user) == null) {
 //                request.getRequestDispatcher("/html/main.html").forward(request, response);
                 response.getWriter().write("<hr>chenggong<hr>");
             } else {
