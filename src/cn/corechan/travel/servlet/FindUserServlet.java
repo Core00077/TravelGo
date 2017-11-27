@@ -3,7 +3,6 @@ package cn.corechan.travel.servlet;
 import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
-import cn.corechan.travel.vo.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +18,8 @@ public class FindUserServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         HttpSession session = request.getSession();
-        String phoneNumber = (String) session.getAttribute("phoneNumber");
+//        String phoneNumber = (String) session.getAttribute("phoneNumber");
+        String phoneNumber = "15871731525";             // findUser测试专用
         UserDAOProxy findUserProxy;
         Status findStatus;
         try {

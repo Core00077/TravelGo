@@ -20,7 +20,7 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         UserDAOProxy registerProxy;
-        Status registerStatus = null;
+        Status registerStatus;
         User user = new User();
         user.setPhoneNumber(request.getParameter("phoneNumber"));
         user.setName(request.getParameter("username"));

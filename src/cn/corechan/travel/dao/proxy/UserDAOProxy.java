@@ -28,6 +28,7 @@ public class UserDAOProxy implements IUserDAO {
             if (status.getStatus().equals("phoneNotExist")) {
                 status = userDAO.doRegister(user);
             } else {            // 手机号已存在
+                status.setContent("phoneHasExisted","");
                 status.setData(null);
             }
         } catch (SQLException e) {
