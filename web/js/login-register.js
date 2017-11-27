@@ -61,19 +61,18 @@
         }
         if (phoneReg.test(phoneNumber.value) && password.value.length >= 6) {
             //md5Password.value = toMD5(password.value);
-            var form={};
-            form.phoneNumber=phoneNumber.value;
-            form.password=password.value;
-            ajaxRequest("/login",callBack,form);
-            function callBack(responseText){
-                var result = JSON.parse(responseText);
+            var form = new FormData();
+            form.append("phoneNumber",phoneNumber.value);
+            form.append("password",password.value);
+            var p=ajaxRequest("post","/login",form);
+            p.then(function(text){
+                var result = JSON.parse(text);
                 if(result.status==="ok"){
                     window.location.href="main.html";
                 }
-                if(result.status===""){
-
-                }
-            }
+            }).catch(function (status) { // 如果AJAX失败，获得响应代码
+                console.log(status);
+            });
         }
     }
     loginButton.onclick = login;
