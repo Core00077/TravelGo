@@ -32,10 +32,9 @@ public class RegisterServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("phoneNumber", user.getPhoneNumber());
             }
+            ResponseUtil.Render(response, registerStatus);
         } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(response);
-            return;
         }
-        ResponseUtil.Render(response, registerStatus);
     }
 }

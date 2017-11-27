@@ -47,7 +47,7 @@
     </column>
     <column id="21" parent="10" name="sex">
       <Position>7</Position>
-      <DataType>varchar(5)|0</DataType>
+      <DataType>varchar(6)|0</DataType>
     </column>
     <column id="22" parent="10" name="hobby">
       <Position>8</Position>
@@ -174,7 +174,7 @@ productId</ColNames>
     </column>
     <column id="48" parent="14" name="sex">
       <Position>4</Position>
-      <DataType>varchar(5)|0</DataType>
+      <DataType>varchar(6)|0</DataType>
     </column>
     <column id="49" parent="14" name="realname">
       <Position>5</Position>

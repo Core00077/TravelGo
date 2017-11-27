@@ -23,6 +23,7 @@ public class ChangeUserServlet extends HttpServlet {
         newUser.setPhoneNumber((String) request.getSession().getAttribute("phoneNumber"));
         newUser.setPhoneNumber("15871731525");          // 测试专用
         newUser.setName(request.getParameter("username"));
+        System.out.println("request = " + request.getParameter("username"));
         newUser.setRealName(request.getParameter("realname"));
         newUser.setSex(request.getParameter("sex"));
         newUser.setHometown(request.getParameter("hometown"));
@@ -31,6 +32,7 @@ public class ChangeUserServlet extends HttpServlet {
             changeStatus = changeProxy.doChange(newUser);
             ResponseUtil.Render(response, changeStatus);
         } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("e.toString() = " + e.toString());
             ResponseUtil.ResponseError(response);
         }
     }

@@ -44,19 +44,16 @@ public class UserDAOImpl implements IUserDAO {
         status.setData(null);
 
         // 修改用户数据
-        String query = "SELECT * FROM usertable WHERE phonenumber=?";
-        try (PreparedStatement pstmt = conn.prepareStatement(query,
-                ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
-            pstmt.setString(1, newUser.getPhoneNumber());
-            try (ResultSet rset = pstmt.executeQuery()) {
-                rset.updateString("name", newUser.getName());
-                rset.updateString("realname", newUser.getRealName());
-                rset.updateString("sex", newUser.getSex());
-                rset.updateString("hometown", newUser.getHometown());
-                rset.updateRow();
-                status.setContent("success","");
-            } catch (SQLException e) {
-                throw e;
+        String query = "UPDATE usertable SET name=?, realname=?," +
+                        "sex=?, hometown=?  WHERE phonenumber=?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, newUser.getName());
+            pstmt.setString(2, newUser.getRealName());
+            pstmt.setString(3, newUser.getSex());
+            pstmt.setString(4, newUser.getHometown());
+            pstmt.setString(5, newUser.getPhoneNumber());
+            if (pstmt.executeUpdate() > 0) {
+                status.setContent("success", "");
             }
         } catch (SQLException e) {
             throw e;
@@ -72,18 +69,18 @@ public class UserDAOImpl implements IUserDAO {
         status.setData(null);
 
         // 查询
-        String sql = "SELECT phonenumber,name,pwd,sex,realname,hometown FROM usertable WHERE phonenumber=?";
+        String sql = "SELECT name,pwd,sex,realname,hometown FROM usertable WHERE phonenumber=?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, phoneNumber);
             try (ResultSet rset = pstmt.executeQuery()) {
                 if (rset.next()) {              // 查询成功
                     User user = new User();
                     user.setPhoneNumber(phoneNumber);
-                    user.setName(rset.getString(2));
-                    user.setPwd(rset.getString(3));
-                    user.setSex(rset.getString(4));
-                    user.setRealName(rset.getString(5));
-                    user.setRealName(rset.getString(6));
+                    user.setName(rset.getString(1));
+                    user.setPwd(rset.getString(2));
+                    user.setSex(rset.getString(3));
+                    user.setRealName(rset.getString(4));
+                    user.setHometown(rset.getString(5));
 
                     status.setContent("success","");     // 更改状态码
                     status.setData(user);
