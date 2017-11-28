@@ -45,6 +45,7 @@
 }
 .content-body .item-list{
     width:100%;
+    min-height: 500px;
 }
 .content-body .item-list .item{
     float:left;

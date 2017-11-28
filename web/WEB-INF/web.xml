@@ -71,7 +71,7 @@
     <!-- 通过City查找商品 -->
     <servlet>
         <servlet-name>FindGoodByCity</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.FindGoodByCity</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.FindGoodByCityServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FindGoodByCity</servlet-name>

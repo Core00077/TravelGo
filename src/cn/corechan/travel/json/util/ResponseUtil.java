@@ -4,6 +4,7 @@ import cn.corechan.travel.json.Status;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 public class ResponseUtil {
     public static void Render(HttpServletResponse response, Status status)

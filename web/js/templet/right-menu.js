@@ -43,18 +43,29 @@
         if(loginState==="logined"){
             window.location.href="user.html";
         }
-        if(loginState==="unlogin"){
+        else if(loginState==="unlogin"){
             dialog.showDialog("未登录");
             setTimeout(dialog.closeDialog,1000);
         }
     }
+
+    //收藏夹
     var rightOpencollect=document.querySelector("#right-open-collect");
     rightOpencollect.onclick=function(){
         //登录状态打开收藏夹
         if(loginState==="logined"){
-            collect.openCollect();
+            //请求商品id
+            var collectOpenrequest=ajaxRequest("get","///");
+            collectOpenrequest.then(function(responseText){
+                var result=JSON.parse(responseText);
+                var data=result.data;
+                openCollect(data);
+            }).catch(function(errorText){
+                dialog.showDialog(errorText);
+                setTimeout(dialog.closeDialog,1000);
+            });
         }
-        if(loginState==="unlogin"){
+        else if(loginState==="unlogin"){
             dialog.showDialog("未登录");
             setTimeout(dialog.closeDialog,1000);
         }

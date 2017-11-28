@@ -67,27 +67,31 @@
             var data={};
             data.phoneNumber=phoneNumber.value;
             data.password=password.value;
-            var promise=ajaxRequest("post","/login",stringfy(data));
-            promise.then(function(responseText){
-                //请求成功，根据响应内容判断
-                var result = JSON.parse(responseText);
-                console.log(result.status);
-                if(result.status==="success"){
-                    window.location.href="main.html";
-                }
-                else if(result.status==="phoneNotExist"){
-                    moveon(0,"用户不存在");
-                }
-                else if(result.status==="passwordWrong"){
-                    moveon(1,"密码错误");
-                }
-                else{
-                    alert("系统错误");
-                }
-            }).catch(function (wrongMessage) { // 如果AJAX失败，获得响应代码
-                alert(wrongMessage);
-            });
+            loginRequest(data);
         }
+    }
+
+    function loginRequest(data){
+        var login=ajaxRequest("post","/login",stringfy(data));
+        login.then(function(responseText){
+            //请求成功，根据响应内容判断
+            var result = JSON.parse(responseText);
+            if(result.status==="success"){
+                window.location.href="main.html";
+            }
+            else if(result.status==="phoneNotExist"){
+                moveon(0,"用户不存在");
+            }
+            else if(result.status==="passwordWrong"){
+                moveon(1,"密码错误");
+            }
+            else{
+                alert("系统错误");
+            }
+        }).catch(function (wrongMessage) { // 如果AJAX失败，获得响应代码
+            alert(wrongMessage);
+        });
+
     }
 
     //注册响应事件
@@ -118,23 +122,24 @@
         //前端验证成功，发送ajax请求
         if (userNamereg.test(userName.value) && phoneReg.test(phoneNumber.value) && password.value.length >= 6) {
             var data={};
-            data.userName=userName.value;
+            data.username=userName.value;
             data.phoneNumber=phoneNumber.value;
             data.password=password.value;
-            var promise=ajaxRequest("post","/register",stringfy(data));
-            promise.then(function(responseText){
-                var status=responseText.status;
+            var registerRequest=ajaxRequest("post","/register",stringfy(data));
+            registerRequest.then(function(responseText){
+                var result = JSON.parse(responseText);
+                var status=result.status;
                 if(status==='success'){
-                    window.location.href="main.html";
+                    loginRequest(data);
                 }
-                if(status==="nameHasExisted"){
+                else if(status==="nameHasExisted"){
                     moveon(2,"用户名已存在");
                 }
-                if(status==="phoneHasExisted"){
+                else if(status==="phoneHasExisted"){
                     moveon(3,"手机号已注册");
                 }
                 else{
-                    alert(系统错误);
+                    alert("系统错误");
                 }
             }).catch(function(wrongMessage){
                 alert(wrongMessage);

@@ -36,27 +36,26 @@ loginState = "logined";
     document.writeln("</header> ");
 })();
 
-(function(){
+(function () {
     //将登录、注册隐藏，显示用户名
     function setHeader(username) {
-        var unlogin=document.querySelector("#login-info .unlogin");
-        unlogin.style.display="none";
-        var logined=document.querySelector("#login-info .logined");
-        var user=document.querySelector("#login-info .logined .fa-user-circle");
-        user.innerText=" "+username;
-        logined.style.display="list-item";
+        var unlogin = document.querySelector("#login-info .unlogin");
+        unlogin.style.display = "none";
+        var logined = document.querySelector("#login-info .logined");
+        var user = document.querySelector("#login-info .logined .fa-user-circle");
+        user.innerText = " " + username;
+        logined.style.display = "list-item";
     }
-
     //退出
-    var quit =document.querySelector("#quit");
-    quit.onclick=function(){
+    var quit = document.querySelector("#quit");
+    quit.onclick = function () {
         //发Ajax请求，清除seesion
-        var promise=ajaxRequest("get","/quit");
-        promise.then(function(responseText){
+        var quitRequest = ajaxRequest("get", "/quit");
+        quitRequest.then(function (responseText) {
             window.location.reload(true);
-        }).catch(function(errorText){
+        }).catch(function (errorText) {
             dialog.showDialog("网络错误");
-            setTimeout(dialog.closeDialog,1000);
+            setTimeout(dialog.closeDialog, 1000);
         });
     }
 
@@ -65,9 +64,19 @@ loginState = "logined";
     headerOpencollect.onclick = function () {
         //登录状态打开收藏夹
         if (loginState === "logined") {
-            collect.openCollect();
-        } else {
-            window.location.href = "login&register.html";
+            //请求商品id
+            var collectOpenrequest = ajaxRequest("get", "///");
+            collectOpenrequest.then(function (responseText) {
+                var result = JSON.parse(responseText);
+                var data = result.data;
+                openCollect(data);
+            }).catch(function (errorText) {
+                dialog.showDialog(errorText);
+                setTimeout(dialog.closeDialog, 1000);
+            });
+        } else if (loginState === "unlogin") {
+            dialog.showDialog("未登录");
+            setTimeout(dialog.closeDialog, 1000);
         }
     }
     window.setHeader = setHeader;

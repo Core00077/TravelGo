@@ -21,13 +21,13 @@ public class LoginServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String pwd = request.getParameter("password");
         UserDAOProxy loginProxy;
-        Status loginStatus = null;
+        Status loginStatus;
         try {
             loginProxy = new UserDAOProxy();
             loginStatus = loginProxy.doLogin(phoneNumber, pwd);
-            if (loginStatus.getStatus().equals("sucess")) {
+            if (loginStatus.getStatus().equals("success")) {
                 HttpSession session = request.getSession();
-                session.setAttribute("phoneNumber", ((User)loginStatus.getData()).getPhoneNumber());
+                session.setAttribute("phoneNumber", phoneNumber);
             }
             ResponseUtil.Render(response, loginStatus);
         } catch (ClassNotFoundException | SQLException e) {

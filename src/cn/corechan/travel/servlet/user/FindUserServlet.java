@@ -18,16 +18,22 @@ public class FindUserServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         HttpSession session = request.getSession();
-//        String phoneNumber = (String) session.getAttribute("phoneNumber");
-        String phoneNumber = "15871731525";             // findUser测试专用
+        String phoneNumber = (String) session.getAttribute("phoneNumber");
+//        String phoneNumber = "15871731525";             // findUser测试专用
         UserDAOProxy findUserProxy;
         Status findStatus;
         try {
             findUserProxy = new UserDAOProxy();
             findStatus = findUserProxy.findByPhoneNumber(phoneNumber);
+
             ResponseUtil.Render(response, findStatus);
         } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(response);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 }

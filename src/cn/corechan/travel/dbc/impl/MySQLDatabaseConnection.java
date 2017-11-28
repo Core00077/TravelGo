@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class MySQLDatabaseConnection implements DatabaseConnection{
     private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-    private static final String DBURL = "jdbc:mysql://localhost:3306/travelgo";
+    private static final String DBURL = "jdbc:mysql://115.159.148.175:3306/travelgo";
     private static final String DBUSER = "root";
-    private static final String DBPASSWORD = "19961107";
+    private static final String DBPASSWORD = "travelgo666";
     private Connection conn = null;
 
     public MySQLDatabaseConnection() throws ClassNotFoundException, SQLException {

@@ -21,9 +21,8 @@ public class ChangeUserServlet extends HttpServlet {
         Status changeStatus;
         User newUser = new User();
         newUser.setPhoneNumber((String) request.getSession().getAttribute("phoneNumber"));
-        newUser.setPhoneNumber("15871731525");          // 测试专用
         newUser.setName(request.getParameter("username"));
-        newUser.setRealName(request.getParameter("realname"));
+        newUser.setRealName(request.getParameter("realName"));
         newUser.setSex(request.getParameter("sex"));
         newUser.setHometown(request.getParameter("hometown"));
         try {

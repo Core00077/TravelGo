@@ -4,6 +4,9 @@ import cn.corechan.travel.dao.IUserDAO;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.User;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.*;
 
 public class UserDAOImpl implements IUserDAO {
@@ -47,15 +50,23 @@ public class UserDAOImpl implements IUserDAO {
                         "sex=?, hometown=?  WHERE phonenumber=?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, newUser.getName());
-            pstmt.setString(2, newUser.getRealName());
+            String realName = newUser.getRealName();
+            String hometown = newUser.getHometown();
+            if (realName != null) {
+                pstmt.setString(2, URLDecoder.decode(realName, "UTF-8"));
+            }
+            if (hometown != null) {
+                pstmt.setString(4, URLDecoder.decode(newUser.getHometown(), "UTF-8"));
+            }
             pstmt.setString(3, newUser.getSex());
-            pstmt.setString(4, newUser.getHometown());
             pstmt.setString(5, newUser.getPhoneNumber());
             if (pstmt.executeUpdate() > 0) {
                 status.setContent("success", "");
             }
         } catch (SQLException e) {
             throw e;
+        } catch (UnsupportedEncodingException e) {
+
         }
         return status;
     }
@@ -78,8 +89,19 @@ public class UserDAOImpl implements IUserDAO {
                     user.setName(rset.getString(1));
                     user.setPwd(rset.getString(2));
                     user.setSex(rset.getString(3));
-                    user.setRealName(rset.getString(4));
-                    user.setHometown(rset.getString(5));
+                    try {
+                        String realName = rset.getString(4);
+                        String hometown = rset.getString(5);
+                        if (realName != null) {
+                            user.setRealName(URLEncoder.encode(realName, "UTF-8"));
+                        }
+                        if (hometown != null) {
+                            user.setHometown(URLEncoder.encode(hometown, "UTF-8"));
+                        }
+                    } catch (UnsupportedEncodingException e) {
+
+                    }
+
 
                     status.setContent("success","");     // 更改状态码
                     status.setData(user);

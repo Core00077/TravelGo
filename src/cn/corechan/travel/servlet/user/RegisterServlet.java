@@ -36,4 +36,6 @@ public class RegisterServlet extends HttpServlet {
             ResponseUtil.ResponseError(response);
         }
     }
+
+
 }

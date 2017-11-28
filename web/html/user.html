@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../css/user/user.css">
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="stylesheet" href="../css/common/common-style.css">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 
 <body>
@@ -22,7 +24,7 @@
         <div class="content">
             <div class="user-message">
                 <i class="fa fa-tags fa-2x"></i>
-                <form action="#" method="post">
+                <form>
                     <div class="item">
                         <label for="username">昵称:</label>
                         <input class="input-text" type="text" maxlength="30" name="username" id="username">
@@ -33,8 +35,8 @@
                     </div>
                     <div class="item">
                         <label for="sex">性别:</label>
-                        <input type="radio" checked="checked" name="sex">男
-                        <input type="radio" name="sex" style="margin-left:10px;">女
+                        <input type="radio" name="sex" id="man">男
+                        <input type="radio" name="sex" id="women" style="margin-left:10px;">女
                     </div>
                     <div class="item">
                         <label for="home">家乡:</label>

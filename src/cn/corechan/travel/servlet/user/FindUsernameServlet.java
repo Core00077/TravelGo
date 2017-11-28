@@ -21,19 +21,37 @@ public class FindUsernameServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         HttpSession session = request.getSession();
-        String phoneNumber = (String) session.getAttribute("phoneNumber");
-        phoneNumber = "15871731525";             // findUser测试专用
         UserDAOProxy findUserProxy;
         Status findStatus;
-        try {
-            findUserProxy = new UserDAOProxy();
-            findStatus = findUserProxy.findByPhoneNumber(phoneNumber);
-            Map<String, String> username = new HashMap<>();
-            username.put("username", ((User)findStatus.getData()).getName());
-            findStatus.setData(username);
+        if (!session.isNew()) {
+            String phoneNumber = (String) session.getAttribute("phoneNumber");
+            System.out.println("phoneNumber = " + phoneNumber);
+            if (phoneNumber != null) {
+                try {
+                    findUserProxy = new UserDAOProxy();
+                    findStatus = findUserProxy.findByPhoneNumber(phoneNumber);
+                    Map<String, String> username = new HashMap<>();
+                    username.put("username", ((User) findStatus.getData()).getName());
+                    findStatus.setStatus("logined");
+                    findStatus.setData(username);
+                    ResponseUtil.Render(response, findStatus);
+                } catch (ClassNotFoundException | SQLException e) {
+                    ResponseUtil.ResponseError(response);
+                }
+            } else {
+                findStatus = new Status();
+                findStatus.setStatus("unlogin");
+                ResponseUtil.Render(response, findStatus);
+            }
+        } else {
+            findStatus = new Status();
+            findStatus.setStatus("unlogin");
             ResponseUtil.Render(response, findStatus);
-        } catch (ClassNotFoundException | SQLException e) {
-            ResponseUtil.ResponseError(response);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 }
