@@ -5,7 +5,7 @@
     document.writeln("<div id=\'right-menu\'>");
     document.writeln("    <ul id=\'right-menu-ui\'>");
     document.writeln("        <li class=\'user-index\' title=\'个人主页\'>");
-    document.writeln("            <a>");
+    document.writeln("            <a href=\'#javascript:;\' id=\'open-user\'>");
     document.writeln("                <span>");
     document.writeln("                    <i class=\'fa fa-user-circle fa-2x\'></i>");
     document.writeln("                </span>");
@@ -33,14 +33,30 @@
     rightMenu.addEventListener("mouseover",function(){
         rightMenu.style.right="0px";
     })
+
     rightMenu.addEventListener("mouseout",function(){
         rightMenu.style.right="-40px";
     })
+
+    var openUser=document.querySelector("#open-user");
+    openUser.onclick=function(){
+        if(loginState==="logined"){
+            window.location.href="user.html";
+        }
+        if(loginState==="unlogin"){
+            dialog.showDialog("未登录");
+            setTimeout(dialog.closeDialog,1000);
+        }
+    }
     var rightOpencollect=document.querySelector("#right-open-collect");
     rightOpencollect.onclick=function(){
         //登录状态打开收藏夹
         if(loginState==="logined"){
             collect.openCollect();
+        }
+        if(loginState==="unlogin"){
+            dialog.showDialog("未登录");
+            setTimeout(dialog.closeDialog,1000);
         }
     }
 })();

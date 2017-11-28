@@ -1,12 +1,14 @@
 package cn.corechan.travel.vo;
 
+import java.util.List;
+
 public class Good {
     private String Id;
     private String name;
     private double price;
     private String city;
     private String route;
-    private String picture;
+    private List<String> pictures;
     private String description;
     private String comment;
 
@@ -50,12 +52,12 @@ public class Good {
         this.route = route;
     }
 
-    public String getPicture() {
-        return picture;
+    public List<String> getPictures() {
+        return pictures;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 
     public String getDescription() {

@@ -25,17 +25,19 @@ header{
 .header-body-right{
     float:right;
 }
-#header-container #login-info .unlogin{
-    
-}
+
 #header-container #menu-info li,#header-container #login-info li{
     float:left;
     margin-right:10px;
+}
+#login-info .logined{
+    display: none;
 }
 .header-body a{
     user-select: none;
     text-decoration: none;
     color:#524c4c;
+    margin-right: 10px;
 }
 .header-body a:hover{
     color:rgb(91,197,91);

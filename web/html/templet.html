@@ -1,51 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/templet/collect.css">
-    <link rel="stylesheet" href="../css/font-awesome.css">
-    <title>Document</title>
-</head>
-
-<body>
-    <link rel='stylesheet' href='../css/templet/collect.css'>
-    <link rel='stylesheet' href='../css/font-awesome.css'>
-    <div id='collect-container'>
-        <i id='close-collect' class='fa fa-times-circle'></i>
-        <div class='collect-content'>
-            <div class='collect-title'>
-                <i class='fa fa-envelope-open-o fa-2x'></i>
-                <h2>收藏夹</h2>
-                <div class='item-list-head'>
-                    <label>
-                        <input type='checkbox' id='select-all' />全选</label>
-                    <p>价格</p>
-                </div>
-            </div>
-            <div class='item-list' id='item-list'>
-                <div class='item'>
-                    <div class='in-center'>
-                        <input type='checkbox'>
-                    </div>
-                    <div class='in-center item-picture'>
-                        <a href=''>
-                            <img src=''>图片</a>
-                    </div>
-                    <div class='in-center item-name'>
-                        <a href=''>商品名</a>
-                    </div>
-                    <div class='in-center item-price'>
-                        <p>$20</p>
-                    </div>
-                    <input type='hidden'>
-                </div>
-            </div>
-            <button id='delete-button'>删除</button>
-        </div>
-    </div>
-
-</body>
-
-</html>
+<link rel='stylesheet' href='../css/templet/collect.css'>
+<link rel='stylesheet' href='../css/font-awesome.css'>
+<div id='collect-container'>
+<i id='close-collect' class='fa fa-times-circle'></i>
+     <div class='collect-content'>
+         <div class='collect-title'>
+             <i class='fa fa-envelope-open-o fa-2x'></i>
+             <h2>收藏夹</h2>
+             <div class='item-list-head'>
+                 <label>
+                     <input type='checkbox' id='select-all'/>全选</label>
+                 <p>价格</p>
+             </div>
+         </div>
+         <div class='item-list' id='item-list-collect'>
+             <div class='item'>
+                 <div class='in-center'><input type='checkbox'></div>
+                 <div class='in-center item-picture'><a href='goods-page.html?id=100'><img src='../img/goods/1.jpg'>图片</a></div>
+                 <div class='in-center item-name'><a href='goods-page.html?id=100'>商品名</a></div>
+                 <div class='in-center item-price'><p>$20</p></div>
+                 <input type='hidden'>
+             </div>
+         </div>
+         <button id='delete-button'>删除</button>
+     </div>
+ </div>   

@@ -1,3 +1,6 @@
+#right-menu a{
+    color:white;
+}
 #right-menu{
     position: fixed;
     right: -40px;
@@ -8,7 +11,7 @@
     opacity: 0.9;
     cursor: pointer;
     z-index: 1000;
-    transition: right 1.5s;
+    transition: right 1s;
 }
 #right-menu-ui{
     position: absolute;

@@ -15,12 +15,17 @@ function ajaxRequest(method, url, data) {
                 if (xmlRequest.status === 200) {
                     resolve(xmlRequest.responseText);
                 } else {
-                    reject("网路错误");
+                    reject("网络错误");
                 }
             }
         };
         xmlRequest.open(method, url, true);
-        xmlRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xmlRequest.send(data);
+        if(method==="post"||method==="POST"){
+            xmlRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlRequest.send(data);
+        }
+        else{
+            xmlRequest.send();
+        }
     });
 }

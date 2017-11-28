@@ -28,7 +28,6 @@ public class UserDAOImpl implements IUserDAO {
             pstmt.setString(3, user.getPwd());
             if (pstmt.executeUpdate() > 0) {
                 status.setContent("success","");
-                status.setData(user);
             }
         } catch (SQLException e) {
             throw e;

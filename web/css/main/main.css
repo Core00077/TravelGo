@@ -11,19 +11,22 @@
 .feature-list{
     height: 100px;
     line-height: 30px;
-    width: 75%;
+    width: 1400px;
+    display: flex;
+    flex-direction: row;
     margin: 0 auto;
     user-select: none;
 }
-.feature-list li{
+.feature-list div{
+    flex-grow: 1;
     display: inline-block;
     text-align: center;
     height: 100%;
     padding-top:6px;
     width: 33%;
 }
-.feature-list li p{
-    font-size: 22px;
+.feature-list div p{
+    font-size: 30px;
     margin-top:11px;
 }
 .content-body{

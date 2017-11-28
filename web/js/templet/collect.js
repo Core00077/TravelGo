@@ -14,25 +14,11 @@
     document.writeln("                    <p>价格</p>");
     document.writeln("                </div>");
     document.writeln("            </div>");
-    document.writeln("            <div class=\'item-list\' id=\'item-list\'>");
+    document.writeln("            <div class=\'item-list\' id=\'item-list-collect\'>");
     document.writeln("                <div class=\'item\'>");
     document.writeln("                    <div class=\'in-center\'><input type=\'checkbox\'></div>");
-    document.writeln("                    <div class=\'in-center item-picture\'><a href=\'\'><img src=\'\'>图片</a></div>");
-    document.writeln("                    <div class=\'in-center item-name\'><a href=\'\'>商品名</a></div>");
-    document.writeln("                    <div class=\'in-center item-price\'><p>$20</p></div>");
-    document.writeln("                    <input type=\'hidden\'>");
-    document.writeln("                </div>");
-    document.writeln("                <div class=\'item\'>");
-    document.writeln("                    <div class=\'in-center\'><input type=\'checkbox\'></div>");
-    document.writeln("                    <div class=\'in-center item-picture\'><a href=\'\'><img src=\'\'>图片</a></div>");
-    document.writeln("                    <div class=\'in-center item-name\'><a href=\'\'><p>商品名</p></a></div>");
-    document.writeln("                    <div class=\'in-center item-price\'><p>$20</p></div>");
-    document.writeln("                    <input type=\'hidden\'>");
-    document.writeln("                </div>");
-    document.writeln("                <div class=\'item\'>");
-    document.writeln("                    <div class=\'in-center\'><input type=\'checkbox\'></div>");
-    document.writeln("                    <div class=\'in-center item-picture\'><a href=\'\'><img src=\'\'>图片</a></div>");
-    document.writeln("                    <div class=\'in-center item-name\'><a href=\'\'><p>商品名</p></a></div>");
+    document.writeln("                    <div class=\'in-center item-picture\'><a href=\'goods-page.html?id=100\'><img src=\'../img/goods/1.jpg\'></a></div>");
+    document.writeln("                    <div class=\'in-center item-name\'><a href=\'goods-page.html?id=100\'>商品名</a></div>");
     document.writeln("                    <div class=\'in-center item-price\'><p>$20</p></div>");
     document.writeln("                    <input type=\'hidden\'>");
     document.writeln("                </div>");
@@ -61,9 +47,57 @@
     closeCollect.onclick = function () {
         collect.closeCollect();
     }
+    //商品名，价格，图片路径，商品ID
+    function addCollectitem(nameStr,priceStr,imgSrc,itemId){
+        var item=document.createElement("div");
+        item.className="item";
 
-    var selectAll = document.querySelector("#select-all");
+        var check=document.createElement("div");
+        check.className="in-center";
+        var checkBox=document.createElement("input");
+        checkBox.type="checkbox";
+        check.appendChild(checkBox);
+        item.appendChild(check);
+
+        var itemPicture =document.createElement("div");
+        itemPicture.className="in-center item-picture";
+        var a1=document.createElement("a");
+        //ID
+        a1.href="goods-page.html?id="+itemId;
+        var img=document.createElement("img");
+        //图片路径
+        img.src=imgSrc;
+        a1.appendChild(img);
+        itemPicture.appendChild(a1);
+        item.appendChild(itemPicture);
+
+        var itemName=document.createElement("div");
+        itemName.className="in-center item-name";
+        var a2=document.createElement("a");
+        //ID
+        a2.href="goods-page.html?id="+itemId;
+        a2.innerText=nameStr;
+        itemName.appendChild(a2);
+        item.appendChild(itemName);
+        //价格
+        var itemPrice=document.createElement("div");
+        itemPrice.className="in-center item-price";
+        var price=document.createElement("p");
+        price.innerText="￥"+priceStr;
+        itemPrice.appendChild(price);
+        item.appendChild(itemPrice);
+
+        //保存商品id
+        var inputId=document.createElement("input");
+        inputId.type="hidden";
+        inputId.value=itemId;
+
+        var itemList=document.querySelector("#item-list-collect");
+        itemList.appendChild(item);
+    }
+
     //全选
+    var selectAll = document.querySelector("#select-all");
     selectAll.onclick = function () {
         var selectGroup = document.querySelectorAll("#collect-container .item input");
         var a = selectAll.checked === true ? true : false;
@@ -74,18 +108,18 @@
             }
         }
     }
-    var itemList = document.querySelector("#item-list")
-    var items = document.querySelectorAll("#collect-container #item-list .item");
+    var itemList = document.querySelector("#item-list-collect");
     var deleteButton = document.querySelector("#delete-button");
     //存储被删除的商品
     var deleteList = [];
     deleteButton.onclick = function () {
+        var items = document.querySelectorAll("#collect-container #item-list-collect .item");
         //选中的个数
         var selectNum=0;
         for (let i = 0; i < items.length; i++) {
             if (items[i].firstElementChild.firstElementChild.checked === true) {
                 selectNum++;
-                deleteList.push(items[i]);
+                deleteList.push(items[i].lastChild.value);
                 itemList.removeChild(items[i]);
                 //删除后文档流还存在
                 items[i].firstElementChild.firstElementChild.checked=false;
@@ -101,4 +135,5 @@
     }
     //将收藏夹对象改为全局变量
     window.collect = collect;
+    window.addCollectitem=addCollectitem;
 })(window);

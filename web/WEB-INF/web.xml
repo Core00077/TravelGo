@@ -38,6 +38,16 @@
         <url-pattern>/findUser</url-pattern>
     </servlet-mapping>
 
+    <!-- 查找用户名 -->
+    <servlet>
+        <servlet-name>FindUsername</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.FindUsernameServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindUsername</servlet-name>
+        <url-pattern>/findUsername</url-pattern>
+    </servlet-mapping>
+
     <!-- 修改用户 -->
     <servlet>
         <servlet-name>ChangeUser</servlet-name>

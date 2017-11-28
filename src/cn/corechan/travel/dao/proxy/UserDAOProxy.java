@@ -77,13 +77,13 @@ public class UserDAOProxy implements IUserDAO {
         }
 
         // 手机号存在
-        if (status.getStatus().equals("phoneExist")) {
+        if (status.getStatus().equals("success")) {
             if (((User)status.getData()).getPwd().equals(pwd)) {    // 密码相等，登录成功
                 status.setContent("success","");
             } else {        // 否则失败
-                status.setData(null);
                 status.setContent("passwordWrong","");
             }
+            status.setData(null);
         }
 
         return status;

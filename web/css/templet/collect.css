@@ -5,7 +5,6 @@
     transform: translate(-50%,-50%);
     height:300px;
     width:450px;
-    border: 1px solid black;
     padding:10px 20px 20px 20px;
     background-color: #eaeaea;
     opacity:0.98;
@@ -26,7 +25,6 @@
 #collect-container .collect-content{
     width: 100%;
     height: 100%;
-    border: 1px solid black;
 }
 #collect-container .collect-title{
     height: 50px;
@@ -49,7 +47,6 @@
     width: 100%;
     height: 200px;
     overflow-y: scroll;
-    border: 1px solid black;
 }
 #collect-container .item-list .item{
     width: 99%;
@@ -58,14 +55,18 @@
     text-align:center;
     margin-bottom: 10px;
     background-color: white;
-    border: 1px solid black;
 }
 #collect-container .item div{
-    border: 1px solid black;
     width:80px;
-    height: 100%;
+    height: 95%;
     float: left;
 }
+
+#collect-container #item-list-collect img,a{
+    width:100%;
+    height: 100%;
+}
+
 #collect-container .item .item-name{
     width: 170px;
     line-height: 40px;
@@ -83,7 +84,7 @@
     display: block;
     width: 75px;
     height: 32px;
-    margin: 2px auto;
+    margin: 15px auto;
     cursor: pointer;
     outline: none;
     border: 0;

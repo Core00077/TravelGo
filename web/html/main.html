@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/main/main.css">
     <link rel="stylesheet" href="../css/common/common-style.css">
     <link rel="stylesheet" href="../css/main/main-banner.css">
-    <script src="../js/templet/globalVariable.js"></script>
 </head>
 <body>
     <script src="../js/templet/header.js"></script>
@@ -29,8 +28,8 @@
                 </a>
             </div>
             <div class="search-index">
-                <form action="#" method="get">
-                    <input type="text" maxlength="20" placeholder="城市" class="search-input" name="search-input"><button type="submit" class="search-button">搜索</button>
+                <form id="search-form">
+                    <input type="text" maxlength="20" placeholder="城市" class="search-input"><button type="button" class="search-button">搜索</button>
                 </form>
                 <span class="control-square"></span>
                 <span class="control-square"></span>
@@ -40,21 +39,21 @@
         <!--主体内容-->
         <div class="content">
             <div class="content-header">
-                <ul class="feature-list">
-                    <li>
+                <div class="feature-list">
+                    <div>
                         <i class="fa fa-id-card fa-3x"><br><p>身份验证</p></i>              
-                    </li>
-                    <li>
+                    </div>
+                    <div>
                         <i class="fa fa-line-chart fa-3x">
                             <br><p>信用累积</p>
                         </i>
-                    </li>
-                    <li>
+                    </div>
+                    <div>
                         <i class="fa fa-comments fa-3x">
                             <br><p>线上交流</p>
                         </i>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
             <div class="content-body">
                 <div id="content-index-1">
@@ -66,7 +65,7 @@
                     <div class="item-list">
                         <!--商品-->
                         <div class="item">
-                                <a href="">
+                                <a href="goods-page.html?id=100">
                                     <div class="item-picture">
                                         <img src="">
                                         <span class="price">￥110</span>
@@ -121,9 +120,10 @@
     </div>
     <script src="../js/templet/footer.js"></script>
     <script src="../js/scrollBanner.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="../js/templet/addItem.js"></script>
     <script src="../js/templet/lightDialog.js"></script>
     <script src="../js/templet/collect.js"></script>
     <script src="../js/templet/Ajax.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 </html>

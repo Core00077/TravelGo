@@ -71,13 +71,14 @@
             promise.then(function(responseText){
                 //请求成功，根据响应内容判断
                 var result = JSON.parse(responseText);
-                if(result.status==="ok"){
+                console.log(result.status);
+                if(result.status==="success"){
                     window.location.href="main.html";
                 }
-                if(result.status==="phoneNotExist"){
+                else if(result.status==="phoneNotExist"){
                     moveon(0,"用户不存在");
                 }
-                if(result.status==="passwordWrong"){
+                else if(result.status==="passwordWrong"){
                     moveon(1,"密码错误");
                 }
                 else{
@@ -123,7 +124,7 @@
             var promise=ajaxRequest("post","/register",stringfy(data));
             promise.then(function(responseText){
                 var status=responseText.status;
-                if(status==='ok'){
+                if(status==='success'){
                     window.location.href="main.html";
                 }
                 if(status==="nameHasExisted"){
@@ -157,20 +158,9 @@
             errorLabel[i].style.opacity = 0;
         }
     }
-    inputBox[0].onclick = function () {
-        remove(0);
+    for(let i=0;i<5;i++){
+        inputBox[i].onclick=function(){
+            remove(i);
+        }
     }
-    inputBox[1].onclick = function () {
-        remove(1);
-    }
-    inputBox[2].onclick = function () {
-        remove(2);
-    }
-    inputBox[3].onclick = function () {
-        remove(3);
-    }
-    inputBox[4].onclick = function () {
-        remove(4);
-    }
-
 })(window);
