@@ -3,7 +3,7 @@ package cn.corechan.travel.vo;
 import java.util.List;
 
 public class Good {
-    private String Id;
+    private String id;
     private String name;
     private double price;
     private String city;
@@ -13,11 +13,11 @@ public class Good {
     private String comment;
 
     public String getId() {
-        return Id;
+        return id;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setId(String Id) {
+        this.id = Id;
     }
 
     public String getName() {

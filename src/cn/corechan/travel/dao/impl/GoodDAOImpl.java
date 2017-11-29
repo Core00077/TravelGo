@@ -5,6 +5,7 @@ import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Good;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,7 +63,7 @@ public class GoodDAOImpl implements IGoodDAO {
 
                 // 添加商品的基本信息
                 if (rsetGood.next()) {          // 查询成功
-                    good.setGoodId(Id);
+                    good.setId(Id);
                     good.setPrice(rsetGood.getDouble(2));
 
                     try {
@@ -107,8 +108,8 @@ public class GoodDAOImpl implements IGoodDAO {
         findStatus.setData(null);
 
         // 查询
-        String queryGood = "SELECT Id,name,price,route FROM good WHERE city LIKE ?" +
-                "OR comment LIKE ? OR name LIKE ? OR route LIKE ? OR  description LIKE ?";
+        String queryGood = "SELECT Id,name,price,route FROM good WHERE city LIKE ?  " +
+                " OR comment LIKE ? OR name LIKE ? OR route LIKE ? OR  description LIKE ?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
                 PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
@@ -122,10 +123,14 @@ public class GoodDAOImpl implements IGoodDAO {
                 while(rsetGood.next()) {
                     Good good = new Good();
                     String goodId = rsetGood.getString(1);
-                    good.setGoodId(goodId);
-                    good.setName(rsetGood.getString(2));
+                    good.setId(goodId);
+                    pstmtPictures.setString(1,goodId);
+
+                    String str = URLEncoder.encode(rsetGood.getString(2), "UTF-8");
+                    good.setName(str);
                     good.setPrice(rsetGood.getDouble(3));
-                    good.setRoute(rsetGood.getString(4));
+                    str = URLEncoder.encode(rsetGood.getString(4), "UTF-8");
+                    good.setRoute(str);
 
                     try (ResultSet rsetPictures = pstmtPictures.executeQuery()) {
                         List<String> picture = new ArrayList<>();
@@ -136,11 +141,14 @@ public class GoodDAOImpl implements IGoodDAO {
                     } catch (SQLException e) {
                         throw e;
                     }
+                    goods.add(good);
                 }
                 findStatus.setStatus("success");
                 findStatus.setData(goods);
             } catch (SQLException e) {
                 throw e;
+            } catch (UnsupportedEncodingException e) {
+
             }
         } catch (SQLException e) {
             throw e;

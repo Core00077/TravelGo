@@ -94,15 +94,16 @@
             var dataRequest=ajaxRequest("post","///",data);
             dataRequest.then(function(responseText){
                 var result=JSON.parse(responseText);
+                var itemResponse=result.data;
                 //有数据
-                if(result.length>0){
-                    for(let i=0;i<result.length;i++){
+                if(itemResponse.length>0){
+                    for(let i=0;i<itemResponse.length;i++){
                         //图片路径
-                        itemList.childNodes[i].childNodes[1].childNodes[0].childNodes[0].src=result[0].picture;
+                        itemList.childNodes[i].childNodes[1].childNodes[0].childNodes[0].src=itemResponse[i].pictures[0];
                         //商品名
-                        itemList.childNodes[i].childNodes[2].childNodes[0].innerText=result[i].name;
+                        itemList.childNodes[i].childNodes[2].childNodes[0].innerText=decodeURI(itemResponse[i].name)+":"+decodeURI(itemResponse[i].route);
                         //价格
-                        itemList.childNodes[i].childNodes[3].childNodes[0].innerText=result[i].price;
+                        itemList.childNodes[i].childNodes[3].childNodes[0].innerText=itemResponse[i].price;
                     }
                 }
                 else if(result.length===0){

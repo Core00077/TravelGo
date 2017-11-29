@@ -71,6 +71,7 @@
         }
     }
 
+    //发送登录请求
     function loginRequest(data){
         var login=ajaxRequest("post","/login",stringfy(data));
         login.then(function(responseText){
@@ -130,6 +131,7 @@
                 var result = JSON.parse(responseText);
                 var status=result.status;
                 if(status==='success'){
+                    //成功后跳转
                     loginRequest(data);
                 }
                 else if(status==="nameHasExisted"){

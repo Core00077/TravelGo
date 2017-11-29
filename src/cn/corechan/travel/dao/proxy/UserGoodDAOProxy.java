@@ -18,10 +18,10 @@ public class UserGoodDAOProxy implements IUserGoodDAO {
     }
 
     @Override
-    public Status findLove(String phoneNumber) throws SQLException {
+    public Status findLoveIds(String phoneNumber) throws SQLException {
         Status status;
         try {
-            status = userGoodDAO.findLove(phoneNumber);
+            status = userGoodDAO.findLoveIds(phoneNumber);
         } catch (SQLException e) {
             throw e;
         } finally {

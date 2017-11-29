@@ -1,5 +1,5 @@
 //设置登录状态
-loginState = "logined";
+loginState = "unlogin";
 
 (function () {
     document.writeln("<link rel=\'stylesheet\' href=\'../css/templet/header.css\'>");
@@ -46,13 +46,21 @@ loginState = "logined";
         user.innerText = " " + username;
         logined.style.display = "list-item";
     }
+
     //退出
     var quit = document.querySelector("#quit");
     quit.onclick = function () {
         //发Ajax请求，清除seesion
-        var quitRequest = ajaxRequest("get", "/quit");
+        var quitRequest = ajaxRequest("get", "/logout");
         quitRequest.then(function (responseText) {
-            window.location.reload(true);
+            var result=JSON.parse(responseText);
+            if(result.status==="success"){
+                window.location.reload(true);
+            }
+            else{
+                dialog.showDialog("退出失败");
+                setTimeout(dialog.closeDialog, 1000);
+            }
         }).catch(function (errorText) {
             dialog.showDialog("网络错误");
             setTimeout(dialog.closeDialog, 1000);

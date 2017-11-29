@@ -25,7 +25,6 @@ public class FindUsernameServlet extends HttpServlet {
         Status findStatus;
         if (!session.isNew()) {
             String phoneNumber = (String) session.getAttribute("phoneNumber");
-            System.out.println("phoneNumber = " + phoneNumber);
             if (phoneNumber != null) {
                 try {
                     findUserProxy = new UserDAOProxy();

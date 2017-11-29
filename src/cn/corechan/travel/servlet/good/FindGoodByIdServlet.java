@@ -9,20 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.sql.SQLException;
 
-public class FindGoodByCityServlet extends HttpServlet {
+public class FindGoodByIdServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         GoodDAOProxy findProxy;
         Status findStatus;
-        String city = URLDecoder.decode(request.getParameter("city"), "UTF-8");
+        String goodId = request.getParameter("goodId");
         try {
             findProxy = new GoodDAOProxy();
-            findStatus = findProxy.findByCity(city);
+            findStatus = findProxy.findById(goodId);
             ResponseUtil.Render(response, findStatus);
         } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(response);

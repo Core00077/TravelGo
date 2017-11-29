@@ -1,17 +1,19 @@
 //搜索请求
 function requestSearch(key){
-    var data="key="+key;
+    var data="city="+key;
 
     //搜索结果请求
-    var searchRequest=ajaxRequest("post","/search",data);
+    var searchRequest=ajaxRequest("post","/findGoodByCity",data);
     searchRequest.then(function(responseText){
-        result=JSON.parse(responseText);
+        var result=JSON.parse(responseText);
        //请求成功，添加商品列表
        if(result.status==="success"){
         var itemList=result.data;
+        var itemContainer=document.querySelector("#item-list-search");
         for(let i=0;i<itemList.length;i++){
          //addItem(nameStr,priceStr,imgSrc,itemId)
-            addItem(itemList.name,itemList.price,itemList.picture,itemList.id);
+            var itemTitle=decodeURI(itemList[i].name)+"["+decodeURI(itemList[i].route);
+            itemContainer.appendChild(addItem(itemTitle,itemList[i].price,itemList[i].picture[0],itemList[i].id));
         }
        }
     }).catch(function(errorText){
@@ -45,7 +47,7 @@ function requestSearch(key){
             setTimeout(dialog.closeDialog,1000);
         }
         else{
-            window.location.href="search.html?key="+searchInput.value;
+            window.location.href="../html/search.html?key="+searchInput.value;
         }
     }
 })(window);

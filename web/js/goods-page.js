@@ -27,32 +27,41 @@
     }).catch(function (errorText) {});
 
     //获取商品信息
-    var goodsInfo = ajaxRequest("get", "/xxx");
+    var key=window.location.href.split("?")[1].substring(3);
+    var reg=/\w+/;
+    var data="goodId="+(reg.exec(key)[0]);
+
+
+    var goodsInfo = ajaxRequest("post", "/findGoodById",data);
     goodsInfo.then(function (responseText) {
         var result = JSON.parse(responseText);
         //商品详情
         var data = result.data;
         //标题/路线
         var title = document.querySelector("#main-header .item-title .route");
-        title.innerText = data.xxx;
+        title.innerText = decodeURI(data.name) + "[" + decodeURI(data.route);
         //图片
-        var pictures = data.xxx;
+        var pictures = data.pictures;
         for (let i = 0; i < pictures.length; i++) {
             addPicture(pictures[i]);
         }
         //价格
         var price = document.querySelector("#order-price");
-        price.innerText = result.price;
+        price.innerText = data.price;
 
         //城市
         var city = document.querySelector("#order-city");
-        city.innerText = result.city;
+        city.innerText = decodeURI(data.city);
+
+        //商家简介
+        var bossInfo = document.querySelector("#boss-brife-info .info-content");
+        bossInfo.innerText = decodeURI(data.description);
 
         //详情图
         var smallImages = document.querySelectorAll("#small-images div");
         var bigImages = document.querySelectorAll("#big-images img");
         smallImages[0].style.border = "3px solid #1bab8d";
-        //大小图片
+        //大小图片事件响应
         for (let i = 0; i < smallImages.length; i++) {
             smallImages[i].onclick = function () {
                 bigImages[i].style.zIndex = 1;

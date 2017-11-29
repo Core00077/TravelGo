@@ -12,20 +12,19 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class LoveServlet extends HttpServlet{
+public class FindLoveServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         HttpSession session = request.getSession();
-//        String phoneNumber = (String)session.getAttribute("phoneNumber");
-        String phoneNumber = "15871731525";
-        GoodDAOProxy loveProxy;
-        Status loveStatus;
+        String phoneNumber = (String)session.getAttribute("phoneNumber");
+        GoodDAOProxy loveIdsProxy;
+        Status loveIdsStatus;
         try {
-            loveProxy = new GoodDAOProxy();
-            loveStatus = loveProxy.findLove(phoneNumber);
-            ResponseUtil.Render(response, loveStatus);
+            loveIdsProxy = new GoodDAOProxy();
+            loveIdsStatus = loveIdsProxy.findLove(phoneNumber);
+            ResponseUtil.Render(response, loveIdsStatus);
         } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(response);
         }

@@ -18,7 +18,7 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
     }
 
     @Override
-    public Status findLove(String phoneNumber) throws SQLException {
+    public Status findLoveIds(String phoneNumber) throws SQLException {
         // 初始化为查询失败
         Status status = new Status();
         status.setContent("noLove", "");

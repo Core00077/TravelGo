@@ -5,5 +5,5 @@ import cn.corechan.travel.json.Status;
 import java.sql.SQLException;
 
 public interface IUserGoodDAO {
-    Status findLove(String phoneNumber) throws SQLException;
+    Status findLoveIds(String phoneNumber) throws SQLException;
 }

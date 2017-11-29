@@ -4,7 +4,7 @@ function addItem(nameStr,priceStr,imgSrc,itemId){
     item.className="item";
     //ID
     var a=document.createElement("a");
-    a.href="goods-page.html?id="+itemId;
+    a.href="../html/goods-page.html?id="+itemId;
     item.appendChild(a);
     var i=document.createElement("i");
     i.className="fa fa-heart-o fa-2x";
