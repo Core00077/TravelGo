@@ -40,7 +40,15 @@ public class GoodDAOProxy implements IGoodDAO {
 
     @Override
     public Status findByCity(String city) throws SQLException {
-        return null;
+        Status status;
+        try {
+            status = goodDAO.findByCity(city);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            dbc.close();
+        }
+        return status;
     }
 
     public Status findLove(String phoneNumber) throws ClassNotFoundException,SQLException {
@@ -49,7 +57,7 @@ public class GoodDAOProxy implements IGoodDAO {
         Status findUserGoodStatus;
         // 查找用户的收藏夹
         try {
-            findUserGoodStatus = new UserGoodDAOProxy().findLove(phoneNumber);
+            findUserGoodStatus = new UserGoodDAOProxy().findLoveIds(phoneNumber);
         } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
@@ -67,5 +75,18 @@ public class GoodDAOProxy implements IGoodDAO {
         }
         loveStatus.setData(loves);
         return loveStatus;
+    }
+
+    @Override
+    public Status findAll() throws SQLException {
+        Status status;
+        try {
+            status = goodDAO.findAll();
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            dbc.close();
+        }
+        return status;
     }
 }

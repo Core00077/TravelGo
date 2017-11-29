@@ -4,14 +4,14 @@ import cn.corechan.travel.dao.IGoodDAO;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Good;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GoodDAOImpl implements IGoodDAO {
     private Connection conn = null;
@@ -62,13 +62,22 @@ public class GoodDAOImpl implements IGoodDAO {
 
                 // 添加商品的基本信息
                 if (rsetGood.next()) {          // 查询成功
-                    good.setId(Id);
-                    good.setName(rsetGood.getString(1));
+                    good.setGoodId(Id);
                     good.setPrice(rsetGood.getDouble(2));
-                    good.setCity(rsetGood.getString(3));
-                    good.setRoute(rsetGood.getString(4));
-                    good.setDescription(rsetGood.getString(5));
-                    good.setComment(rsetGood.getString(6));
+
+                    try {
+                        String str = rsetGood.getString(3);
+                        good.setCity(URLEncoder.encode(str, "UTF-8"));
+                        str = rsetGood.getString(1);
+                        good.setName(URLEncoder.encode(str, "UTF-8"));
+                        str = rsetGood.getString(4);
+                        good.setRoute(URLEncoder.encode(str, "UTF-8"));
+                        str = rsetGood.getString(5);
+                        good.setDescription(URLEncoder.encode(str, "UTF-8"));
+                        str = rsetGood.getString(6);
+                        good.setComment(URLEncoder.encode(str, "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                    }
                 }
 
                 // 添加商品的图片
@@ -113,7 +122,7 @@ public class GoodDAOImpl implements IGoodDAO {
                 while(rsetGood.next()) {
                     Good good = new Good();
                     String goodId = rsetGood.getString(1);
-                    good.setId(goodId);
+                    good.setGoodId(goodId);
                     good.setName(rsetGood.getString(2));
                     good.setPrice(rsetGood.getDouble(3));
                     good.setRoute(rsetGood.getString(4));
@@ -138,5 +147,35 @@ public class GoodDAOImpl implements IGoodDAO {
         }
 
         return findStatus;
+    }
+
+    @Override
+    public Status findAll() throws SQLException {
+        // 初始化为查询失败
+        Status status = new Status();
+        status.setContent("goodNotExist","");
+        status.setData(null);
+
+        // 查询goodId
+        String queryId = "SELECT Id FROM good";
+        try (PreparedStatement pstmtId = conn.prepareStatement(queryId)) {
+            try (ResultSet rsetId = pstmtId.executeQuery()) {
+                List<Good> goods = new ArrayList<>();
+                while (rsetId.next()) {
+                    String goodId = rsetId.getString("Id");
+                    Good good = (Good)findById(goodId).getData();
+                    goods.add(good);
+                }
+
+                // 添加查询结果到状态
+                status.setContent("success","");     // 更改状态码
+                status.setData(goods);
+            } catch (SQLException e) {
+                throw e;
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+        return status;
     }
 }

@@ -18,6 +18,16 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <!-- 登录验证 -->
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
     <!-- 注册用户 -->
     <servlet>
         <servlet-name>Register</servlet-name>
@@ -58,10 +68,20 @@
         <url-pattern>/changeUser</url-pattern>
     </servlet-mapping>
 
+    <!-- 直接查找所有商品 -->
+    <servlet>
+        <servlet-name>FindAll</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.FindAllServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindAll</servlet-name>
+        <url-pattern>/findAll</url-pattern>
+    </servlet-mapping>
+
     <!-- 通过Id查找商品 -->
     <servlet>
         <servlet-name>FindGoodById</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.FindGoodById</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.FindGoodByIdServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FindGoodById</servlet-name>
@@ -78,10 +98,20 @@
         <url-pattern>/findGoodByCity</url-pattern>
     </servlet-mapping>
 
-    <!-- 查找收藏夹 -->
+    <!-- 查找收藏夹商品Id -->
+    <servlet>
+        <servlet-name>LoveIds</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.FindLoveIdsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoveIds</servlet-name>
+        <url-pattern>/loveIds</url-pattern>
+    </servlet-mapping>
+
+    <!-- 查找收藏夹详情 -->
     <servlet>
         <servlet-name>Love</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.LoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.FindLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Love</servlet-name>

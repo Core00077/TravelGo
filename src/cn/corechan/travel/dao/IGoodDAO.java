@@ -12,4 +12,6 @@ public interface IGoodDAO {
 
     Status findByCity(String city) throws SQLException;
 
+    Status findAll() throws SQLException;
+
 }
