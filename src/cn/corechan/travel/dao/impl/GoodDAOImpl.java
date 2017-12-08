@@ -25,18 +25,18 @@ public class GoodDAOImpl implements IGoodDAO {
     public Status findById(String Id) throws SQLException {
         // 初始化为查询失败
         Status status = new Status();
-        status.setContent("goodNotExist","");
+        status.setContent("goodNotExist", "");
         status.setData(null);
 
         // 查询
         String queryGood = "SELECT name,price,city,route,description,comment FROM good WHERE Id=?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
-                PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
+             PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
             pstmtGood.setString(1, Id);
             pstmtPictures.setString(1, Id);
             try (ResultSet rsetGood = pstmtGood.executeQuery();
-                ResultSet rsetPictures = pstmtPictures.executeQuery()) {
+                 ResultSet rsetPictures = pstmtPictures.executeQuery()) {
                 Good good = new Good();
 
                 // 添加商品的基本信息
@@ -57,18 +57,18 @@ public class GoodDAOImpl implements IGoodDAO {
                         good.setComment(URLEncoder.encode(str, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
                     }
-                }
 
-                // 添加商品的图片
-                List<String> pictures = new ArrayList<>();
-                while (rsetPictures.next()) {
-                    pictures.add(rsetPictures.getString("pictureURL"));
-                }
-                good.setPictures(pictures);
+                    // 添加商品的图片
+                    List<String> pictures = new ArrayList<>();
+                    while (rsetPictures.next()) {
+                        pictures.add(rsetPictures.getString("pictureURL"));
+                    }
+                    good.setPictures(pictures);
 
-                // 添加查询结果到状态
-                status.setContent("success","");     // 更改状态码
-                status.setData(good);
+                    // 添加查询结果到状态
+                    status.setContent("success", "");     // 更改状态码
+                    status.setData(good);
+                }
             } catch (SQLException e) {
                 throw e;
             }
@@ -82,7 +82,7 @@ public class GoodDAOImpl implements IGoodDAO {
     public Status findByCity(String city) throws SQLException {
         // 初始化查询失败
         Status findStatus = new Status();
-        findStatus.setContent("goodNotExist","");
+        findStatus.setContent("goodNotExist", "");
         findStatus.setData(null);
 
         // 查询
@@ -90,19 +90,19 @@ public class GoodDAOImpl implements IGoodDAO {
                 " OR comment LIKE ? OR name LIKE ? OR route LIKE ? OR  description LIKE ?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
-                PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
-            pstmtGood.setString(1,"%"+city+"%");
-            pstmtGood.setString(2,"%"+city+"%");
-            pstmtGood.setString(3,"%"+city+"%");
-            pstmtGood.setString(4,"%"+city+"%");
-            pstmtGood.setString(5,"%"+city+"%");
+             PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
+            pstmtGood.setString(1, "%" + city + "%");
+            pstmtGood.setString(2, "%" + city + "%");
+            pstmtGood.setString(3, "%" + city + "%");
+            pstmtGood.setString(4, "%" + city + "%");
+            pstmtGood.setString(5, "%" + city + "%");
             try (ResultSet rsetGood = pstmtGood.executeQuery()) {
                 List<Good> goods = new ArrayList<>();
-                while(rsetGood.next()) {
+                while (rsetGood.next()) {
                     Good good = new Good();
                     String goodId = rsetGood.getString(1);
                     good.setId(goodId);
-                    pstmtPictures.setString(1,goodId);
+                    pstmtPictures.setString(1, goodId);
 
                     String str = URLEncoder.encode(rsetGood.getString(2), "UTF-8");
                     good.setName(str);
@@ -139,7 +139,7 @@ public class GoodDAOImpl implements IGoodDAO {
     public Status findAll() throws SQLException {
         // 初始化为查询失败
         Status status = new Status();
-        status.setContent("goodNotExist","");
+        status.setContent("goodNotExist", "");
         status.setData(null);
 
         // 查询goodId
@@ -149,12 +149,12 @@ public class GoodDAOImpl implements IGoodDAO {
                 List<Good> goods = new ArrayList<>();
                 while (rsetId.next()) {
                     String goodId = rsetId.getString("Id");
-                    Good good = (Good)findById(goodId).getData();
+                    Good good = (Good) findById(goodId).getData();
                     goods.add(good);
                 }
 
                 // 添加查询结果到状态
-                status.setContent("success","");     // 更改状态码
+                status.setContent("success", "");     // 更改状态码
                 status.setData(goods);
             } catch (SQLException e) {
                 throw e;

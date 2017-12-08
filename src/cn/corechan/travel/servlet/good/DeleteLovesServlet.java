@@ -18,6 +18,10 @@ public class DeleteLovesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String phoneNumber = (String) req.getSession().getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            ResponseUtil.ResponseUnlogin(resp);
+            return;
+        }
         String strRawGoodId=req.getParameter("goodId");
         String[] strGoodIds=strRawGoodId.split(",");
         ArrayList<String> goodIds=new ArrayList<>(Arrays.asList(strGoodIds));

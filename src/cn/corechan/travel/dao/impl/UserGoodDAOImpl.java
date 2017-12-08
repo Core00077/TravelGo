@@ -102,6 +102,9 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
         status.setContent("fail", "");
         status.setData(null);
 
+        status=new GoodDAOImpl(conn).findById(goodId);
+        if(status.getStatus().equals("goodNotExist"))
+            return status;
         String isLoveQuery = "SELECT * FROM travelgo.usergood WHERE phonenumber=? AND goodId=?";
         try (PreparedStatement pst = conn.prepareStatement(isLoveQuery)) {
             pst.setString(1, phoneNumber);

@@ -12,18 +12,23 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class AddLoveServlet extends HttpServlet{
+public class AddLoveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session=req.getSession();
+        HttpSession session = req.getSession();
         req.setCharacterEncoding("UTF-8");
-        String phoneNumber=(String)session.getAttribute("phoneNumber");
-        String goodId=req.getParameter("goodId");
+        String phoneNumber = (String) session.getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            ResponseUtil.ResponseUnlogin(resp);
+            return;
+        }
+        String goodId = req.getParameter("goodId");
         try {
-            Status status=new UserGoodDAOProxy().AddLove(phoneNumber,goodId);
-            ResponseUtil.Render(resp,status);
+            Status status = new UserGoodDAOProxy().AddLove(phoneNumber, goodId);
+            ResponseUtil.Render(resp, status);
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            ResponseUtil.ResponseError(resp);
+            System.out.println(e.toString());
         }
     }
 

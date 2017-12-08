@@ -14,11 +14,14 @@ import java.sql.SQLException;
 
 public class FindLoveServlet extends HttpServlet{
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         HttpSession session = request.getSession();
         String phoneNumber = (String)session.getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            ResponseUtil.ResponseUnlogin(response);
+            return;
+        }
         GoodDAOProxy loveIdsProxy;
         Status loveIdsStatus;
         try {
@@ -28,5 +31,10 @@ public class FindLoveServlet extends HttpServlet{
         } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(response);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 }

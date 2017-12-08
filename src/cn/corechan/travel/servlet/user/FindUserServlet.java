@@ -19,6 +19,10 @@ public class FindUserServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         HttpSession session = request.getSession();
         String phoneNumber = (String) session.getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            ResponseUtil.ResponseUnlogin(response);
+            return;
+        }
         UserDAOProxy findUserProxy;
         Status findStatus;
         try {

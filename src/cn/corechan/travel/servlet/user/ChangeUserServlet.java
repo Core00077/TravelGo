@@ -14,13 +14,17 @@ import java.sql.SQLException;
 
 public class ChangeUserServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        String phoneNumber = (String) request.getSession().getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            ResponseUtil.ResponseUnlogin(response);
+            return;
+        }
         UserDAOProxy changeProxy;
         Status changeStatus;
         User newUser = new User();
-        newUser.setPhoneNumber((String) request.getSession().getAttribute("phoneNumber"));
+        newUser.setPhoneNumber(phoneNumber);
         newUser.setName(request.getParameter("username"));
         newUser.setRealName(request.getParameter("realName"));
         newUser.setSex(request.getParameter("sex"));

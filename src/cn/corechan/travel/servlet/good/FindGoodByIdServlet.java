@@ -13,8 +13,7 @@ import java.sql.SQLException;
 
 public class FindGoodByIdServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         GoodDAOProxy findProxy;
         Status findStatus;
@@ -26,5 +25,10 @@ public class FindGoodByIdServlet extends HttpServlet {
         } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(response);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 }

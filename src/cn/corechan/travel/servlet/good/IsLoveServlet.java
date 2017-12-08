@@ -16,6 +16,10 @@ public class IsLoveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String phoneNumber = (String) req.getSession().getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            ResponseUtil.ResponseUnlogin(resp);
+            return;
+        }
         String goodId = req.getParameter("goodId");
         Status status = null;
         try {
