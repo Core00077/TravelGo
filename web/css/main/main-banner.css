@@ -17,7 +17,8 @@
 }
 .main-banner .scroll-banner .scroll-picture{
     height:100%;
-    width:100%;
+    width:1903px;
+    overflow: hidden;
     transition: visibility 1s,opacity 1s;
 }
 .search-index{

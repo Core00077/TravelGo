@@ -12,7 +12,7 @@
         //爱上旅行
         var contentIndex1=document.querySelector("#content-index-1 .item-list");
         //热门推荐
-        var contentIndex2=document.querySelector("#content-index-2 .itemlist");
+        var contentIndex2=document.querySelector("#content-index-2 .item-list");
         //添加到爱上旅行
         for(let i=0;i<itemList.length-2;i++){
             //添加商品
@@ -51,7 +51,7 @@
             setTimeout(dialog.closeDialog,1000);
         }
         else{
-            window.open("../html/search.html?key="+searchInput.value);
+            window.open("search.html?key="+searchInput.value);
         }
     };
 })(window);

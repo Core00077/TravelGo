@@ -126,3 +126,21 @@ a.choose{
 .button-box{
     margin-top:20px;  
 }
+.remember-box{
+    margin: 10px 0 0 15px;
+    line-height: 15px;
+    height: 15px;
+    
+}
+#remember{
+    vertical-align: middle;
+    width: 15px;
+    outline: none;
+    cursor: pointer;
+}
+.remember-box p{
+    display: inline-block;
+    font-size: 0.8em;
+    user-select: none;
+    cursor: default;
+}

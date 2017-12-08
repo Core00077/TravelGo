@@ -1,9 +1,12 @@
 document.writeln("<head>");
 document.writeln("    <link rel=\'stylesheet\' href=\'../css/templet/footer.css\'>");
 document.writeln("</head>");
-document.writeln("<body>");
-document.writeln("    <footer>");
-document.writeln("        ©ZY1501<br>");
-document.writeln("        ©H4-514");
-document.writeln("    </footer>   ");
-document.writeln("</body>");
+document.writeln("<footer>");
+document.writeln("    <div style=\'width:300px;margin:0 auto; padding:5px 0;\'>");
+document.writeln("        <a target=\'_blank\' href=\'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42010602000687\' style=\'display:inline-block;text-decoration:none;height:20px;line-height:20px;\'>");
+document.writeln("            <img src=\'http://www.beian.gov.cn/portal/download?token=b50f8d82-8e8d-4a5d-b61b-a4686467c4c2 \' style=\'float:left;\' />");
+document.writeln("            <p style=\'float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px;\'>鄂公网安备 42010602000687号</p>");
+document.writeln("        </a>");
+document.writeln("    </div>");
+document.writeln("<a href=\'mailto://core@whut.edu.cn\'>联系我们：Core@whut.edu.cn</a>");
+document.writeln("</footer>");
