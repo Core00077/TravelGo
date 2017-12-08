@@ -6,7 +6,6 @@ import cn.corechan.travel.vo.Good;
 import java.sql.SQLException;
 
 public interface IGoodDAO {
-    Status addLove(String Id) throws SQLException;
 
     Status findById(String Id) throws SQLException;
 

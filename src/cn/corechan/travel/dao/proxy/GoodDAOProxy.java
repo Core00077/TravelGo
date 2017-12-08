@@ -21,11 +21,6 @@ public class GoodDAOProxy implements IGoodDAO {
     }
 
     @Override
-    public Status addLove(String Id) throws SQLException {
-        return null;
-    }
-
-    @Override
     public Status findById(String Id) throws SQLException {
         Status status;
         try {
@@ -54,27 +49,14 @@ public class GoodDAOProxy implements IGoodDAO {
     public Status findLove(String phoneNumber) throws ClassNotFoundException,SQLException {
         Status loveStatus = new Status();
         loveStatus.setContent("failed","");
-        Status findUserGoodStatus;
+        Status status;
         // 查找用户的收藏夹
         try {
-            findUserGoodStatus = new UserGoodDAOProxy().findLoveIds(phoneNumber);
+            status = new UserGoodDAOProxy().findLoveIds(phoneNumber);
         } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
-
-        // 根据收藏夹内的goodId查找商品
-        List<String> goodIds = (List<String>) findUserGoodStatus.getData();
-        List<Good> loves = new ArrayList<>();
-        for (int i = 0; i < goodIds.size(); i++) {
-            try {
-                Status status = goodDAO.findById(goodIds.get(i));
-                loves.add((Good)status.getData());
-            } catch (SQLException e) {
-
-            }
-        }
-        loveStatus.setData(loves);
-        return loveStatus;
+        return status;
     }
 
     @Override

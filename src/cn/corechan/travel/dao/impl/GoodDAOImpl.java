@@ -22,28 +22,6 @@ public class GoodDAOImpl implements IGoodDAO {
     }
 
     @Override
-    public Status addLove(String Id) throws SQLException {
-        // 初始化添加失败
-        Status addStatus = new Status();
-        addStatus.setStatus("systemError");
-
-        // 收藏商品
-//        String sql = "INSERT INTO travelgo.usergood (phonenumber,goodId) VALUES(?,?)";
-//        try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
-//            pstmt.setString(1, user.getPhoneNumber());
-//            pstmt.setString(2, user.getName());
-//            if (pstmt.executeUpdate() > 0) {
-//                status.setContent("success","");
-//            }
-//        } catch (SQLException e) {
-//            throw e;
-//        }
-
-
-        return addStatus;
-    }
-
-    @Override
     public Status findById(String Id) throws SQLException {
         // 初始化为查询失败
         Status status = new Status();

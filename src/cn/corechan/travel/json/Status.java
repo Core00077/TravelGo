@@ -1,9 +1,9 @@
 package cn.corechan.travel.json;
 
 public class Status {
-    private String status;
-    private String msg;
-    private Object data;
+    private String status="fail";
+    private String msg="";
+    private Object data=null;
 
     public String getStatus() {
         return status;

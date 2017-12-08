@@ -7,6 +7,7 @@ import cn.corechan.travel.factory.DatabaseConnectionFactor;
 import cn.corechan.travel.json.Status;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserGoodDAOProxy implements IUserGoodDAO {
     private DatabaseConnection dbc = null;
@@ -22,12 +23,53 @@ public class UserGoodDAOProxy implements IUserGoodDAO {
         Status status;
         try {
             status = userGoodDAO.findLoveIds(phoneNumber);
-        } catch (SQLException e) {
-            throw e;
         } finally {
             dbc.close();
         }
+        return status;
+    }
 
+    @Override
+    public Status AddLove(String phoneNumber, String goodId) throws SQLException {
+        Status status;
+        try {
+            status = userGoodDAO.AddLove(phoneNumber, goodId);
+        } finally {
+            dbc.close();
+        }
+        return status;
+    }
+
+    @Override
+    public Status isLove(String phoneNumber, String goodId) throws SQLException {
+        Status status;
+        try {
+            status = userGoodDAO.isLove(phoneNumber, goodId);
+        }finally {
+            dbc.close();
+        }
+        return status;
+    }
+
+    @Override
+    public Status DeleteLove(String phoneNumber, String goodId) throws SQLException {
+        Status status;
+        try {
+            status=userGoodDAO.DeleteLove(phoneNumber, goodId);
+        }finally {
+            dbc.close();
+        }
+        return status;
+    }
+
+    @Override
+    public Status DeleteLoves(String phoneNumber, ArrayList<String> goodIds) throws SQLException {
+        Status status;
+        try {
+            status=userGoodDAO.DeleteLoves(phoneNumber, goodIds);
+        }finally {
+            dbc.close();
+        }
         return status;
     }
 }

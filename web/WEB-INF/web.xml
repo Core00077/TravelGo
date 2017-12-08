@@ -97,17 +97,7 @@
         <servlet-name>FindGoodByCity</servlet-name>
         <url-pattern>/findGoodByCity</url-pattern>
     </servlet-mapping>
-
-    <!-- 查找收藏夹商品Id -->
-    <servlet>
-        <servlet-name>LoveIds</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.FindLoveIdsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoveIds</servlet-name>
-        <url-pattern>/loveIds</url-pattern>
-    </servlet-mapping>
-
+    
     <!-- 查找收藏夹详情 -->
     <servlet>
         <servlet-name>Love</servlet-name>
@@ -118,4 +108,41 @@
         <url-pattern>/love</url-pattern>
     </servlet-mapping>
 
+    <!--添加收藏夹-->
+    <servlet>
+        <servlet-name>AddLove</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.AddLoveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddLove</servlet-name>
+        <url-pattern>/addlove</url-pattern>
+    </servlet-mapping>
+
+    <!--判断收藏夹-->
+    <servlet>
+        <servlet-name>IsLove</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.IsLoveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IsLove</servlet-name>
+        <url-pattern>/islove</url-pattern>
+    </servlet-mapping>
+    <!--删除收藏夹-->
+    <servlet>
+        <servlet-name>DeleteLove</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.DeleteLoveServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteLove</servlet-name>
+        <url-pattern>/deletelove</url-pattern>
+    </servlet-mapping>
+    <!--删除多个收藏夹-->
+    <servlet>
+        <servlet-name>DeleteLoves</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.DeleteLovesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteLoves</servlet-name>
+        <url-pattern>/deleteloves</url-pattern>
+    </servlet-mapping>
 </web-app>
