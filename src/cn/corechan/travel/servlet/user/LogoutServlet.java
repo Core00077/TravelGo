@@ -21,4 +21,9 @@ public class LogoutServlet extends HttpServlet {
         status.setContent("success","Logout successfully!");
         ResponseUtil.Render(response, status);
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
 }

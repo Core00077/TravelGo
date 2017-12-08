@@ -13,13 +13,13 @@ loginState = "unlogin";
     document.writeln("                        <a href=\'../html/login&register.html\'>注册</a>");
     document.writeln("                    </li>");
     document.writeln("                    <li class=\'logined\'>");
-    document.writeln("                        <a href=\'user.html\'><i class=\'fa fa-user-circle\'>用户名</i></a>");
+    document.writeln("                        <a href=\'../html/user.html\'><i class=\'fa fa-user-circle\'>用户名</i></a>");
     document.writeln("                        <a href=\'javascript:;\' id=\'quit\'>退出</a>");
     document.writeln("                    </li>");
     document.writeln("            </ul>");
     document.writeln("            <ul id=\'menu-info\' class=\'header-body-right\'>");
     document.writeln("                <li>");
-    document.writeln("                    <a href='main.html'>首页</a>");
+    document.writeln("                    <a href='../html/main.html'>首页</a>");
     document.writeln("                </li>");
     document.writeln("                <li>·</li>");
     document.writeln("                <li id=\'header-open-collect\'>");
@@ -72,16 +72,8 @@ loginState = "unlogin";
     headerOpencollect.onclick = function () {
         //登录状态打开收藏夹
         if (loginState === "logined") {
-            //请求商品id
-            var collectOpenrequest = ajaxRequest("get", "///");
-            collectOpenrequest.then(function (responseText) {
-                var result = JSON.parse(responseText);
-                var data = result.data;
-                openCollect(data);
-            }).catch(function (errorText) {
-                dialog.showDialog(errorText);
-                setTimeout(dialog.closeDialog, 1000);
-            });
+            //打开收藏夹
+            openCollect();
         } else if (loginState === "unlogin") {
             dialog.showDialog("未登录");
             setTimeout(dialog.closeDialog, 1000);

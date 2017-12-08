@@ -5,7 +5,7 @@
     document.writeln("<div id=\'right-menu\'>");
     document.writeln("    <ul id=\'right-menu-ui\'>");
     document.writeln("        <li class=\'user-index\' title=\'个人主页\'>");
-    document.writeln("            <a href=\'#javascript:;\' id=\'open-user\'>");
+    document.writeln("            <a href=\'javascript:;\' id=\'open-user\'>");
     document.writeln("                <span>");
     document.writeln("                    <i class=\'fa fa-user-circle fa-2x\'></i>");
     document.writeln("                </span>");
@@ -54,16 +54,8 @@
     rightOpencollect.onclick=function(){
         //登录状态打开收藏夹
         if(loginState==="logined"){
-            //请求商品id
-            var collectOpenrequest=ajaxRequest("get","///");
-            collectOpenrequest.then(function(responseText){
-                var result=JSON.parse(responseText);
-                var data=result.data;
-                openCollect(data);
-            }).catch(function(errorText){
-                dialog.showDialog(errorText);
-                setTimeout(dialog.closeDialog,1000);
-            });
+            //打开收藏夹
+            openCollect();
         }
         else if(loginState==="unlogin"){
             dialog.showDialog("未登录");

@@ -30,8 +30,6 @@
     var key=window.location.href.split("?")[1].substring(3);
     var reg=/\w+/;
     var data="goodId="+(reg.exec(key)[0]);
-
-
     var goodsInfo = ajaxRequest("post", "/findGoodById",data);
     goodsInfo.then(function (responseText) {
         var result = JSON.parse(responseText);
@@ -80,6 +78,57 @@
         dialog.showDialog(errorText);
         setTimeout(dialog.closeDialog, 1000);
     });
+
+    //是否被收藏,data="goodId= "
+    var isLove=ajaxRequest("post","/islove",data);
+    isLove.then(function(responseText){
+        var result=JSON.parse(responseText);
+        //已经被收藏
+        if(result.status==="isLove"){
+            var love=document.querySelector("#addLove");
+            love.children[0].className="fa fa-heart fa-2x";
+        }
+    }).catch(function(){
+    });
+
+    //收藏
+    var love=document.querySelector("#addLove");
+    love.onclick=function(){
+        //添加收藏
+        if(love.children[0].className==="fa fa-heart-o fa-2x"){
+            love.children[0].className="fa fa-heart fa-2x";
+            //data是id
+            var addLove=ajaxRequest("post","/addlove",data);
+            addLove.then(function(responseText){
+                var result=JSON.parse(responseText);
+                if(result.status==="fail"){
+                    love.children[0].className="fa fa-heart-o fa-2x";
+                    dialog.showDialog("添加收藏失败");
+                    setTimeout(dialog.closeDialog,1000);
+                }
+            }).catch(function(errorText){
+                love.children[0].className="fa fa-heart-o fa-2x";
+                dialog.showDialog(errorText);
+                setTimeout(dialog.closeDialog,1000);
+            });
+        }
+        //取消收藏
+        else if(love.children[0].className==="fa fa-heart fa-2x"){
+            love.children[0].className="fa fa-heart-o fa-2x";
+            //data是id
+            var addLove=ajaxRequest("post","/deleteloves",data);
+            addLove.then(function(responseText){
+                var result=JSON.parse(responseText);
+                if(result.status==="fail"){
+                    love.children[0].className="fa fa-heart fa-2x";
+                }
+            }).catch(function(errorText){
+                love.children[0].className="fa fa-heart fa-2x";
+                dialog.showDialog(errorText);
+                setTimeout(dialog.closeDialog,1000);
+            });
+        }
+    }
 
     //出行人数
     var minusButton = document.querySelector("#number-minus-button");

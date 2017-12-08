@@ -66,7 +66,13 @@
         if (phoneReg.test(phoneNumber.value) && password.value.length >= 6) {
             var data={};
             data.phoneNumber=phoneNumber.value;
-            data.password=password.value;
+            //MD5加密
+            md5Password.value=password.value;
+            data.password=hex_md5(md5Password.value);
+            var remember=document.querySelector("#remember");
+            if(remember.checked===true){
+                data.remember="1";
+            }
             loginRequest(data);
         }
     }
@@ -97,17 +103,17 @@
 
     //注册响应事件
     registerButton.onclick = function () {
-        var userName = inputGroup[3];
-        var phoneNumber = inputGroup[4];
-        var password = inputGroup[5];
-        var md5Password = inputGroup[6];
+        var userName = inputGroup[4];
+        var phoneNumber = inputGroup[5];
+        var password = inputGroup[6];
+        var md5Password = inputGroup[7];
         var phoneReg = /\d{11}/;
         var userNamereg = /[a-zA-Z0-9\_]+/;
         var registerForm = document.querySelector("#register-form");
         //提示信息节点
         if (userName.value === "") {
             moveon(2, "用户名不能为空");
-        } else if (!userNamereg.test(userName.value)) {
+        } else if (userNamereg.exec(userName.value)[0]!==userName.value) {
             moveon(2, "用户名不符合规定");
         }
         if (phoneNumber.value === "") {
@@ -125,7 +131,9 @@
             var data={};
             data.username=userName.value;
             data.phoneNumber=phoneNumber.value;
-            data.password=password.value;
+            //加密
+            md5Password.value=password.value;
+            data.password=hex_md5(md5Password.value);
             var registerRequest=ajaxRequest("post","/register",stringfy(data));
             registerRequest.then(function(responseText){
                 var result = JSON.parse(responseText);

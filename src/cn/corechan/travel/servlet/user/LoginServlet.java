@@ -21,6 +21,8 @@ public class LoginServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String pwd = request.getParameter("password");
         String remember = request.getParameter("remember");
+        if(remember==null)
+            remember="0";
         UserDAOProxy loginProxy;
         Status loginStatus;
         try {

@@ -20,28 +20,27 @@
 .search{
     align-content: center;
     margin:0px auto;
-    width:497px;
+    width:500px;
     height: 30px;
+    display: flex;
 }
 .search input{
+    flex-grow: 1.5;
+    font-size: 1.2em;
     margin: 0px;
     padding-left:15px;
-    width:381px;
     height: 26px;
     border: 2px solid #1bab8d;
-    font-size: 20px;
     outline: none;
 }
 .search button{
-    font-size: 20px;
+    flex:1;
+    font-size: 1.25em;
     color: #ffffff;
     cursor: pointer;
     outline: none;
     background: #1bab8d;
     border: none;
-    margin-left: -8px;
-    vertical-align: top;
-    width:100px;
     height: 100%;
 }
 .border{
