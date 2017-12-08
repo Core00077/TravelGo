@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         String phoneNumber = request.getParameter("phoneNumber");
         String pwd = request.getParameter("password");
+        String remember = request.getParameter("remember");
         UserDAOProxy loginProxy;
         Status loginStatus;
         try {
@@ -28,6 +29,9 @@ public class LoginServlet extends HttpServlet {
             if (loginStatus.getStatus().equals("success")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("phoneNumber", phoneNumber);
+                if (remember.equals("1")) {
+                    session.setMaxInactiveInterval(7*24*3600);
+                }
             }
             ResponseUtil.Render(response, loginStatus);
         } catch (ClassNotFoundException | SQLException e) {
