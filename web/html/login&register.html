@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login&Register</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/common/common-style.css">
+</head>
+<body>
+    <div class="index-main">
+        <div class="main-body">
+            <div class="body-header">
+                <h1>旅途</h1>
+                <h2>爱上旅行</h2>
+            </div>
+            <div class="body-login-register">
+                <div class="body-choose">
+                        <div class="index-choose" id ="choose">
+                                <a href="#login" onclick="choose('login')" class="choose">登录</a>
+                                <a href="#register" onclick="choose('register')" class="">注册</a>
+                                <span class="slide-bar" id="slide-bar"></span>
+                        </div>
+                </div>
+                <div class="index-login" id="index-login">
+                    <form id="login-form" action="" method="post" novalidate="novalidate">
+                        <div class="input-group">
+                            <div class="input-box">
+                                <input type="text" required placeholder="手机号" maxlength="11" name="phoneNumber" oninvalid="" oninput="">
+                                <label></label>
+                            </div>
+                            <div class="last-input input-box">
+                                <input type="password" required placeholder="密码" name="password">
+                                <input type="hidden" name="password">
+                                <label></label>
+                            </div>
+                        </div>
+                        <div class="button-box">
+                            <button id="login-button" type="button">登录</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="index-register" id="index-register" style="display:none">
+                    <form id="register-form" action="" method="post" novalidate="novalidate">
+                        <div class="input-group">
+                            <div class="input-box">
+                                <input type="text" required placeholder="用户名(只可包含字母、数字、下划线)" name="userName" maxlength="30">
+                                <label></label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" required placeholder="手机号" maxlength="11" name="phoneNumber">
+                                <label></label>
+                            </div>
+                            <div class="last-input input-box">
+                                <input type="password" required placeholder="密码(不少于6位)">
+                                <input type="hidden" name="password">
+                                <label></label>
+                            </div>
+                        </div>
+                        <div class="button-box">
+                            <button id="register-button" type="button">注册</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/templet/Ajax.js"></script>
+    <script src="../js/templet/footer.js"></script>
+    <script src="../js/login-register.js"></script>
+</body>
+</html>

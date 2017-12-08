@@ -1,0 +1,9 @@
+footer{
+    flex:0 0 auto;
+    padding:10px;
+    background-color: #cac4c4;
+    opacity: 0.8;
+    color:black;
+    text-align: center;
+    margin-top:100px;
+}

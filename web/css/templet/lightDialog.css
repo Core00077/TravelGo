@@ -1,0 +1,28 @@
+/*-------弹框-------*/
+#light-dialog{
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width:140px;
+    height:80px;
+    background-color: black;
+    border-radius: 6px;
+    z-index: 0;
+    color: white;
+    text-align: center;
+    opacity: 0;
+    display: block;
+    visibility:hidden;
+    transition:visibility 1s,opacity 1s,z-index 1s;
+}
+.dialog-body{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translate(0,-50%);
+}
+.light-dialog .dialog-text{
+    display:inline-block;
+}
