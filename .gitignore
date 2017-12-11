@@ -1,7 +1,8 @@
-./out
-./.idea
-./web/css
-./web/fonts
-./web/html
-./web/img
-./web/js
+out
+.idea
+web/css
+web/fonts
+web/html
+web/img
+web/js
+web/.eslintrc.json
