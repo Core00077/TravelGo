@@ -17,7 +17,7 @@ public class FindGoodByIdServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         GoodDAOProxy findProxy;
         Status findStatus;
-        String goodId = request.getParameter("goodId");
+        int goodId = Integer.parseInt(request.getParameter("goodId"));
         try {
             findProxy = new GoodDAOProxy();
             findStatus = findProxy.findById(goodId);

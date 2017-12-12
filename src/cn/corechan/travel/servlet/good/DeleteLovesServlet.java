@@ -22,12 +22,15 @@ public class DeleteLovesServlet extends HttpServlet {
             ResponseUtil.ResponseUnlogin(resp);
             return;
         }
-        String strRawGoodId=req.getParameter("goodId");
-        String[] strGoodIds=strRawGoodId.split(",");
-        ArrayList<String> goodIds=new ArrayList<>(Arrays.asList(strGoodIds));
+        String strRawGoodId = req.getParameter("goodId");
+        String[] strGoodIds = strRawGoodId.split(",");
+//        ArrayList<String> goodIds=new ArrayList<>(Arrays.asList(strGoodIds));
+        ArrayList<Integer> goodIds = new ArrayList<>();
+        for (int i = 0; i < strGoodIds.length; i++)
+            goodIds.add(Integer.parseInt(strGoodIds[i]));
         try {
-            Status status=new UserGoodDAOProxy().DeleteLoves(phoneNumber,goodIds);
-            ResponseUtil.Render(resp,status);
+            Status status = new UserGoodDAOProxy().DeleteLoves(phoneNumber, goodIds);
+            ResponseUtil.Render(resp, status);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.toString());
             ResponseUtil.ResponseError(resp);

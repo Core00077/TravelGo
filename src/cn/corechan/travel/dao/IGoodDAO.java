@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public interface IGoodDAO {
 
-    Status findById(String Id) throws SQLException;
+    Status findById(int Id) throws SQLException;
 
     Status findByCity(String city) throws SQLException;
 

@@ -20,7 +20,7 @@ public class IsLoveServlet extends HttpServlet {
             ResponseUtil.ResponseUnlogin(resp);
             return;
         }
-        String goodId = req.getParameter("goodId");
+        int goodId = Integer.parseInt(req.getParameter("goodId"));
         Status status = null;
         try {
             status = new UserGoodDAOProxy().isLove(phoneNumber, goodId);

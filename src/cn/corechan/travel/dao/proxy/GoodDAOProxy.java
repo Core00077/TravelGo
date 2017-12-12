@@ -21,7 +21,7 @@ public class GoodDAOProxy implements IGoodDAO {
     }
 
     @Override
-    public Status findById(String Id) throws SQLException {
+    public Status findById(int Id) throws SQLException {
         Status status;
         try {
             status = goodDAO.findById(Id);

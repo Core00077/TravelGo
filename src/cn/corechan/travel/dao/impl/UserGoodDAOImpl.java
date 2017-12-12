@@ -43,7 +43,7 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
                         try (ResultSet goodSet = p.executeQuery()) {
                             while (goodSet.next()) {
                                 Good good = new Good();
-                                good.setId(goodSet.getString("Id"));
+                                good.setId(goodSet.getInt("Id"));
                                 good.setName(URLEncoder.encode(goodSet.getString("name"), "UTF-8"));
                                 good.setPrice(goodSet.getDouble("price"));
                                 good.setRoute(URLEncoder.encode(goodSet.getString("route"), "UTF-8"));
@@ -75,7 +75,7 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
     }
 
     @Override
-    public Status AddLove(String phoneNumber, String goodId) throws SQLException {
+    public Status AddLove(String phoneNumber, int goodId) throws SQLException {
         Status status = new Status();
         status.setContent("fail", "");
         status.setData(null);
@@ -87,7 +87,7 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
             String addLoveQuery = "INSERT INTO travelgo.usergood (phonenumber, goodId)  VALUES (?,?)";
             try (PreparedStatement pst = conn.prepareStatement(addLoveQuery)) {
                 pst.setString(1, phoneNumber);
-                pst.setString(2, goodId);
+                pst.setInt(2, goodId);
                 if (pst.executeUpdate() > 0) {
                     status.setContent("success", "Successfully Added");
                 }
@@ -97,7 +97,7 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
     }
 
     @Override
-    public Status isLove(String phoneNumber, String goodId) throws SQLException {
+    public Status isLove(String phoneNumber, int goodId) throws SQLException {
         Status status = new Status();
         status.setContent("fail", "");
         status.setData(null);
@@ -108,7 +108,7 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
         String isLoveQuery = "SELECT * FROM travelgo.usergood WHERE phonenumber=? AND goodId=?";
         try (PreparedStatement pst = conn.prepareStatement(isLoveQuery)) {
             pst.setString(1, phoneNumber);
-            pst.setString(2, goodId);
+            pst.setInt(2, goodId);
             try (ResultSet resultSet = pst.executeQuery()) {
                 if (resultSet.next())
                     status.setContent("isLove", "goodId: " + goodId + "is in collection!");
@@ -120,14 +120,14 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
     }
 
     @Override
-    public Status DeleteLove(String phoneNumber, String goodId) throws SQLException {
+    public Status DeleteLove(String phoneNumber, int goodId) throws SQLException {
         Status status = new Status();
         status.setContent("fail", "");
         status.setData(null);
         String deleteLoveQuery = "DELETE FROM travelgo.usergood WHERE phonenumber=? AND goodId=?";
         try (PreparedStatement pst = this.conn.prepareStatement(deleteLoveQuery)) {
             pst.setString(1, phoneNumber);
-            pst.setString(2, goodId);
+            pst.setInt(2, goodId);
             if (pst.executeUpdate() > 0) {
                 status.setContent("success", "Deleted successfully!");
             }
@@ -136,18 +136,18 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
     }
 
     @Override
-    public Status DeleteLoves(String phoneNumber, ArrayList<String> goodIds) throws SQLException {
+    public Status DeleteLoves(String phoneNumber, ArrayList<Integer> goodIds) throws SQLException {
         Status status = new Status();
         String deleteLoveQuery = "DELETE FROM travelgo.usergood WHERE phonenumber=? AND goodId=?";
         try (PreparedStatement pst = conn.prepareStatement(deleteLoveQuery)) {
-            for (String goodId : goodIds) {
+            for (int goodId : goodIds) {
                 pst.setString(1, phoneNumber);
-                pst.setString(2, goodId);
+                pst.setInt(2, goodId);
                 pst.addBatch();
             }
             int[] result = pst.executeBatch();
             int resultSum=0;
-            ArrayList<String> errorResult=new ArrayList<>();
+            ArrayList<Integer> errorResult=new ArrayList<>();
             for (int i = 0; i < result.length; i++) {
                 if(result[i]>0){
                     resultSum++;

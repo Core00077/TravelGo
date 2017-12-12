@@ -30,7 +30,7 @@ public class UserGoodDAOProxy implements IUserGoodDAO {
     }
 
     @Override
-    public Status AddLove(String phoneNumber, String goodId) throws SQLException {
+    public Status AddLove(String phoneNumber, int goodId) throws SQLException {
         Status status;
         try {
             status = userGoodDAO.AddLove(phoneNumber, goodId);
@@ -41,7 +41,7 @@ public class UserGoodDAOProxy implements IUserGoodDAO {
     }
 
     @Override
-    public Status isLove(String phoneNumber, String goodId) throws SQLException {
+    public Status isLove(String phoneNumber, int goodId) throws SQLException {
         Status status;
         try {
             status = userGoodDAO.isLove(phoneNumber, goodId);
@@ -52,7 +52,7 @@ public class UserGoodDAOProxy implements IUserGoodDAO {
     }
 
     @Override
-    public Status DeleteLove(String phoneNumber, String goodId) throws SQLException {
+    public Status DeleteLove(String phoneNumber, int goodId) throws SQLException {
         Status status;
         try {
             status=userGoodDAO.DeleteLove(phoneNumber, goodId);
@@ -63,7 +63,7 @@ public class UserGoodDAOProxy implements IUserGoodDAO {
     }
 
     @Override
-    public Status DeleteLoves(String phoneNumber, ArrayList<String> goodIds) throws SQLException {
+    public Status DeleteLoves(String phoneNumber, ArrayList<Integer> goodIds) throws SQLException {
         Status status;
         try {
             status=userGoodDAO.DeleteLoves(phoneNumber, goodIds);

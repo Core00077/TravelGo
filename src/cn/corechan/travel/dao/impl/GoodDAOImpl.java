@@ -22,19 +22,18 @@ public class GoodDAOImpl implements IGoodDAO {
     }
 
     @Override
-    public Status findById(String Id) throws SQLException {
+    public Status findById(int Id) throws SQLException {
         // 初始化为查询失败
         Status status = new Status();
         status.setContent("goodNotExist", "");
         status.setData(null);
-
         // 查询
         String queryGood = "SELECT name,price,city,route,description,comment FROM good WHERE Id=?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
              PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
-            pstmtGood.setString(1, Id);
-            pstmtPictures.setString(1, Id);
+            pstmtGood.setInt(1, Id);
+            pstmtPictures.setInt(1, Id);
             try (ResultSet rsetGood = pstmtGood.executeQuery();
                  ResultSet rsetPictures = pstmtPictures.executeQuery()) {
                 Good good = new Good();
@@ -100,9 +99,9 @@ public class GoodDAOImpl implements IGoodDAO {
                 List<Good> goods = new ArrayList<>();
                 while (rsetGood.next()) {
                     Good good = new Good();
-                    String goodId = rsetGood.getString(1);
+                    int goodId = rsetGood.getInt(1);
                     good.setId(goodId);
-                    pstmtPictures.setString(1, goodId);
+                    pstmtPictures.setInt(1, goodId);
 
                     String str = URLEncoder.encode(rsetGood.getString(2), "UTF-8");
                     good.setName(str);
@@ -148,7 +147,7 @@ public class GoodDAOImpl implements IGoodDAO {
             try (ResultSet rsetId = pstmtId.executeQuery()) {
                 List<Good> goods = new ArrayList<>();
                 while (rsetId.next()) {
-                    String goodId = rsetId.getString("Id");
+                    int goodId = rsetId.getInt("Id");
                     Good good = (Good) findById(goodId).getData();
                     goods.add(good);
                 }

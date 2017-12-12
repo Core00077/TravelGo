@@ -19,7 +19,7 @@ public class DeleteLoveServlet extends HttpServlet {
             ResponseUtil.ResponseUnlogin(resp);
             return;
         }
-        String goodId = req.getParameter("goodId");
+        int goodId = Integer.parseInt(req.getParameter("goodId"));
         Status status = null;
         try {
             status = new UserGoodDAOProxy().DeleteLove(phoneNumber, goodId);

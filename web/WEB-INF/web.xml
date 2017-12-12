@@ -145,4 +145,14 @@
         <servlet-name>DeleteLoves</servlet-name>
         <url-pattern>/deleteloves</url-pattern>
     </servlet-mapping>
+
+    <!--上传图片-->
+    <servlet>
+        <servlet-name>UploadPics</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.UploadPicServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadPics</servlet-name>
+        <url-pattern>/uploadpics</url-pattern>
+    </servlet-mapping>
 </web-app>
