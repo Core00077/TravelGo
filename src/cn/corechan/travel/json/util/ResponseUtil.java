@@ -27,4 +27,10 @@ public class ResponseUtil {
         status.setData(null);
         Render(response,status);
     }
+    public static void ResponseArgsMissing(HttpServletResponse response) throws IOException {
+        Status status=new Status();
+        status.setContent("argsMissing","Some arguments are missing!");
+        status.setData(null);
+        Render(response,status);
+    }
 }

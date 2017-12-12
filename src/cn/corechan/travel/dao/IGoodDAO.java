@@ -4,6 +4,7 @@ import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Good;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface IGoodDAO {
 
@@ -13,4 +14,5 @@ public interface IGoodDAO {
 
     Status findAll() throws SQLException;
 
+    Status publishGood(Good good) throws SQLException;
 }

@@ -12,5 +12,4 @@ public interface IUserDAO {
 
     Status findByPhoneNumber(String phoneNumber) throws SQLException;
 
-    Status doDelete(String phoneNumber) throws SQLException;
 }

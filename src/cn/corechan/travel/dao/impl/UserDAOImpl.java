@@ -115,8 +115,4 @@ public class UserDAOImpl implements IUserDAO {
         return status;
     }
 
-    @Override
-    public Status doDelete(String phoneNumber) throws SQLException {
-        return null;
-    }
 }

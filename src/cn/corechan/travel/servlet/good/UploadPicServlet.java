@@ -57,7 +57,7 @@ public class UploadPicServlet extends HttpServlet {
                     continue;
                 String filename = fileItem.getName();
                 String savename = new Date().getTime() + filename.substring(filename.lastIndexOf("."));
-                String picUrl = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/img/goods/checking/" + savename;
+                String picUrl = "/img/goods/checking/" + savename;
                 File file = new File(UPLOAD_HOME, savename);
                 if(!temp.exists())
                     file.getParentFile().mkdir();

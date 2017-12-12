@@ -3,6 +3,7 @@ package cn.corechan.travel.dao.impl;
 import cn.corechan.travel.dao.IGoodDAO;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Good;
+import com.mysql.jdbc.Statement;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -160,6 +161,59 @@ public class GoodDAOImpl implements IGoodDAO {
             }
         } catch (SQLException e) {
             throw e;
+        }
+        return status;
+    }
+
+    @Override
+    public Status publishGood(Good good) throws SQLException {
+        Status status = new Status();
+
+        String publishQuery = "INSERT INTO travelgo.good(name, price, city, route, description) VALUES (?,?,?,?,?)";
+        String picQuery = "INSERT INTO travelgo.goodpicture(goodId, pictureURL) VALUES (?,?)";
+        try (PreparedStatement pst = conn.prepareStatement(publishQuery, Statement.RETURN_GENERATED_KEYS)) {
+            pst.setString(1, good.getName());
+            pst.setDouble(2, good.getPrice());
+            pst.setString(3, good.getCity());
+            pst.setString(4, good.getRoute());
+            pst.setString(5, good.getDescription());
+
+            if (pst.executeUpdate() > 0) {
+                //返回主键
+                int goodId = 0;
+                try (ResultSet keySet = pst.getGeneratedKeys()) {
+                    if (keySet.next()) {
+                        goodId = keySet.getInt(1);
+                        good.setId(goodId);
+                    }
+                }
+                List<String> picUrls=good.getPictures();
+                try (PreparedStatement picPst = conn.prepareStatement(picQuery)) {
+                    for (String url : picUrls) {
+                        picPst.setInt(1, goodId);
+                        picPst.setString(2, url);
+                        picPst.addBatch();
+                    }
+                    int[] result = picPst.executeBatch();
+                    int resultSum = 0;
+                    ArrayList<String> errorResult = new ArrayList<>();
+                    for (int i = 0; i < result.length; i++) {
+                        if (result[i] > 0) {
+                            resultSum++;
+                        } else {
+                            errorResult.add(picUrls.get(i));
+                            System.out.println(picUrls.get(i) + "添加错误");
+                        }
+                    }
+                    if (resultSum == result.length) {
+                        status.setContent("success", "Good Added successfully!");
+                        status.setData(good);
+                    } else {
+                        status.setContent("fail", "");
+                        status.setData(errorResult);
+                    }
+                }
+            }
         }
         return status;
     }

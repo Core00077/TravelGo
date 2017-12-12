@@ -71,4 +71,17 @@ public class GoodDAOProxy implements IGoodDAO {
         }
         return status;
     }
+
+    @Override
+    public Status publishGood(Good good) throws SQLException {
+        Status status;
+        try {
+            status = goodDAO.publishGood(good);
+        }finally {
+            dbc.close();
+        }
+        return status;
+    }
+
+
 }

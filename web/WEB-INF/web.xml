@@ -155,4 +155,13 @@
         <servlet-name>UploadPics</servlet-name>
         <url-pattern>/uploadpics</url-pattern>
     </servlet-mapping>
+    <!--发布商品-->
+    <servlet>
+        <servlet-name>PublishGood</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.PublishGoodServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PublishGood</servlet-name>
+        <url-pattern>/publishgood</url-pattern>
+    </servlet-mapping>
 </web-app>
