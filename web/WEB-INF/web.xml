@@ -164,4 +164,13 @@
         <servlet-name>PublishGood</servlet-name>
         <url-pattern>/publishgood</url-pattern>
     </servlet-mapping>
+    <!--查看认证-->
+    <servlet>
+        <servlet-name>viewCertificate</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.ViewCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>viewCertificate</servlet-name>
+        <url-pattern>/viewCertificate</url-pattern>
+    </servlet-mapping>
 </web-app>

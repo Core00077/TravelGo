@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class ChangeUserServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         String phoneNumber = (String) request.getSession().getAttribute("phoneNumber");
         if (phoneNumber == null) {
@@ -29,6 +29,7 @@ public class ChangeUserServlet extends HttpServlet {
         newUser.setRealName(request.getParameter("realName"));
         newUser.setSex(request.getParameter("sex"));
         newUser.setHometown(request.getParameter("hometown"));
+        newUser.setIntroduction(request.getParameter("intro"));
         try {
             changeProxy = new UserDAOProxy();
             changeStatus = changeProxy.doChange(newUser);

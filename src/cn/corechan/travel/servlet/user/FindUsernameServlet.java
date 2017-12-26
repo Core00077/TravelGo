@@ -18,7 +18,7 @@ import java.util.Map;
 public class FindUsernameServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         request.setCharacterEncoding("UTF-8");              // 过滤器
         HttpSession session = request.getSession();
         UserDAOProxy findUserProxy;

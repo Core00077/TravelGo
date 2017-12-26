@@ -5,6 +5,7 @@ import cn.corechan.travel.dao.impl.UserDAOImpl;
 import cn.corechan.travel.dbc.DatabaseConnection;
 import cn.corechan.travel.factory.DatabaseConnectionFactor;
 import cn.corechan.travel.json.Status;
+import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.User;
 
 import java.sql.SQLException;
@@ -88,5 +89,35 @@ public class UserDAOProxy implements IUserDAO {
 
         return status;
     }
+
+    @Override
+    public Status findCertificate(String phoneNumber) throws SQLException {
+        Status status;
+        try {
+            status=userDAO.findCertificate(phoneNumber);
+        } finally {
+            dbc.close();
+        }
+        return status;
+    }
+
+    @Override
+    public Status doCertificate(Certificate certificate) throws SQLException {
+        Status status;
+        try {
+            status=userDAO.doCertificate(certificate);
+        } finally {
+            dbc.close();
+        }
+        return status;
+    }
+
+    @Override
+    public Status deleteCertificate(String phoneNumber) throws SQLException {
+        Status status;
+        status=userDAO.deleteCertificate(phoneNumber);
+        return null;
+    }
+
 
 }

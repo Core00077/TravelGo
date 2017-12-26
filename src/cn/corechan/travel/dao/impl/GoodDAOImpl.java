@@ -46,16 +46,22 @@ public class GoodDAOImpl implements IGoodDAO {
 
                     try {
                         String str = rsetGood.getString(3);
-                        good.setCity(URLEncoder.encode(str, "UTF-8"));
+                        if (str != null)
+                            good.setCity(URLEncoder.encode(str, "UTF-8"));
                         str = rsetGood.getString(1);
-                        good.setName(URLEncoder.encode(str, "UTF-8"));
+                        if (str != null)
+                            good.setName(URLEncoder.encode(str, "UTF-8"));
                         str = rsetGood.getString(4);
-                        good.setRoute(URLEncoder.encode(str, "UTF-8"));
+                        if (str != null)
+                            good.setRoute(URLEncoder.encode(str, "UTF-8"));
                         str = rsetGood.getString(5);
-                        good.setDescription(URLEncoder.encode(str, "UTF-8"));
+                        if (str != null)
+                            good.setDescription(URLEncoder.encode(str, "UTF-8"));
                         str = rsetGood.getString(6);
-                        good.setComment(URLEncoder.encode(str, "UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
+                        if (str != null)
+                            good.setComment(URLEncoder.encode(str, "UTF-8"));
+                    } catch (Exception e) {
+                        System.out.println(e.toString());
                     }
 
                     // 添加商品的图片
@@ -156,11 +162,7 @@ public class GoodDAOImpl implements IGoodDAO {
                 // 添加查询结果到状态
                 status.setContent("success", "");     // 更改状态码
                 status.setData(goods);
-            } catch (SQLException e) {
-                throw e;
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return status;
     }
@@ -187,7 +189,7 @@ public class GoodDAOImpl implements IGoodDAO {
                         good.setId(goodId);
                     }
                 }
-                List<String> picUrls=good.getPictures();
+                List<String> picUrls = good.getPictures();
                 try (PreparedStatement picPst = conn.prepareStatement(picQuery)) {
                     for (String url : picUrls) {
                         picPst.setInt(1, goodId);

@@ -1,6 +1,7 @@
 package cn.corechan.travel.dao;
 
 import cn.corechan.travel.json.Status;
+import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.User;
 
 import java.sql.SQLException;
@@ -12,4 +13,9 @@ public interface IUserDAO {
 
     Status findByPhoneNumber(String phoneNumber) throws SQLException;
 
+    Status findCertificate(String phoneNumber) throws SQLException;
+
+    Status doCertificate(Certificate certificate) throws SQLException;
+
+    Status deleteCertificate(String phoneNumber)throws SQLException;
 }

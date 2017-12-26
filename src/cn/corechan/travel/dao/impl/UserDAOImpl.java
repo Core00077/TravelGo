@@ -2,6 +2,7 @@ package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IUserDAO;
 import cn.corechan.travel.json.Status;
+import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.User;
 
 import java.io.UnsupportedEncodingException;
@@ -20,7 +21,7 @@ public class UserDAOImpl implements IUserDAO {
     public Status doRegister(User user) throws SQLException {
         // 初始化为注册失败
         Status status = new Status();
-        status.setContent("failed","");
+        status.setContent("failed", "");
         status.setData(null);
 
         // 注册用户
@@ -30,7 +31,7 @@ public class UserDAOImpl implements IUserDAO {
             pstmt.setString(2, user.getName());
             pstmt.setString(3, user.getPwd());
             if (pstmt.executeUpdate() > 0) {
-                status.setContent("success","");
+                status.setContent("success", "");
             }
         } catch (SQLException e) {
             throw e;
@@ -42,24 +43,31 @@ public class UserDAOImpl implements IUserDAO {
     public Status doChange(User newUser) throws SQLException {
         // 修改失败
         Status status = new Status();
-        status.setContent("failed","");
+        status.setContent("failed", "");
         status.setData(null);
 
         // 修改用户数据
         String query = "UPDATE usertable SET name=?, realname=?," +
-                        "sex=?, hometown=?  WHERE phonenumber=?";
+                "sex=?, hometown=?, introduction=?  WHERE phonenumber=?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, newUser.getName());
             String realName = newUser.getRealName();
             String hometown = newUser.getHometown();
-            if (realName != null) {
+            String introduction = newUser.getIntroduction();
+            if (realName != null)
                 pstmt.setString(2, URLDecoder.decode(realName, "UTF-8"));
-            }
-            if (hometown != null) {
-                pstmt.setString(4, URLDecoder.decode(newUser.getHometown(), "UTF-8"));
-            }
+            else
+                pstmt.setString(2, null);
             pstmt.setString(3, newUser.getSex());
-            pstmt.setString(5, newUser.getPhoneNumber());
+            if (hometown != null)
+                pstmt.setString(4, URLDecoder.decode(hometown, "UTF-8"));
+            else
+                pstmt.setString(4, null);
+            if (introduction != null)
+                pstmt.setString(5, URLDecoder.decode(introduction, "UTF-8"));
+            else
+                pstmt.setString(5, null);
+            pstmt.setString(6, newUser.getPhoneNumber());
             if (pstmt.executeUpdate() > 0) {
                 status.setContent("success", "");
             }
@@ -75,11 +83,11 @@ public class UserDAOImpl implements IUserDAO {
     public Status findByPhoneNumber(String phoneNumber) throws SQLException {
         // 初始化为查询失败
         Status status = new Status();
-        status.setContent("phoneNotExist","");
+        status.setContent("phoneNotExist", "");
         status.setData(null);
 
         // 查询
-        String sql = "SELECT name,pwd,sex,realname,hometown FROM usertable WHERE phonenumber=?";
+        String sql = "SELECT name,pwd,sex,realname,hometown,introduction FROM usertable WHERE phonenumber=?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, phoneNumber);
             try (ResultSet rset = pstmt.executeQuery()) {
@@ -92,27 +100,72 @@ public class UserDAOImpl implements IUserDAO {
                     try {
                         String realName = rset.getString(4);
                         String hometown = rset.getString(5);
+                        String introduction = rset.getString(6);
                         if (realName != null) {
                             user.setRealName(URLEncoder.encode(realName, "UTF-8"));
                         }
                         if (hometown != null) {
                             user.setHometown(URLEncoder.encode(hometown, "UTF-8"));
                         }
+                        if (introduction != null) {
+                            user.setIntroduction(URLEncoder.encode(introduction, "UTF-8"));
+                        }
                     } catch (UnsupportedEncodingException e) {
 
                     }
-
-
-                    status.setContent("success","");     // 更改状态码
+                    status.setContent("success", "");     // 更改状态码
                     status.setData(user);
                 }
-            } catch (SQLException e) {
-                throw e;
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return status;
+    }
+
+    @Override
+    public Status findCertificate(String phoneNumber) throws SQLException {
+        String query = "SELECT * FROM certificate WHERE phonenumber=?";
+        Status status = new Status();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, phoneNumber);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String ID = resultSet.getString(2);
+                    String realname = resultSet.getString(3);
+                    String address = resultSet.getString(4);
+                    String picURL = resultSet.getString(5);
+                    int s = resultSet.getInt(6);
+                    String msg = resultSet.getString(7);
+                    Certificate certificate = new Certificate(phoneNumber, ID, realname, address, picURL, s, msg);
+                    switch (s) {
+                        case 0:
+                            status.setContent("unpassed", "Certificate not passed!");
+                            status.setData(certificate);
+                            break;
+                        case 1:
+                            status.setContent("verifying", "Verifying, please wait.");
+                            status.setData(certificate);
+                            break;
+                        case 2:
+                            status.setContent("passed", "Find successfully");
+                            status.setData(certificate);
+                            break;
+                    }
+                } else {
+                    status.setContent("IDNotExist", "Certificate not exist!");
+                }
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public Status doCertificate(Certificate certificate) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Status deleteCertificate(String phoneNumber) throws SQLException {
+        return null;
     }
 
 }

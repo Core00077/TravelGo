@@ -7,6 +7,7 @@ public class User {
     private String sex;
     private String realName;
     private String hometown;
+    private String introduction;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -54,5 +55,13 @@ public class User {
 
     public void setHometown(String hometown) {
         this.hometown = hometown;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 }
