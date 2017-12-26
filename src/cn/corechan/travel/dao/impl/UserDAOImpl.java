@@ -131,11 +131,12 @@ public class UserDAOImpl implements IUserDAO {
                 if (resultSet.next()) {
                     String ID = resultSet.getString(2);
                     String realname = resultSet.getString(3);
-                    String address = resultSet.getString(4);
-                    String picURL = resultSet.getString(5);
-                    int s = resultSet.getInt(6);
-                    String msg = resultSet.getString(7);
-                    Certificate certificate = new Certificate(phoneNumber, ID, realname, address, picURL, s, msg);
+                    String contact=resultSet.getString(4);
+                    String address = resultSet.getString(5);
+                    String picURL = resultSet.getString(6);
+                    int s = resultSet.getInt(7);
+                    String msg = resultSet.getString(8);
+                    Certificate certificate = new Certificate(phoneNumber, ID, realname, contact, address, picURL, s, msg);
                     switch (s) {
                         case 0:
                             status.setContent("unpassed", "Certificate not passed!");
@@ -160,12 +161,45 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public Status doCertificate(Certificate certificate) throws SQLException {
-        return null;
+        Status status = findCertificate(certificate.getPhoneNumber());
+        if (status.getStatus().equals("passed") || status.getStatus().equals("verifying")) {
+            status.setData(null);
+            return status;
+        }
+        if (status.getStatus().equals("IDNotExist")) {
+            String insertSQL = "INSERT INTO certificate(phonenumber, ID, realname, contact, address, ID_in_hand_picURL, status, msg) VALUES (?,?,?,?,?,?,?,?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(insertSQL)) {
+                preparedStatement.setString(1, certificate.getPhoneNumber());
+                preparedStatement.setString(2, certificate.getID());
+                preparedStatement.setString(3, certificate.getRealname());
+                preparedStatement.setString(4, certificate.getContact());
+                preparedStatement.setString(5, certificate.getAddress());
+                preparedStatement.setString(6, certificate.getIDpicURL());
+                preparedStatement.setInt(7, certificate.getStatus());
+                preparedStatement.setString(8, certificate.getMsg());
+
+                if (preparedStatement.executeUpdate() > 0) {
+                    status.setContent("success", "");
+                }
+            }
+        } else {
+            String updateSQL = "UPDATE certificate SET ID=?,realname=?,contact=?,address=?,ID_in_hand_picURL=?,status=?,msg=?";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(updateSQL)) {
+                preparedStatement.setString(1, certificate.getID());
+                preparedStatement.setString(2, certificate.getRealname());
+                preparedStatement.setString(3, certificate.getContact());
+                preparedStatement.setString(4, certificate.getAddress());
+                preparedStatement.setString(5, certificate.getIDpicURL());
+                preparedStatement.setInt(6, certificate.getStatus());
+                preparedStatement.setString(7, certificate.getMsg());
+
+                if (preparedStatement.executeUpdate() > 0) {
+                    status.setContent("success", "");
+                }
+            }
+        }
+        return status;
     }
 
-    @Override
-    public Status deleteCertificate(String phoneNumber) throws SQLException {
-        return null;
-    }
 
 }

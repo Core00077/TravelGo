@@ -4,19 +4,21 @@ public class Certificate {
     private String phoneNumber;
     private String ID;
     private String realname;
+    private String contact;
     private String address;
     private String IDpicURL;
-    private int status = 0;
+    private int status = 1;
     private String msg;
 
     public Certificate(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public Certificate(String phoneNumber, String ID, String realname, String address, String IDpicURL, int status, String msg) {
+    public Certificate(String phoneNumber, String ID, String realname, String contact, String address, String IDpicURL, int status, String msg) {
         this.phoneNumber = phoneNumber;
         this.ID = ID;
         this.realname = realname;
+        this.contact=contact;
         this.address = address;
         this.IDpicURL = IDpicURL;
         this.status = status;
@@ -77,5 +79,13 @@ public class Certificate {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 }

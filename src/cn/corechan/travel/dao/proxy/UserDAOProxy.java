@@ -112,12 +112,4 @@ public class UserDAOProxy implements IUserDAO {
         return status;
     }
 
-    @Override
-    public Status deleteCertificate(String phoneNumber) throws SQLException {
-        Status status;
-        status=userDAO.deleteCertificate(phoneNumber);
-        return null;
-    }
-
-
 }

@@ -173,4 +173,22 @@
         <servlet-name>viewCertificate</servlet-name>
         <url-pattern>/viewCertificate</url-pattern>
     </servlet-mapping>
+    <!--提交认证-->
+    <servlet>
+        <servlet-name>SubmitCertificate</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.SubmitCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitCertificate</servlet-name>
+        <url-pattern>/submitCertificate</url-pattern>
+    </servlet-mapping>
+    <!--上传认证图片-->
+    <servlet>
+        <servlet-name>UploadCertificatePic</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.UploadCertificatePicServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadCertificatePic</servlet-name>
+        <url-pattern>/uploadCertificatePic</url-pattern>
+    </servlet-mapping>
 </web-app>
