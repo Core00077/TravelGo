@@ -191,4 +191,21 @@
         <servlet-name>UploadCertificatePic</servlet-name>
         <url-pattern>/uploadCertificatePic</url-pattern>
     </servlet-mapping>
+    <!--查找身份认证信息-->
+    <servlet>
+        <servlet-name>FindCertificates</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.admin.FindCertificatesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindCertificates</servlet-name>
+        <url-pattern>/findCertificates</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.admin.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <url-pattern>/adminLogin</url-pattern>
+    </servlet-mapping>
 </web-app>
