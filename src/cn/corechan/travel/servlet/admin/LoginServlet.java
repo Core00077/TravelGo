@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
             Status status=adminDAOProxy.loginAdmin(phoneNumber,pwd);
             ResponseUtil.Render(resp,status);
             if(status.getStatus().equals("success"))
-                req.getSession().setAttribute("phoneNumber",phoneNumber);
+                req.getSession().setAttribute("adminPhoneNumber",phoneNumber);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.toString());
             Status status=new Status();

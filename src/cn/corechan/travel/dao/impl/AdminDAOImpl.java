@@ -20,20 +20,18 @@ public class AdminDAOImpl implements IAdminDAO {
 
     @Override
     public Status loginAdmin(String phoneNumber, String pwd) throws SQLException {
-        Status status=new Status();
+        Status status = new Status();
         String querySQL = "SELECT * FROM admintable WHERE phonenumber=?";
         try (PreparedStatement preparedStatement = conn.prepareStatement(querySQL)) {
             preparedStatement.setString(1, phoneNumber);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    if(pwd.equals(resultSet.getString(2))){
-                        status.setContent("success","AdminLogin successfully!");
-                    }
-                    else
-                        status.setContent("passwordWrong","Password is Wrong!");
-                }
-                else
-                    status.setContent("phoneNotExist","phone Number is NOT exist!");
+                    if (pwd.equals(resultSet.getString(2))) {
+                        status.setContent("success", "AdminLogin successfully!");
+                    } else
+                        status.setContent("passwordWrong", "Password is Wrong!");
+                } else
+                    status.setContent("phoneNotExist", "phone Number is NOT exist!");
             }
         }
         return status;
@@ -64,7 +62,19 @@ public class AdminDAOImpl implements IAdminDAO {
     }
 
     @Override
-    public Status setCertificateStatus(String phoneNumber) throws SQLException {
-        return null;
+    public Status setCertificateStatus(String phoneNumber, int s,String msg) throws SQLException {
+        Status status = new Status();
+        String changeSQL = "UPDATE certificate SET status=?, msg=? WHERE phonenumber=?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(changeSQL)) {
+            preparedStatement.setInt(1, s);
+            preparedStatement.setString(2,msg);
+            preparedStatement.setString(3, phoneNumber);
+            if (preparedStatement.executeUpdate() > 0) {
+                status.setContent("success", "update successfully!");
+            }
+            else
+                status.setContent("phoneNotExist","can not find phone number!");
+        }
+        return status;
     }
 }

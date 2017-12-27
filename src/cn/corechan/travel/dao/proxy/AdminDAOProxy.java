@@ -10,17 +10,17 @@ import cn.corechan.travel.json.Status;
 import java.sql.SQLException;
 
 public class AdminDAOProxy implements IAdminDAO {
-    private DatabaseConnection dbc=null;
-    private IAdminDAO adminDAO=null;
+    private DatabaseConnection dbc = null;
+    private IAdminDAO adminDAO = null;
 
 
     public AdminDAOProxy() throws SQLException, ClassNotFoundException {
-        this.dbc= DatabaseConnectionFactor.getMySQLDatabaseConnection();
-        adminDAO=new AdminDAOImpl(this.dbc.getConnection());
+        this.dbc = DatabaseConnectionFactor.getMySQLDatabaseConnection();
+        adminDAO = new AdminDAOImpl(this.dbc.getConnection());
     }
 
     @Override
-    public Status loginAdmin(String phoneNumber,String pwd) throws SQLException {
+    public Status loginAdmin(String phoneNumber, String pwd) throws SQLException {
 
         try {
             return adminDAO.loginAdmin(phoneNumber, pwd);
@@ -39,9 +39,9 @@ public class AdminDAOProxy implements IAdminDAO {
     }
 
     @Override
-    public Status setCertificateStatus(String phoneNumber) throws SQLException {
+    public Status setCertificateStatus(String phoneNumber, int s, String msg) throws SQLException {
         try {
-            return adminDAO.setCertificateStatus(phoneNumber);
+            return adminDAO.setCertificateStatus(phoneNumber, s, msg);
         } finally {
             dbc.close();
         }

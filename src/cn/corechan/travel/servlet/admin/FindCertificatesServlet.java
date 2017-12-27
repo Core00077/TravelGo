@@ -17,7 +17,7 @@ public class FindCertificatesServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("UTF-8");
         resp.setContentType("UTF-8");
-        String phoneNumber= (String) req.getSession().getAttribute("phoneNumber");
+        String phoneNumber= (String) req.getSession().getAttribute("adminPhoneNumber");
         if(phoneNumber==null){
             ResponseUtil.ResponseUnlogin(resp);
             return;

@@ -200,6 +200,7 @@
         <servlet-name>FindCertificates</servlet-name>
         <url-pattern>/findCertificates</url-pattern>
     </servlet-mapping>
+    <!--管理员登录-->
     <servlet>
         <servlet-name>AdminLoginServlet</servlet-name>
         <servlet-class>cn.corechan.travel.servlet.admin.LoginServlet</servlet-class>
@@ -207,5 +208,14 @@
     <servlet-mapping>
         <servlet-name>AdminLoginServlet</servlet-name>
         <url-pattern>/adminLogin</url-pattern>
+    </servlet-mapping>
+    <!--管理员审核-->
+    <servlet>
+        <servlet-name>ChangeCertificate</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.admin.ChangeCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeCertificate</servlet-name>
+        <url-pattern>/changeCertificate</url-pattern>
     </servlet-mapping>
 </web-app>

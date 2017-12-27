@@ -20,6 +20,12 @@ public class ResponseUtil {
         status.setData(null);
         ResponseUtil.Render(response, status);
     }
+    public static void ResponseError(HttpServletResponse response,Exception e) throws IOException {
+        Status status = new Status();
+        status.setContent("Error", e.toString());
+        status.setData(null);
+        ResponseUtil.Render(response, status);
+    }
 
     public static void ResponseUnlogin(HttpServletResponse response) throws IOException {
         Status status=new Status();
