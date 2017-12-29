@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="travelRemote" uuid="6cabec87-3efa-4c81-9c9a-d9c1c7a2ec5b">
+    <data-source source="LOCAL" name="travelLocal" uuid="4568a0a3-e83c-4c5c-b48a-17da0b6020ea">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://115.159.148.175:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/travelgo</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />
@@ -15,11 +15,11 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="travelLocal" uuid="4568a0a3-e83c-4c5c-b48a-17da0b6020ea">
+    <data-source source="LOCAL" name="travelRemote" uuid="72b8e66b-d178-4d4e-9945-ab5d10a35ced">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/travelgo</jdbc-url>
+      <jdbc-url>jdbc:mysql://115.159.148.175:3306/travelgo</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

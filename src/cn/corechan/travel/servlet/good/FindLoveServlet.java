@@ -29,7 +29,7 @@ public class FindLoveServlet extends HttpServlet{
             loveIdsStatus = loveIdsProxy.findLove(phoneNumber);
             ResponseUtil.Render(response, loveIdsStatus);
         } catch (ClassNotFoundException | SQLException e) {
-            ResponseUtil.ResponseError(response);
+            ResponseUtil.ResponseError(response,e);
         }
     }
 

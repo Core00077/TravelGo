@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoodDAOProxy implements IGoodDAO {
-    private DatabaseConnection dbc = null;
-    private IGoodDAO goodDAO = null;
+    private DatabaseConnection dbc;
+    private IGoodDAO goodDAO;
 
     public GoodDAOProxy() throws ClassNotFoundException, SQLException {
         dbc = DatabaseConnectionFactor.getMySQLDatabaseConnection();
@@ -21,12 +21,10 @@ public class GoodDAOProxy implements IGoodDAO {
     }
 
     @Override
-    public Status findById(int Id) throws SQLException {
+    public Status findById(String Id) throws SQLException {
         Status status;
         try {
             status = goodDAO.findById(Id);
-        } catch (SQLException e) {
-            throw e;
         } finally {
             dbc.close();
         }
@@ -38,23 +36,21 @@ public class GoodDAOProxy implements IGoodDAO {
         Status status;
         try {
             status = goodDAO.findByCity(city);
-        } catch (SQLException e) {
-            throw e;
         } finally {
             dbc.close();
         }
         return status;
     }
 
-    public Status findLove(String phoneNumber) throws ClassNotFoundException,SQLException {
+    public Status findLove(String phoneNumber) throws ClassNotFoundException, SQLException {
         Status loveStatus = new Status();
-        loveStatus.setContent("failed","");
+        loveStatus.setContent("failed", "");
         Status status;
         // 查找用户的收藏夹
         try {
             status = new UserGoodDAOProxy().findLoveIds(phoneNumber);
-        } catch (ClassNotFoundException | SQLException e) {
-            throw e;
+        } finally {
+            dbc.close();
         }
         return status;
     }
@@ -64,8 +60,6 @@ public class GoodDAOProxy implements IGoodDAO {
         Status status;
         try {
             status = goodDAO.findAll();
-        } catch (SQLException e) {
-            throw e;
         } finally {
             dbc.close();
         }
@@ -77,7 +71,7 @@ public class GoodDAOProxy implements IGoodDAO {
         Status status;
         try {
             status = goodDAO.publishGood(good);
-        }finally {
+        } finally {
             dbc.close();
         }
         return status;

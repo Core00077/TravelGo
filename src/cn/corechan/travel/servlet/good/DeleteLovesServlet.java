@@ -24,10 +24,7 @@ public class DeleteLovesServlet extends HttpServlet {
         }
         String strRawGoodId = req.getParameter("goodId");
         String[] strGoodIds = strRawGoodId.split(",");
-//        ArrayList<String> goodIds=new ArrayList<>(Arrays.asList(strGoodIds));
-        ArrayList<Integer> goodIds = new ArrayList<>();
-        for (int i = 0; i < strGoodIds.length; i++)
-            goodIds.add(Integer.parseInt(strGoodIds[i]));
+        ArrayList<String> goodIds=new ArrayList<>(Arrays.asList(strGoodIds));
         try {
             Status status = new UserGoodDAOProxy().DeleteLoves(phoneNumber, goodIds);
             ResponseUtil.Render(resp, status);

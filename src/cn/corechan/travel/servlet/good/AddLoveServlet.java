@@ -22,7 +22,7 @@ public class AddLoveServlet extends HttpServlet {
             ResponseUtil.ResponseUnlogin(resp);
             return;
         }
-        int goodId = Integer.parseInt(req.getParameter("goodId"));
+        String goodId = req.getParameter("goodId");
         try {
             Status status = new UserGoodDAOProxy().AddLove(phoneNumber, goodId);
             ResponseUtil.Render(resp, status);

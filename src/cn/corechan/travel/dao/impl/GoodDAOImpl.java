@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoodDAOImpl implements IGoodDAO {
-    private Connection conn = null;
+    private Connection conn;
 
     public GoodDAOImpl(Connection conn) {
         this.conn = conn;
     }
 
     @Override
-    public Status findById(int Id) throws SQLException {
+    public Status findById(String Id) throws SQLException {
         // 初始化为查询失败
         Status status = new Status();
         status.setContent("goodNotExist", "");
@@ -33,8 +33,8 @@ public class GoodDAOImpl implements IGoodDAO {
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
              PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
-            pstmtGood.setInt(1, Id);
-            pstmtPictures.setInt(1, Id);
+            pstmtGood.setString(1, Id);
+            pstmtPictures.setString(1, Id);
             try (ResultSet rsetGood = pstmtGood.executeQuery();
                  ResultSet rsetPictures = pstmtPictures.executeQuery()) {
                 Good good = new Good();
@@ -60,9 +60,9 @@ public class GoodDAOImpl implements IGoodDAO {
                         str = rsetGood.getString(6);
                         if (str != null)
                             good.setComment(URLEncoder.encode(str, "UTF-8"));
-                        str=rsetGood.getString(7);
-                        if(str!=null)
-                            good.setSeller(URLEncoder.encode(str,"UTF-8"));
+                        str = rsetGood.getString(7);
+                        if (str != null)
+                            good.setSeller(URLEncoder.encode(str, "UTF-8"));
                     } catch (Exception e) {
                         System.out.println(e.toString());
                     }
@@ -78,11 +78,7 @@ public class GoodDAOImpl implements IGoodDAO {
                     status.setContent("success", "");     // 更改状态码
                     status.setData(good);
                 }
-            } catch (SQLException e) {
-                throw e;
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return status;
     }
@@ -109,9 +105,9 @@ public class GoodDAOImpl implements IGoodDAO {
                 List<Good> goods = new ArrayList<>();
                 while (rsetGood.next()) {
                     Good good = new Good();
-                    int goodId = rsetGood.getInt(1);
+                    String goodId = rsetGood.getString(1);
                     good.setId(goodId);
-                    pstmtPictures.setInt(1, goodId);
+                    pstmtPictures.setString(1, goodId);
 
                     String str = URLEncoder.encode(rsetGood.getString(2), "UTF-8");
                     good.setName(str);
@@ -125,22 +121,15 @@ public class GoodDAOImpl implements IGoodDAO {
                             picture.add(rsetPictures.getString("pictureURL"));
                         }
                         good.setPictures(picture);
-                    } catch (SQLException e) {
-                        throw e;
                     }
                     goods.add(good);
                 }
                 findStatus.setStatus("success");
                 findStatus.setData(goods);
-            } catch (SQLException e) {
-                throw e;
             } catch (UnsupportedEncodingException e) {
-
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw e;
         }
-
         return findStatus;
     }
 
@@ -157,7 +146,7 @@ public class GoodDAOImpl implements IGoodDAO {
             try (ResultSet rsetId = pstmtId.executeQuery()) {
                 List<Good> goods = new ArrayList<>();
                 while (rsetId.next()) {
-                    int goodId = rsetId.getInt("Id");
+                    String goodId = rsetId.getString("Id");
                     Good good = (Good) findById(goodId).getData();
                     goods.add(good);
                 }
@@ -174,28 +163,22 @@ public class GoodDAOImpl implements IGoodDAO {
     public Status publishGood(Good good) throws SQLException {
         Status status = new Status();
 
-        String publishQuery = "INSERT INTO travelgo.good(name, price, city, route, description) VALUES (?,?,?,?,?)";
+        String publishQuery = "INSERT INTO travelgo.good(Id,name, price, city, route, description,seller) VALUES (?,?,?,?,?,?,?)";
         String picQuery = "INSERT INTO travelgo.goodpicture(goodId, pictureURL) VALUES (?,?)";
-        try (PreparedStatement pst = conn.prepareStatement(publishQuery, Statement.RETURN_GENERATED_KEYS)) {
-            pst.setString(1, good.getName());
-            pst.setDouble(2, good.getPrice());
-            pst.setString(3, good.getCity());
-            pst.setString(4, good.getRoute());
-            pst.setString(5, good.getDescription());
-
+        try (PreparedStatement pst = conn.prepareStatement(publishQuery)) {
+            pst.setString(1, good.getId());
+            pst.setString(2, good.getName());
+            pst.setDouble(3, good.getPrice());
+            pst.setString(4, good.getCity());
+            pst.setString(5, good.getRoute());
+            pst.setString(6, good.getDescription());
+            pst.setString(7, good.getSeller());
             if (pst.executeUpdate() > 0) {
-                //返回主键
-                int goodId = 0;
-                try (ResultSet keySet = pst.getGeneratedKeys()) {
-                    if (keySet.next()) {
-                        goodId = keySet.getInt(1);
-                        good.setId(goodId);
-                    }
-                }
+                String goodId = good.getId();
                 List<String> picUrls = good.getPictures();
                 try (PreparedStatement picPst = conn.prepareStatement(picQuery)) {
                     for (String url : picUrls) {
-                        picPst.setInt(1, goodId);
+                        picPst.setString(1, goodId);
                         picPst.setString(2, url);
                         picPst.addBatch();
                     }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface IGoodDAO {
 
-    Status findById(int Id) throws SQLException;
+    Status findById(String Id) throws SQLException;
 
     Status findByCity(String city) throws SQLException;
 
