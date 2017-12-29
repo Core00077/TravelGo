@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDAOImpl implements IAdminDAO {
-    private Connection conn = null;
+    private Connection conn ;
 
     public AdminDAOImpl(Connection conn) {
         this.conn = conn;
@@ -40,7 +40,7 @@ public class AdminDAOImpl implements IAdminDAO {
     @Override
     public Status findCertificates() throws SQLException {
         Status status = new Status();
-        String querySQL = "SELECT * FROM certificate WHERE status=1";
+        String querySQL = "SELECT * FROM certificate_verifying";
         List<Certificate> certificates = new ArrayList<>();
         try (ResultSet resultSet = conn.createStatement().executeQuery(querySQL)) {
             while (resultSet.next()) {

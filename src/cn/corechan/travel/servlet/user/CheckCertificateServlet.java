@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class CheckCertificateServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("UTF-8");
@@ -24,9 +24,7 @@ public class CheckCertificateServlet extends HttpServlet {
         Status status = new Status();
         try {
             UserDAOProxy userDAOProxy = new UserDAOProxy();
-            status = userDAOProxy.findCertificate(phoneNumber);
-            String msg = ((Certificate) status.getData()).getMsg();
-            status.setData(msg);
+            status = userDAOProxy.checkCertificate(phoneNumber);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

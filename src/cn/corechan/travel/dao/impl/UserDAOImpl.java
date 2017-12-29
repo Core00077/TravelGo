@@ -11,7 +11,7 @@ import java.net.URLEncoder;
 import java.sql.*;
 
 public class UserDAOImpl implements IUserDAO {
-    private Connection conn = null;
+    private Connection conn;
 
     public UserDAOImpl(Connection conn) {
         this.conn = conn;
@@ -33,8 +33,6 @@ public class UserDAOImpl implements IUserDAO {
             if (pstmt.executeUpdate() > 0) {
                 status.setContent("success", "");
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return status;
     }
@@ -71,10 +69,8 @@ public class UserDAOImpl implements IUserDAO {
             if (pstmt.executeUpdate() > 0) {
                 status.setContent("success", "");
             }
-        } catch (SQLException e) {
-            throw e;
         } catch (UnsupportedEncodingException e) {
-
+            e.printStackTrace();
         }
         return status;
     }
@@ -111,7 +107,7 @@ public class UserDAOImpl implements IUserDAO {
                             user.setIntroduction(URLEncoder.encode(introduction, "UTF-8"));
                         }
                     } catch (UnsupportedEncodingException e) {
-
+                        e.printStackTrace();
                     }
                     status.setContent("success", "");     // 更改状态码
                     status.setData(user);
@@ -131,7 +127,7 @@ public class UserDAOImpl implements IUserDAO {
                 if (resultSet.next()) {
                     String ID = resultSet.getString(2);
                     String realname = resultSet.getString(3);
-                    String contact=resultSet.getString(4);
+                    String contact = resultSet.getString(4);
                     String address = resultSet.getString(5);
                     String picURL = resultSet.getString(6);
                     int s = resultSet.getInt(7);
@@ -161,7 +157,7 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public Status doCertificate(Certificate certificate) throws SQLException {
-        Status status = findCertificate(certificate.getPhoneNumber());
+        Status status = checkCertificate(certificate.getPhoneNumber());
         if (status.getStatus().equals("passed") || status.getStatus().equals("verifying")) {
             status.setData(null);
             return status;
@@ -195,6 +191,35 @@ public class UserDAOImpl implements IUserDAO {
 
                 if (preparedStatement.executeUpdate() > 0) {
                     status.setContent("success", "");
+                    status.setData(null);
+                }
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public Status checkCertificate(String phoneNumber) throws SQLException {
+        Status status = new Status();
+        String checkSQL = "SELECT * FROM certificate_check WHERE phonenumber=?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(checkSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int s = resultSet.getInt("status");
+                    String msg = resultSet.getString("msg");
+                    switch (s) {
+                        case 0:
+                            status.setStatus("unpassed");
+                            break;
+                        case 1:
+                            status.setStatus("verifying");
+                            break;
+                        case 2:
+                            status.setStatus("passed");
+                            break;
+                    }
+                    status.setData(msg);
                 }
             }
         }

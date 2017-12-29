@@ -16,4 +16,6 @@ public interface IUserDAO {
     Status findCertificate(String phoneNumber) throws SQLException;
 
     Status doCertificate(Certificate certificate) throws SQLException;
+
+    Status checkCertificate(String phoneNumber) throws SQLException;
 }
