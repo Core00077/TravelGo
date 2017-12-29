@@ -146,15 +146,6 @@
         <url-pattern>/deleteloves</url-pattern>
     </servlet-mapping>
 
-    <!--上传图片-->
-    <servlet>
-        <servlet-name>UploadPics</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.UploadPicServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UploadPics</servlet-name>
-        <url-pattern>/uploadpics</url-pattern>
-    </servlet-mapping>
     <!--发布商品-->
     <servlet>
         <servlet-name>PublishGood</servlet-name>
@@ -181,15 +172,6 @@
     <servlet-mapping>
         <servlet-name>SubmitCertificate</servlet-name>
         <url-pattern>/submitCertificate</url-pattern>
-    </servlet-mapping>
-    <!--上传认证图片-->
-    <servlet>
-        <servlet-name>UploadCertificatePic</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.user.UploadCertificatePicServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UploadCertificatePic</servlet-name>
-        <url-pattern>/uploadCertificatePic</url-pattern>
     </servlet-mapping>
     <!--查找身份认证信息-->
     <servlet>

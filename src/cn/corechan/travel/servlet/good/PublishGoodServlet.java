@@ -94,6 +94,10 @@ public class PublishGoodServlet extends HttpServlet {
                     picUrls.add(picUrl);
                 }
             }
+            if (i == 0) {
+                ResponseUtil.ResponseArgsMissing(resp);
+                return;
+            }
         } catch (Exception e) {
             ResponseUtil.ResponseError(resp, e);
         }
