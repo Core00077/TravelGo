@@ -23,12 +23,12 @@ public class SubmitCertificateServlet extends HttpServlet {
         String realname = req.getParameter("realname");
         String contact = req.getParameter("contact");
         String address = req.getParameter("address");
-        String IDPicUrls = req.getParameter("picURLs");
-        if (ID == null || realname == null || contact == null || address == null || IDPicUrls == null) {
+        String IDPicUrl = req.getParameter("picURL");
+        if (ID == null || realname == null || contact == null || address == null || IDPicUrl == null) {
             ResponseUtil.ResponseArgsMissing(resp);
             return;
         }
-        Certificate certificate = new Certificate(phoneNumber, ID, realname, contact, address, IDPicUrls, 1, null);
+        Certificate certificate = new Certificate(phoneNumber, ID, realname, contact, address, IDPicUrl, 1, null);
         try {
             UserDAOProxy userDAOProxy = new UserDAOProxy();
             status = userDAOProxy.doCertificate(certificate);

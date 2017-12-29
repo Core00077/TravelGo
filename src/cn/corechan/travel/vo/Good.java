@@ -11,6 +11,7 @@ public class Good {
     private List<String> pictures;
     private String description;
     private String comment;
+    private String seller;
 
     public int getId() {
         return id;
@@ -74,5 +75,13 @@ public class Good {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 }

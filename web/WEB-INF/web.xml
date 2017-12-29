@@ -97,7 +97,7 @@
         <servlet-name>FindGoodByCity</servlet-name>
         <url-pattern>/findGoodByCity</url-pattern>
     </servlet-mapping>
-    
+
     <!-- 查找收藏夹详情 -->
     <servlet>
         <servlet-name>Love</servlet-name>
@@ -199,6 +199,15 @@
     <servlet-mapping>
         <servlet-name>FindCertificates</servlet-name>
         <url-pattern>/findCertificates</url-pattern>
+    </servlet-mapping>
+    <!--检查身份认证信息-->
+    <servlet>
+        <servlet-name>CheckCertificates</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.CheckCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckCertificates</servlet-name>
+        <url-pattern>/checkCertificate</url-pattern>
     </servlet-mapping>
     <!--管理员登录-->
     <servlet>

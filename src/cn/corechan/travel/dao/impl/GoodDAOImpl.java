@@ -29,7 +29,7 @@ public class GoodDAOImpl implements IGoodDAO {
         status.setContent("goodNotExist", "");
         status.setData(null);
         // 查询
-        String queryGood = "SELECT name,price,city,route,description,comment FROM good WHERE Id=?";
+        String queryGood = "SELECT name,price,city,route,description,comment,seller FROM good WHERE Id=?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
              PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
@@ -60,6 +60,9 @@ public class GoodDAOImpl implements IGoodDAO {
                         str = rsetGood.getString(6);
                         if (str != null)
                             good.setComment(URLEncoder.encode(str, "UTF-8"));
+                        str=rsetGood.getString(7);
+                        if(str!=null)
+                            good.setSeller(URLEncoder.encode(str,"UTF-8"));
                     } catch (Exception e) {
                         System.out.println(e.toString());
                     }
