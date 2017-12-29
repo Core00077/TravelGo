@@ -27,7 +27,7 @@ public class SubmitCertificateServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        UPLOAD_BASE = config.getServletContext().getRealPath("/img/certificate");
+        UPLOAD_BASE = config.getServletContext().getRealPath("/img/certificates");
         UPLOAD_TEMP_BASE = config.getServletContext().getRealPath("/img/certificate/temp");
         upload = ServletFileUploadFactory.getMyUpload(UPLOAD_TEMP_BASE);
     }
@@ -71,7 +71,7 @@ public class SubmitCertificateServlet extends HttpServlet {
                             return;
                         }
                     }
-                    picUrl = "/img/certificate/" + savename;
+                    picUrl = "/img/certificates/" + savename;
                     break;
                 }
             }
