@@ -29,7 +29,7 @@ public class GoodDAOImpl implements IGoodDAO {
         status.setContent("goodNotExist", "");
         status.setData(null);
         // 查询
-        String queryGood = "SELECT name,price,city,route,description,comment,seller FROM good WHERE Id=?";
+        String queryGood = "SELECT name,price,city,route,description,comment,seller,pubtime FROM good WHERE Id=?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
              PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
@@ -63,6 +63,9 @@ public class GoodDAOImpl implements IGoodDAO {
                         str = rsetGood.getString(7);
                         if (str != null)
                             good.setSeller(URLEncoder.encode(str, "UTF-8"));
+                        str = rsetGood.getString(8);
+                        if (str != null)
+                            good.setPubtime(URLEncoder.encode(str, "UTF-8"));
                     } catch (Exception e) {
                         System.out.println(e.toString());
                     }
@@ -163,7 +166,7 @@ public class GoodDAOImpl implements IGoodDAO {
     public Status publishGood(Good good) throws SQLException {
         Status status = new Status();
 
-        String publishQuery = "INSERT INTO travelgo.good(Id,name, price, city, route, description,seller) VALUES (?,?,?,?,?,?,?)";
+        String publishQuery = "INSERT INTO travelgo.good(Id,name, price, city, route, description,seller,pubtime) VALUES (?,?,?,?,?,?,?,?)";
         String picQuery = "INSERT INTO travelgo.goodpicture(goodId, pictureURL) VALUES (?,?)";
         try (PreparedStatement pst = conn.prepareStatement(publishQuery)) {
             pst.setString(1, good.getId());
@@ -173,6 +176,7 @@ public class GoodDAOImpl implements IGoodDAO {
             pst.setString(5, good.getRoute());
             pst.setString(6, good.getDescription());
             pst.setString(7, good.getSeller());
+            pst.setString(8,good.getPubtime());
             if (pst.executeUpdate() > 0) {
                 String goodId = good.getId();
                 List<String> picUrls = good.getPictures();

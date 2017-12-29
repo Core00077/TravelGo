@@ -12,6 +12,12 @@ public class Good {
     private String description;
     private String comment;
     private String seller;
+    private String pubtime;
+
+
+    public Good() {
+        pubtime = String.valueOf(System.currentTimeMillis());
+    }
 
     public String getId() {
         return id;
@@ -83,5 +89,13 @@ public class Good {
 
     public void setSeller(String seller) {
         this.seller = seller;
+    }
+
+    public String getPubtime() {
+        return pubtime;
+    }
+
+    public void setPubtime(String pubtime) {
+        this.pubtime = pubtime;
     }
 }
