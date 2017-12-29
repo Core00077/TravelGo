@@ -16,7 +16,6 @@ public class Good {
 
 
     public Good() {
-        pubtime = String.valueOf(System.currentTimeMillis());
     }
 
     public String getId() {

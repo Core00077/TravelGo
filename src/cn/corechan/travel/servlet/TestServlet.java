@@ -1,12 +1,10 @@
 package cn.corechan.travel.servlet;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,12 +47,15 @@ public class TestServlet extends HttpServlet {
                         String field = item.getFieldName();
                         long size = item.getSize();
                         String type = item.getContentType();
-                        String url = "/testcore/"+name;
+                        String url = "/testcore/" + name;
                         resp.getWriter().println(field + "\t" + type + "\t" + size + "kb\t" + url);
                         File file = new File(getServletConfig().getServletContext().getRealPath("testcore"), name);
-                        if (!file.exists())
-                            file.getParentFile().mkdir();
-                        item.write(file);
+                        if (!file.getParentFile().exists()) {
+                            if (file.getParentFile().mkdir())
+                                item.write(file);
+                        } else
+                            item.write(file);
+
                         System.out.println(file.getAbsolutePath());
                     }
                 }
