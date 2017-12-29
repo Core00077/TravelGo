@@ -1,6 +1,7 @@
 package cn.corechan.travel.servlet.good;
 
 import cn.corechan.travel.dao.proxy.GoodDAOProxy;
+import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.Jackson;
 import cn.corechan.travel.json.util.ResponseUtil;
@@ -27,6 +28,20 @@ public class PublishGoodServlet extends HttpServlet {
             ResponseUtil.ResponseUnlogin(resp);
             return;
         }
+        Status status = new Status();
+        try {
+            status=new UserDAOProxy().findCertificate(phoneNumber);
+            if(!status.getStatus().equals("passed")) {
+                status.setData(null);
+                ResponseUtil.Render(resp,status);
+                return;
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            status.setMsg(e.toString());
+            ResponseUtil.Render(resp, status);
+            return;
+        }
+
         String rawPicUrls = req.getParameter("picUrls");
         String rawName = req.getParameter("name");
         String rawPrice = req.getParameter("price");
@@ -44,7 +59,6 @@ public class PublishGoodServlet extends HttpServlet {
         String city = URLDecoder.decode(rawCity, "utf-8");
         String route = URLDecoder.decode(rawRoute, "utf-8");
         String description = URLDecoder.decode(rawDescription, "utf-8");
-        Status status = new Status();
         Good good = new Good();
         String id = String.valueOf(System.currentTimeMillis() / 10 % 100000000)+phoneNumber.substring(7);
         good.setId(id);
