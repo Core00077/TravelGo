@@ -1,6 +1,6 @@
-package cn.corechan.travel.servlet.user;
+package cn.corechan.travel.servlet.good.usergood;
 
-import cn.corechan.travel.dao.proxy.UserDAOProxy;
+import cn.corechan.travel.dao.proxy.UserGoodDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
 
@@ -11,26 +11,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class ViewCertificateServlet extends HttpServlet {
+public class DeleteLoveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        String phoneNumber= (String) req.getSession().getAttribute("phoneNumber");
-        if(phoneNumber==null) {
+        String phoneNumber = (String) req.getSession().getAttribute("phoneNumber");
+        if (phoneNumber == null) {
             ResponseUtil.ResponseUnlogin(resp);
             return;
         }
-        UserDAOProxy userDAOProxy= null;
-        Status status=new Status();
+        String goodId = req.getParameter("goodId");
+        Status status = new Status();
         try {
-            userDAOProxy = new UserDAOProxy();
-            status=userDAOProxy.findCertificate(phoneNumber);
-            ResponseUtil.Render(resp,status);
-        } catch (ClassNotFoundException | SQLException e) {
-            status.setContent("SQLError",e.toString());
+            status = new UserGoodDAOProxy().DeleteLove(phoneNumber, goodId);
+            ResponseUtil.Render(resp, status);
+        } catch (SQLException e) {
             System.out.println(e.toString());
-            ResponseUtil.Render(resp,status);
+            status.setContent("SQLError",e.toString());
+            ResponseUtil.Render(resp, status);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.toString());
+            ResponseUtil.ResponseError(resp);
         }
     }
 

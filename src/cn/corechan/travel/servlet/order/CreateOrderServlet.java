@@ -1,4 +1,4 @@
-package cn.corechan.travel.servlet.user;
+package cn.corechan.travel.servlet.order;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

@@ -1,4 +1,4 @@
-package cn.corechan.travel.servlet.good;
+package cn.corechan.travel.servlet.good.usergood;
 
 import cn.corechan.travel.dao.proxy.UserGoodDAOProxy;
 import cn.corechan.travel.json.Status;

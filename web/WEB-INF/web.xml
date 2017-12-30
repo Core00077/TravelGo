@@ -101,7 +101,7 @@
     <!-- 查找收藏夹详情 -->
     <servlet>
         <servlet-name>Love</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.FindLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.FindLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Love</servlet-name>
@@ -111,7 +111,7 @@
     <!--添加收藏夹-->
     <servlet>
         <servlet-name>AddLove</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.AddLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.AddLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddLove</servlet-name>
@@ -121,7 +121,7 @@
     <!--判断收藏夹-->
     <servlet>
         <servlet-name>IsLove</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.IsLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.IsLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IsLove</servlet-name>
@@ -130,7 +130,7 @@
     <!--删除收藏夹-->
     <servlet>
         <servlet-name>DeleteLove</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.DeleteLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.DeleteLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteLove</servlet-name>
@@ -139,7 +139,7 @@
     <!--删除多个收藏夹-->
     <servlet>
         <servlet-name>DeleteLoves</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.DeleteLovesServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.DeleteLovesServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteLoves</servlet-name>
@@ -158,7 +158,7 @@
     <!--查看认证-->
     <servlet>
         <servlet-name>viewCertificate</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.user.ViewCertificateServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.user.certificate.ViewCertificateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>viewCertificate</servlet-name>
@@ -167,7 +167,7 @@
     <!--提交认证-->
     <servlet>
         <servlet-name>SubmitCertificate</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.user.SubmitCertificateServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.user.certificate.SubmitCertificateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SubmitCertificate</servlet-name>
@@ -185,7 +185,7 @@
     <!--检查身份认证信息-->
     <servlet>
         <servlet-name>CheckCertificates</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.user.CheckCertificateServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.user.certificate.CheckCertificateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CheckCertificates</servlet-name>

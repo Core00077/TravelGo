@@ -1,11 +1,9 @@
-package cn.corechan.travel.servlet.user;
+package cn.corechan.travel.servlet.user.certificate;
 
 import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
-import cn.corechan.travel.vo.Certificate;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

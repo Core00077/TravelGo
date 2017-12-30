@@ -1,9 +1,8 @@
-package cn.corechan.travel.servlet.user;
+package cn.corechan.travel.servlet.user.certificate;
 
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -23,7 +22,7 @@ public class UploadCertificatePicServlet extends HttpServlet {
     private static String UPLOAD_TEMP_HOME = "/";
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext servletContext = config.getServletContext();
         UPLOAD_HOME = servletContext.getRealPath("/img/certificates");
         UPLOAD_TEMP_HOME = servletContext.getRealPath("/img/certificates/temp");

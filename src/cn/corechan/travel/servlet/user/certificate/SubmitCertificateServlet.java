@@ -1,4 +1,4 @@
-package cn.corechan.travel.servlet.user;
+package cn.corechan.travel.servlet.user.certificate;
 
 import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.factory.ServletFileUploadFactory;
@@ -6,7 +6,6 @@ import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
 import cn.corechan.travel.vo.Certificate;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletConfig;
@@ -26,7 +25,7 @@ public class SubmitCertificateServlet extends HttpServlet {
     private ServletFileUpload upload;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         UPLOAD_BASE = config.getServletContext().getRealPath("/img/certificates");
         UPLOAD_TEMP_BASE = config.getServletContext().getRealPath("/img/certificate/temp");
     }
