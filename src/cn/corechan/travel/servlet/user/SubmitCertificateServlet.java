@@ -29,18 +29,29 @@ public class SubmitCertificateServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         UPLOAD_BASE = config.getServletContext().getRealPath("/img/certificates");
         UPLOAD_TEMP_BASE = config.getServletContext().getRealPath("/img/certificate/temp");
-        upload = ServletFileUploadFactory.getMyUpload(UPLOAD_TEMP_BASE);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
+        upload = ServletFileUploadFactory.getMyUpload(UPLOAD_TEMP_BASE);
+        upload.setSizeMax(1024 * 1024 * 4);
         Status status = new Status();
         String phoneNumber = (String) req.getSession().getAttribute("phoneNumber");
         if (phoneNumber == null) {
             ResponseUtil.ResponseUnlogin(resp);
             return;
+        }
+        try {
+            status = new UserDAOProxy().checkCertificate(phoneNumber);
+            if (!status.getStatus().equals("IDNotExist") || !status.getStatus().equals("unpassed")) {
+                ResponseUtil.Render(resp, status);
+                return;
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.toString());
+            ResponseUtil.ResponseError(resp);
         }
         HashMap<String, String> map = new HashMap<>();
         String picUrl = "";
@@ -55,39 +66,39 @@ public class SubmitCertificateServlet extends HttpServlet {
                 ResponseUtil.ResponseArgsMissing(resp);
                 return;
             }
+            if (fileItems.size() > 5) {
+                status.setMsg("one pic only!");
+                ResponseUtil.Render(resp, status);
+                return;
+            }
             for (FileItem fileItem : fileItems) {
-                if (!fileItem.isFormField()&&fileItem.getFieldName().equals("picURL")) {
-                    //重命名文件为账户id+后缀名
-                    String savename = phoneNumber +System.currentTimeMillis()/100000+ fileItem.getName().substring(fileItem.getName().lastIndexOf("."));
-                    File file = new File(UPLOAD_BASE, savename);
-                    if (file.getParentFile().exists())
-                        fileItem.write(file);
-                    else {
-                        if (file.getParentFile().mkdir())
-                            fileItem.write(file);
-                        else {
-                            status.setMsg("创建文件失败");
-                            ResponseUtil.Render(resp, status);
-                            return;
+                String type = fileItem.getContentType();
+                if (!fileItem.isFormField()) {//是文件
+                    if (fileItem.getFieldName().equals("picURL")) {//是picURL
+                        if (type.substring(0, type.lastIndexOf("/")).equals("image")) {//的确是图片
+                            //重命名文件为账户id+后缀名
+                            String savename = phoneNumber + System.currentTimeMillis() / 100000 + fileItem.getName().substring(fileItem.getName().lastIndexOf("."));
+                            File file = new File(UPLOAD_BASE, savename);
+                            if (file.getParentFile().exists())
+                                fileItem.write(file);
+                            else {
+                                if (file.getParentFile().mkdir())
+                                    fileItem.write(file);
+                                else {
+                                    status.setMsg("创建文件失败");
+                                    ResponseUtil.Render(resp, status);
+                                    return;
+                                }
+                            }
+                            picUrl = "/img/certificates/" + savename;
+                            break;//只需要一张图
                         }
                     }
-                    picUrl = "/img/certificates/" + savename;
-                    break;
                 }
             }
         } catch (Exception e) {
             ResponseUtil.ResponseError(resp, e);
         }
-
-/*        String ID = req.getParameter("ID");
-        String realname = req.getParameter("realname");
-        String contact = req.getParameter("contact");
-        String address = req.getParameter("address");
-        String IDPicUrl = req.getParameter("picURL");
-        if (ID == null || realname == null || contact == null || address == null || IDPicUrl == null) {
-            ResponseUtil.ResponseArgsMissing(resp);
-            return;
-        }*/
         Certificate certificate = new Certificate(phoneNumber, map.get("ID"), map.get("realname"), map.get("contact"), map.get("address"), picUrl, 1, "");
         try {
             UserDAOProxy userDAOProxy = new UserDAOProxy();
@@ -98,10 +109,5 @@ public class SubmitCertificateServlet extends HttpServlet {
             status.setContent("SQLError", e.toString());
             ResponseUtil.Render(resp, status);
         }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
     }
 }

@@ -18,6 +18,7 @@ import java.util.List;
 public class TestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Access-Control-Allow-Origin","*");
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("UTF-8");
@@ -41,14 +42,14 @@ public class TestServlet extends HttpServlet {
                     if (item.isFormField()) {
                         String name = item.getFieldName();
                         String value = item.getString();
-                        resp.getWriter().print(name + "\t" + value);
+                        resp.getWriter().println(name + "\t" + value);
                     } else {
                         String name = item.getName();
                         String field = item.getFieldName();
                         long size = item.getSize();
                         String type = item.getContentType();
                         String url = "/testcore/" + name;
-                        resp.getWriter().println(field + "\t" + type + "\t" + size + "kb\t" + url);
+                        resp.getWriter().println(field + "\t" + type + "\t" + size + "b\t" + url);
                         File file = new File(getServletConfig().getServletContext().getRealPath("testcore"), name);
                         if (!file.getParentFile().exists()) {
                             if (file.getParentFile().mkdir())

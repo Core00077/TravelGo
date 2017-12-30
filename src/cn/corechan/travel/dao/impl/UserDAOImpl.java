@@ -221,6 +221,8 @@ public class UserDAOImpl implements IUserDAO {
                     }
                     status.setData(msg);
                 }
+                else
+                    status.setStatus("IDNotExist");
             }
         }
         return status;
