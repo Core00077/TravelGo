@@ -22,33 +22,51 @@ public class OrderDAOProxy implements IOrderDAO {
     public Status CreateOrder(Order order) throws SQLException {
         try {
             return orderDAO.CreateOrder(order);
-        }finally {
+        } finally {
             dbc.close();
         }
     }
 
     @Override
     public Order FindOrder(String orderId) throws SQLException {
-        try{
+        try {
             return orderDAO.FindOrder(orderId);
-        }finally {
+        } finally {
             dbc.close();
         }
     }
 
     @Override
     public Status FindOrders(String phoneNumber) throws SQLException {
-        try{
+        try {
             return orderDAO.FindOrders(phoneNumber);
+        } finally {
+            dbc.close();
+        }
+    }
+
+    @Override
+    public boolean ChangeOrderStatus(String orderId, int s) throws SQLException {
+        try {
+            return orderDAO.ChangeOrderStatus(orderId, s);
+        } finally {
+            dbc.close();
+        }
+    }
+
+    @Override
+    public Status CommentOrder(String orderId) throws SQLException {
+        try {
+            return orderDAO.CommentOrder(orderId);
         }finally {
             dbc.close();
         }
     }
 
     @Override
-    public boolean ChangeOrderStatus(String orderId,int s) throws SQLException {
-        try{
-            return orderDAO.ChangeOrderStatus(orderId, s);
+    public Status PayOrder(String orderId) throws SQLException {
+        try {
+            return orderDAO.PayOrder(orderId);
         }finally {
             dbc.close();
         }
@@ -58,16 +76,16 @@ public class OrderDAOProxy implements IOrderDAO {
     public Status CancelOrderCustomer(String orderId) throws SQLException {
         try {
             return orderDAO.CancelOrderCustomer(orderId);
-        }finally {
+        } finally {
             dbc.close();
         }
     }
 
     @Override
     public Status CancelOrderSeller(String orderId) throws SQLException {
-        try{
+        try {
             return orderDAO.CancelOrderSeller(orderId);
-        }finally {
+        } finally {
             dbc.close();
         }
     }

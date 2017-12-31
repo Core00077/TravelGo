@@ -227,4 +227,40 @@
         <servlet-name>FindOrders</servlet-name>
         <url-pattern>/findOrders</url-pattern>
     </servlet-mapping>
+    <!--订单付款-->
+    <servlet>
+        <servlet-name>PayOrder</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.PayOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PayOrder</servlet-name>
+        <url-pattern>/payOrder</url-pattern>
+    </servlet-mapping>
+    <!--订单评论-->
+    <servlet>
+        <servlet-name>CommentOrder</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CommentOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommentOrder</servlet-name>
+        <url-pattern>/commentOrder</url-pattern>
+    </servlet-mapping>
+    <!--买家订单取消-->
+    <servlet>
+        <servlet-name>CancelOrderCustomer</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CancelOrderCustomerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CancelOrderCustomer</servlet-name>
+        <url-pattern>/cancelOrderCustomer</url-pattern>
+    </servlet-mapping>
+    <!--卖家订单取消-->
+    <servlet>
+        <servlet-name>CancelOrderSeller</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CancelOrderSellerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CancelOrderSeller</servlet-name>
+        <url-pattern>/cancelOrderSeller</url-pattern>
+    </servlet-mapping>
 </web-app>

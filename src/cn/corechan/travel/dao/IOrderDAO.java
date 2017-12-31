@@ -14,6 +14,10 @@ public interface IOrderDAO {
 
     boolean ChangeOrderStatus(String orderId,int s) throws SQLException;
 
+    Status CommentOrder(String orderId) throws SQLException;
+
+    Status PayOrder(String orderId) throws SQLException;
+
     Status CancelOrderCustomer(String orderId) throws SQLException;
 
     Status CancelOrderSeller(String orderId) throws SQLException;

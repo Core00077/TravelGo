@@ -2,6 +2,7 @@ package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IOrderDAO;
 import cn.corechan.travel.json.Status;
+import cn.corechan.travel.servlet.order.FindOrdersServlet;
 import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.Order;
 
@@ -64,6 +65,106 @@ public class OrderDAOImpl implements IOrderDAO {
     }
 
     @Override
+    public Status FindOrders(String phoneNumber) throws SQLException {
+        Status status = new Status();
+        String orderIdsSQL = "SELECT orderId FROM `order` WHERE phonenumber=?";
+        List<Order> orders = new ArrayList<>();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(orderIdsSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    orders.add(FindOrder(resultSet.getString("orderId")));
+                }
+            }
+            status.setData(orders);
+            status.setContent("success", "Orders found successfully!");
+        }
+        return status;
+    }
+
+    @Override
+    public Status CommentOrder(String orderId) throws SQLException {
+        Order order = FindOrder(orderId);
+        Status status = new Status();
+        if (order == null) {
+            status.setContent("OrderNotExist", "Order Not Exists");
+            return status;
+        }
+        if (order.getStatus() == 2) {
+            if (ChangeOrderStatus(orderId, 3)) {
+                status.setContent("success", "Comment submitted successfully!");
+            }
+        } else {
+            status.setContent("Invalid", "The order status is wrong!");
+        }
+        return status;
+    }
+
+    @Override
+    public Status PayOrder(String orderId) throws SQLException {
+        Order order = FindOrder(orderId);
+        Status status = new Status();
+        if (order == null) {
+            status.setContent("OrderNotExist", "Order Not Exists");
+            return status;
+        }
+        if (order.getStatus() == 0) {
+            if (ChangeOrderStatus(orderId, 1)) {
+                status.setContent("success", "Payed successfully!");
+            }
+        } else {
+            status.setContent("Invalid", "The order status is wrong!");
+        }
+        return status;
+    }
+
+    @Override
+    public Status CancelOrderCustomer(String orderId) throws SQLException {
+        Order order = FindOrder(orderId);
+        Status status = new Status();
+        if (order == null) {
+            status.setContent("OrderNotExist", "Order Not Exists");
+            return status;
+        }
+        if (order.getStatus() == 2 || order.getStatus() == 3 || order.getStatus() == -1) {
+            status.setContent("Invalid", "The order status is wrong!");
+            return status;
+        }
+        boolean cancel = !order.isCustomCancel();
+        String cancelSQL = "UPDATE `order` SET customCancel=? WHERE orderId=?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(cancelSQL)) {
+            preparedStatement.setBoolean(1, cancel);
+            preparedStatement.setString(2, orderId);
+            if (preparedStatement.executeUpdate() > 0)
+                status.setContent("success", "update cancel status successfully!");
+        }
+        return status;
+    }
+
+    @Override
+    public Status CancelOrderSeller(String orderId) throws SQLException {
+        Order order = FindOrder(orderId);
+        Status status = new Status();
+        if (order == null) {
+            status.setContent("OrderNotExist", "Order Not Exists");
+            return status;
+        }
+        if (order.getStatus() == 2 || order.getStatus() == 3 || order.getStatus() == -1) {
+            status.setContent("Invalid", "The order status is wrong!");
+            return status;
+        }
+        boolean cancel = !order.isSellerCancel();
+        String cancelSQL = "UPDATE `order` SET sellerCancel=? WHERE orderId=?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(cancelSQL)) {
+            preparedStatement.setBoolean(1, cancel);
+            preparedStatement.setString(2, orderId);
+            if (preparedStatement.executeUpdate() > 0)
+                status.setContent("success", "update cancel status successfully!");
+        }
+        return status;
+    }
+
+    @Override
     public Order FindOrder(String orderId) throws SQLException {
         Order order = null;
         String orderSQL = "SELECT * FROM `order` WHERE orderId=?";
@@ -94,37 +195,24 @@ public class OrderDAOImpl implements IOrderDAO {
                             orderContacts);
                     //检查订单是否已过出行时间，如果已过，订单若未付款，则取消订单，若已付款，则更新状态
                     if (order.getGotime().compareTo(String.valueOf(System.currentTimeMillis())) < 0) {
-                        if(order.getStatus()==0){
+                        if (order.getStatus() == 0) {
                             order.setStatus(-1);
-                            ChangeOrderStatus(order.getOrderId(),-1);
+                            ChangeOrderStatus(order.getOrderId(), -1);
                         }
-                        if(order.getStatus()==1) {
+                        if (order.getStatus() == 1) {
                             order.setStatus(2);
                             ChangeOrderStatus(order.getOrderId(), 2);
                         }
+                    }
+                    //检查买家卖家是否均取消订单
+                    if (order.isSellerCancel() && order.isCustomCancel()) {
+                        order.setStatus(-1);
+                        ChangeOrderStatus(order.getOrderId(), -1);
                     }
                 }
             }
         }
         return order;
-    }
-
-    @Override
-    public Status FindOrders(String phoneNumber) throws SQLException {
-        Status status = new Status();
-        String orderIdsSQL = "SELECT orderId FROM `order` WHERE phonenumber=?";
-        List<Order> orders = new ArrayList<>();
-        try (PreparedStatement preparedStatement = conn.prepareStatement(orderIdsSQL)) {
-            preparedStatement.setString(1, phoneNumber);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    orders.add(FindOrder(resultSet.getString("orderId")));
-                }
-            }
-            status.setData(orders);
-            status.setContent("success", "Orders found successfully!");
-        }
-        return status;
     }
 
     @Override
@@ -138,15 +226,5 @@ public class OrderDAOImpl implements IOrderDAO {
             }
         }
         return false;
-    }
-
-    @Override
-    public Status CancelOrderCustomer(String orderId) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Status CancelOrderSeller(String orderId) throws SQLException {
-        return null;
     }
 }
