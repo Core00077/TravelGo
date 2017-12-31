@@ -227,6 +227,15 @@
         <servlet-name>FindOrders</servlet-name>
         <url-pattern>/findOrders</url-pattern>
     </servlet-mapping>
+    <!--卖家订单查询-->
+    <servlet>
+        <servlet-name>FindSellerOrders</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.FindSellerOrdersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindSellerOrders</servlet-name>
+        <url-pattern>/findSellerOrders</url-pattern>
+    </servlet-mapping>
     <!--订单付款-->
     <servlet>
         <servlet-name>PayOrder</servlet-name>

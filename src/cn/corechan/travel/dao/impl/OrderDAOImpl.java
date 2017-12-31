@@ -65,6 +65,24 @@ public class OrderDAOImpl implements IOrderDAO {
     }
 
     @Override
+    public Status FindSellerOrders(String phoneNumber) throws SQLException {
+        String sellerOrdersSQL="SELECT orderId FROM `order` JOIN good ON `order`.goodId = good.Id WHERE seller=?";
+        Status status=new Status();
+        List<Order> orders=new ArrayList<>();
+        try(PreparedStatement preparedStatement=conn.prepareStatement(sellerOrdersSQL)){
+            preparedStatement.setString(1,phoneNumber);
+            try(ResultSet resultSet=preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    orders.add(FindOrder(resultSet.getString(1)));
+                }
+                status.setContent("success","Find Seller Orders successfully!");
+                status.setData(orders);
+            }
+        }
+        return status;
+    }
+
+    @Override
     public Status FindOrders(String phoneNumber) throws SQLException {
         Status status = new Status();
         String orderIdsSQL = "SELECT orderId FROM `order` WHERE phonenumber=?";
