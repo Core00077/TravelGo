@@ -113,4 +113,13 @@ public class UserDAOProxy implements IUserDAO {
         }
     }
 
+    @Override
+    public Status findContacts(String phoneNumber) throws SQLException {
+        try{
+            return userDAO.findContacts(phoneNumber);
+        }finally {
+            dbc.close();
+        }
+    }
+
 }

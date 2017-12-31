@@ -1,6 +1,6 @@
-package cn.corechan.travel.servlet.order;
+package cn.corechan.travel.servlet.user;
 
-import cn.corechan.travel.dao.proxy.OrderDAOProxy;
+import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
 
@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class FindOrdersServlet extends HttpServlet {
+public class findContactsServlet extends HttpServlet{
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("UTF-8");
@@ -23,10 +23,10 @@ public class FindOrdersServlet extends HttpServlet {
             return;
         }
         try {
-            OrderDAOProxy orderDAOProxy=new OrderDAOProxy();
-            Status status=orderDAOProxy.FindOrders(phoneNumber);
+            UserDAOProxy userDAOProxy=new UserDAOProxy();
+            Status status=userDAOProxy.findContacts(phoneNumber);
             ResponseUtil.Render(resp,status);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(resp,e);
         }
     }

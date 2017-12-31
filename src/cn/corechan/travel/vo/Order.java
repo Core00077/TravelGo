@@ -9,25 +9,41 @@ public class Order {
     private String phoneNumber;
     private String ordertime;
     private String gotime;
-    private int people=0;
+    private int people;
     private String note;
-    private int status = 0;//-1为取消订单；0为未支付；1为已支付未出行；2为过了出行时间已出行待评价；3为已评价
-    private boolean customCancel = false;
-    private boolean sellerCancel = false;
-    private List<Contact> userContacts=new ArrayList<>();
+    private int status;//-1为取消订单；0为未支付；1为已支付未出行；2为过了出行时间已出行待评价；3为已评价
+    private boolean customCancel;
+    private boolean sellerCancel;
+    private List<Contact> contacts;
 
-    public Order(String goodId, String phoneNumber, String gotime, int people, String note, List<Contact> userContacts) {
+    //创建订单构造方法
+    public Order(String goodId, String phoneNumber, String gotime, int people, String note, List<Contact> contacts) {
         this.goodId = goodId;
         this.phoneNumber = phoneNumber;
         this.gotime = gotime;
         this.people = people;
         this.note = note;
-        this.ordertime=String.valueOf(System.currentTimeMillis());
-        this.orderId=phoneNumber.substring(7)+this.ordertime.substring(0,11);
-        this.status=0;
-        this.customCancel=false;
-        this.sellerCancel=false;
-        this.userContacts=userContacts;
+        this.ordertime = String.valueOf(System.currentTimeMillis());
+        this.orderId = phoneNumber.substring(5) + this.ordertime.substring(0, 12);
+        this.status = 0;
+        this.customCancel = false;
+        this.sellerCancel = false;
+        this.contacts = contacts;
+    }
+    //获得订单构造方法
+
+    public Order(String orderId, String goodId, String phoneNumber, String ordertime, String gotime, int people, String note, int status, boolean customCancel, boolean sellerCancel, List<Contact> contacts) {
+        this.orderId = orderId;
+        this.goodId = goodId;
+        this.phoneNumber = phoneNumber;
+        this.ordertime = ordertime;
+        this.gotime = gotime;
+        this.people = people;
+        this.note = note;
+        this.status = status;
+        this.customCancel = customCancel;
+        this.sellerCancel = sellerCancel;
+        this.contacts = contacts;
     }
 
     public void setGotime(String gotime) {
@@ -86,7 +102,7 @@ public class Order {
         return sellerCancel;
     }
 
-    public List<Contact> getUserContacts() {
-        return userContacts;
+    public List<Contact> getContacts() {
+        return contacts;
     }
 }

@@ -3,12 +3,15 @@ package cn.corechan.travel.dao.impl;
 import cn.corechan.travel.dao.IUserDAO;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Certificate;
+import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.User;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl implements IUserDAO {
     private Connection conn;
@@ -109,6 +112,7 @@ public class UserDAOImpl implements IUserDAO {
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
+                    user.setUserContacts((List<Contact>) findContacts(phoneNumber).getData());
                     status.setContent("success", "");     // 更改状态码
                     status.setData(user);
                 }
@@ -223,6 +227,23 @@ public class UserDAOImpl implements IUserDAO {
                 }
                 else
                     status.setStatus("IDNotExist");
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public Status findContacts(String phoneNumber) throws SQLException {
+        Status status=new Status();
+        String findContactSQL="SELECT * FROM user_contacts WHERE userId=?";
+        List<Contact> userContacts=new ArrayList<>();
+        try(PreparedStatement preparedStatement=conn.prepareStatement(findContactSQL)){
+            preparedStatement.setString(1,phoneNumber);
+            try(ResultSet resultSet=preparedStatement.executeQuery()){
+                while (resultSet.next())
+                    userContacts.add(new Contact(resultSet.getString("name"),resultSet.getString("phonenumber")));
+                status.setData(userContacts);
+                status.setContent("success","find user contacts successfully!");
             }
         }
         return status;

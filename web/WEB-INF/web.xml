@@ -209,4 +209,22 @@
         <servlet-name>ChangeCertificate</servlet-name>
         <url-pattern>/changeCertificate</url-pattern>
     </servlet-mapping>
+    <!--订单创建-->
+    <servlet>
+        <servlet-name>CreateOrder</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CreateOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateOrder</servlet-name>
+        <url-pattern>/createOrder</url-pattern>
+    </servlet-mapping>
+    <!--订单查询-->
+    <servlet>
+        <servlet-name>FindOrders</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.FindOrdersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindOrders</servlet-name>
+        <url-pattern>/findOrders</url-pattern>
+    </servlet-mapping>
 </web-app>
