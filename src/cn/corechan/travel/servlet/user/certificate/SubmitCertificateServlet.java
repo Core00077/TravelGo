@@ -66,7 +66,7 @@ public class SubmitCertificateServlet extends HttpServlet {
                 return;
             }
             if (fileItems.size() > 5) {
-                status.setMsg("one pic only!");
+                status.setMsg("too many args!");
                 ResponseUtil.Render(resp, status);
                 return;
             }

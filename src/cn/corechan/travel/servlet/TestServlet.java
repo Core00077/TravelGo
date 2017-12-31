@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -63,6 +64,16 @@ public class TestServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(req.getContentType().equals("application/json")){
+            InputStream inputStream=req.getInputStream();
+            byte[] buffer=new byte[1024];
+            StringBuilder sb=new StringBuilder();
+            int len;
+            while ((len=inputStream.read(buffer))>0){
+                sb.append(new String(buffer).substring(0,len));
+            }
+            System.out.println(sb);
         }
     }
 
