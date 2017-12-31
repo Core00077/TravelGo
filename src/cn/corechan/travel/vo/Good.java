@@ -1,5 +1,6 @@
 package cn.corechan.travel.vo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Good {
@@ -11,7 +12,7 @@ public class Good {
     private List<String> pictures;
     private String description;
     private String comment;
-    private String seller;
+    private HashMap<String, String> seller;
     private String pubtime;
 
 
@@ -82,11 +83,11 @@ public class Good {
         this.comment = comment;
     }
 
-    public String getSeller() {
+    public HashMap<String, String> getSeller() {
         return seller;
     }
 
-    public void setSeller(String seller) {
+    public void setSeller(HashMap<String, String> seller) {
         this.seller = seller;
     }
 

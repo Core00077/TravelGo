@@ -118,7 +118,9 @@ public class PublishGoodServlet extends HttpServlet {
         good.setRoute(URLDecoder.decode(map.get("route"), "UTF-8"));
         good.setDescription(URLDecoder.decode(map.get("description"), "UTF-8"));
         good.setPictures(picUrls);
-        good.setSeller(phoneNumber);
+        HashMap<String ,String > seller=new HashMap<>();
+        seller.put("phoneNumber",phoneNumber);
+        good.setSeller(seller);
         good.setPubtime(String.valueOf(timer));
         try {
             status = new GoodDAOProxy().publishGood(good);

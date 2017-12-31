@@ -1,8 +1,10 @@
 package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IGoodDAO;
+import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Good;
+import cn.corechan.travel.vo.User;
 import com.mysql.jdbc.Statement;
 
 import java.io.UnsupportedEncodingException;
@@ -13,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GoodDAOImpl implements IGoodDAO {
@@ -61,8 +64,15 @@ public class GoodDAOImpl implements IGoodDAO {
                         if (str != null)
                             good.setComment(URLEncoder.encode(str, "UTF-8"));
                         str = rsetGood.getString(7);
-                        if (str != null)
-                            good.setSeller(URLEncoder.encode(str, "UTF-8"));
+                        if (str != null) {
+                            UserDAOProxy userDAOProxy=new UserDAOProxy();
+                            User user= (User) userDAOProxy.findByPhoneNumber(str).getData();
+                            HashMap<String,String> seller=new HashMap<>();
+                            seller.put("phoneNumber",user.getPhoneNumber());
+                            seller.put("name",user.getName());
+                            seller.put("headPicture",user.getHeadPictrue());
+                            good.setSeller(seller);
+                        }
                         str = rsetGood.getString(8);
                         if (str != null)
                             good.setPubtime(URLEncoder.encode(str, "UTF-8"));
@@ -175,7 +185,7 @@ public class GoodDAOImpl implements IGoodDAO {
             pst.setString(4, good.getCity());
             pst.setString(5, good.getRoute());
             pst.setString(6, good.getDescription());
-            pst.setString(7, good.getSeller());
+            pst.setString(7, good.getSeller().get("phoneNumber"));
             pst.setString(8,good.getPubtime());
             if (pst.executeUpdate() > 0) {
                 String goodId = good.getId();
