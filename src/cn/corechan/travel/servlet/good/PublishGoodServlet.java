@@ -31,7 +31,7 @@ public class PublishGoodServlet extends HttpServlet {
     private ServletFileUpload upload;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext servletContext = config.getServletContext();
         UPLOAD_BASE = servletContext.getRealPath("/img/goods");
         UPLOAD_BASE_TEMP = servletContext.getRealPath("/img/goods/temp");
@@ -100,32 +100,21 @@ public class PublishGoodServlet extends HttpServlet {
             }
         } catch (Exception e) {
             ResponseUtil.ResponseError(resp, e);
-        }
-//老代码，使用parameter+两个接口方案
-/*        String rawPicUrls = req.getParameter("picUrls");
-        String rawName = req.getParameter("name");
-        String rawPrice = req.getParameter("price");
-        String rawCity = req.getParameter("city");
-        String rawRoute = req.getParameter("route");
-        String rawDescription = req.getParameter("description");
-        if (rawPicUrls == null || rawName == null || rawPrice == null || rawCity == null || rawDescription == null) {
-            ResponseUtil.ResponseArgsMissing(resp);
             return;
         }
-        //将string数组转换为arrayList
-        ArrayList<String> picUrls = new ArrayList<>(Arrays.asList(rawPicUrls.split(",")));
-
-        String name = URLDecoder.decode(rawName, "utf-8");
-        double price = Double.parseDouble(rawPrice);
-        String city = URLDecoder.decode(rawCity, "utf-8");
-        String route = URLDecoder.decode(rawRoute, "utf-8");
-        String description = URLDecoder.decode(rawDescription, "utf-8");
-*/
+//老代码，使用parameter+两个接口方案
         Good good = new Good();
         good.setId(id);
         good.setName(URLDecoder.decode(map.get("name"), "utf-8"));
-        good.setPrice(Double.parseDouble(map.get("price")));
-        good.setCity(URLDecoder.decode(map.get("city"), "UTF-8"));
+        try {
+            good.setPrice(Double.parseDouble(map.get("price")));
+        }catch (NumberFormatException e){
+            status.setContent("format error","价格请输入数字！");
+            status.setData(null);
+            ResponseUtil.Render(resp,status);
+            return;
+        }
+            good.setCity(URLDecoder.decode(map.get("city"), "UTF-8"));
         good.setRoute(URLDecoder.decode(map.get("route"), "UTF-8"));
         good.setDescription(URLDecoder.decode(map.get("description"), "UTF-8"));
         good.setPictures(picUrls);
