@@ -32,7 +32,8 @@ public class GoodDAOImpl implements IGoodDAO {
         status.setContent("goodNotExist", "");
         status.setData(null);
         // 查询
-        String queryGood = "SELECT name,price,city,route,description,comment,seller,pubtime FROM good WHERE Id=?";
+        String queryGood = "SELECT good.name,price,city,route,description,comment,seller,pubtime,phonenumber,usertable.name,headPicture " +
+                "FROM good JOIN travelgo.usertable ON seller=usertable.phonenumber WHERE Id=?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
              PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
@@ -65,12 +66,10 @@ public class GoodDAOImpl implements IGoodDAO {
                             good.setComment(URLEncoder.encode(str, "UTF-8"));
                         str = rsetGood.getString(7);
                         if (str != null) {
-                            UserDAOProxy userDAOProxy=new UserDAOProxy();
-                            User user= (User) userDAOProxy.findByPhoneNumber(str).getData();
                             HashMap<String,String> seller=new HashMap<>();
-                            seller.put("phoneNumber",user.getPhoneNumber());
-                            seller.put("name",user.getName());
-                            seller.put("headPicture",user.getHeadPictrue());
+                            seller.put("phoneNumber",rsetGood.getString(9));
+                            seller.put("name",rsetGood.getString(10));
+                            seller.put("headPicture",rsetGood.getString(11));
                             good.setSeller(seller);
                         }
                         str = rsetGood.getString(8);
