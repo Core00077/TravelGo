@@ -11,6 +11,7 @@ public class User {
     private String realName;
     private String hometown;
     private String introduction;
+    private String headPictrue;
     private List<Contact> userContacts=new ArrayList<>();
 
 
@@ -76,5 +77,13 @@ public class User {
 
     public void setUserContacts(List<Contact> userContacts) {
         this.userContacts = userContacts;
+    }
+
+    public String getHeadPictrue() {
+        return headPictrue;
+    }
+
+    public void setHeadPictrue(String headPictrue) {
+        this.headPictrue = headPictrue;
     }
 }

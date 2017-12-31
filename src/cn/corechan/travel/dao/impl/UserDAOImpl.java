@@ -86,7 +86,7 @@ public class UserDAOImpl implements IUserDAO {
         status.setData(null);
 
         // 查询
-        String sql = "SELECT name,pwd,sex,realname,hometown,introduction FROM usertable WHERE phonenumber=?";
+        String sql = "SELECT name,pwd,sex,realname,hometown,introduction,headPicture FROM usertable WHERE phonenumber=?";
         try (PreparedStatement pstmt = this.conn.prepareStatement(sql)) {
             pstmt.setString(1, phoneNumber);
             try (ResultSet rset = pstmt.executeQuery()) {
@@ -109,6 +109,7 @@ public class UserDAOImpl implements IUserDAO {
                         if (introduction != null) {
                             user.setIntroduction(URLEncoder.encode(introduction, "UTF-8"));
                         }
+                        user.setHeadPictrue(rset.getString(7));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
