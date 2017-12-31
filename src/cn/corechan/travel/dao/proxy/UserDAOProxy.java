@@ -6,6 +6,7 @@ import cn.corechan.travel.dbc.DatabaseConnection;
 import cn.corechan.travel.factory.DatabaseConnectionFactor;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Certificate;
+import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.User;
 
 import java.sql.SQLException;
@@ -114,10 +115,19 @@ public class UserDAOProxy implements IUserDAO {
     }
 
     @Override
+    public Status addContact(String phoneNumber, Contact contact) throws SQLException {
+        try {
+            return userDAO.addContact(phoneNumber, contact);
+        } finally {
+            dbc.close();
+        }
+    }
+
+    @Override
     public Status findContacts(String phoneNumber) throws SQLException {
-        try{
+        try {
             return userDAO.findContacts(phoneNumber);
-        }finally {
+        } finally {
             dbc.close();
         }
     }

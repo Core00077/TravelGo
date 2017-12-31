@@ -225,8 +225,7 @@ public class UserDAOImpl implements IUserDAO {
                             break;
                     }
                     status.setData(msg);
-                }
-                else
+                } else
                     status.setStatus("IDNotExist");
             }
         }
@@ -234,17 +233,50 @@ public class UserDAOImpl implements IUserDAO {
     }
 
     @Override
+    public Status addContact(String phoneNumber, Contact contact) throws SQLException {
+        Status status = new Status();
+        if (checkContact(phoneNumber, contact)) {
+            status.setContent("ContactExists", "Contact already exists!");
+            return status;
+        }
+        String contactInsertSQL = "INSERT INTO user_contacts(userId, name, phonenumber) VALUES (?,?,?)";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(contactInsertSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            preparedStatement.setString(2, contact.getName());
+            preparedStatement.setString(3, contact.getPhoneNumber());
+            if (preparedStatement.executeUpdate() > 0) {
+                status.setContent("success", "Contact added successfully!");
+            }
+        }
+        return status;
+    }
+
+    public boolean checkContact(String phoneNumber, Contact contact) throws SQLException {
+        String findContactSQL = "SELECT * FROM user_contacts WHERE userId=? AND name=? AND phonenumber=?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(findContactSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            preparedStatement.setString(2, contact.getName());
+            preparedStatement.setString(3, contact.getPhoneNumber());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    }
+
+    @Override
     public Status findContacts(String phoneNumber) throws SQLException {
-        Status status=new Status();
-        String findContactSQL="SELECT * FROM user_contacts WHERE userId=?";
-        List<Contact> userContacts=new ArrayList<>();
-        try(PreparedStatement preparedStatement=conn.prepareStatement(findContactSQL)){
-            preparedStatement.setString(1,phoneNumber);
-            try(ResultSet resultSet=preparedStatement.executeQuery()){
+        Status status = new Status();
+        String findContactSQL = "SELECT * FROM user_contacts WHERE userId=?";
+        List<Contact> userContacts = new ArrayList<>();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(findContactSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
-                    userContacts.add(new Contact(resultSet.getString("name"),resultSet.getString("phonenumber")));
+                    userContacts.add(new Contact(URLEncoder.encode(resultSet.getString("name"), "UTF-8"), URLEncoder.encode(resultSet.getString("phonenumber"), "UTF-8")));
                 status.setData(userContacts);
-                status.setContent("success","find user contacts successfully!");
+                status.setContent("success", "find user contacts successfully!");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
         }
         return status;

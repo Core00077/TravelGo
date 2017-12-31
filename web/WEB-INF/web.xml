@@ -263,4 +263,13 @@
         <servlet-name>CancelOrderSeller</servlet-name>
         <url-pattern>/cancelOrderSeller</url-pattern>
     </servlet-mapping>
+    <!--新增常用联系人-->
+    <servlet>
+        <servlet-name>AddContact</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.AddContactServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddContact</servlet-name>
+        <url-pattern>/addContact</url-pattern>
+    </servlet-mapping>
 </web-app>
