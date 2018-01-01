@@ -210,7 +210,8 @@ public class OrderDAOImpl implements IOrderDAO {
                             resultSet.getInt("status"),
                             resultSet.getBoolean("customCancel"),
                             resultSet.getBoolean("sellerCancel"),
-                            orderContacts);
+                            orderContacts,null,null
+                            );
                     //检查订单是否已过出行时间，如果已过，订单若未付款，则取消订单，若已付款，则更新状态
                     if (order.getGotime().compareTo(String.valueOf(System.currentTimeMillis())) < 0) {
                         if (order.getStatus() == 0) {

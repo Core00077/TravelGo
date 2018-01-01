@@ -1,6 +1,6 @@
 package cn.corechan.travel.vo;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Order {
@@ -15,6 +15,8 @@ public class Order {
     private boolean customCancel;
     private boolean sellerCancel;
     private List<Contact> contacts;
+    private HashMap<String,String> seller;
+    private HashMap<String,String> good;
 
     //创建订单构造方法
     public Order(String goodId, String phoneNumber, String gotime, int people, String note, List<Contact> contacts) {
@@ -32,7 +34,7 @@ public class Order {
     }
     //获得订单构造方法
 
-    public Order(String orderId, String goodId, String phoneNumber, String ordertime, String gotime, int people, String note, int status, boolean customCancel, boolean sellerCancel, List<Contact> contacts) {
+    public Order(String orderId, String goodId, String phoneNumber, String ordertime, String gotime, int people, String note, int status, boolean customCancel, boolean sellerCancel, List<Contact> contacts, HashMap<String, String> seller, HashMap<String, String> good) {
         this.orderId = orderId;
         this.goodId = goodId;
         this.phoneNumber = phoneNumber;
@@ -44,6 +46,8 @@ public class Order {
         this.customCancel = customCancel;
         this.sellerCancel = sellerCancel;
         this.contacts = contacts;
+        this.seller=seller;
+        this.good=good;
     }
 
     public void setGotime(String gotime) {

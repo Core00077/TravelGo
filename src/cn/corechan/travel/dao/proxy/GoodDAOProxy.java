@@ -42,6 +42,15 @@ public class GoodDAOProxy implements IGoodDAO {
         return status;
     }
 
+    @Override
+    public Status findBySeller(String phoneNumber) throws SQLException {
+        try {
+            return goodDAO.findBySeller(phoneNumber);
+        } finally {
+            dbc.close();
+        }
+    }
+
     public Status findLove(String phoneNumber) throws ClassNotFoundException, SQLException {
         Status loveStatus = new Status();
         loveStatus.setContent("failed", "");

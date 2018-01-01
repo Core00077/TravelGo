@@ -4,6 +4,7 @@ import cn.corechan.travel.dao.IUserDAO;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.Contact;
+import cn.corechan.travel.vo.Good;
 import cn.corechan.travel.vo.User;
 
 import java.io.UnsupportedEncodingException;
@@ -137,7 +138,8 @@ public class UserDAOImpl implements IUserDAO {
                     String picURL = resultSet.getString(6);
                     int s = resultSet.getInt(7);
                     String msg = resultSet.getString(8);
-                    Certificate certificate = new Certificate(phoneNumber, ID, realname, contact, address, picURL, s, msg);
+                    Certificate certificate = new Certificate(phoneNumber, ID, URLEncoder.encode(realname,"UTF-8"), contact,
+                            URLEncoder.encode(address,"UTF-8"), picURL, s, URLEncoder.encode(msg,"UTF-8"));
                     switch (s) {
                         case 0:
                             status.setContent("unpassed", "Certificate not passed!");
@@ -155,6 +157,8 @@ public class UserDAOImpl implements IUserDAO {
                 } else {
                     status.setContent("IDNotExist", "Certificate not exist!");
                 }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
         }
         return status;

@@ -97,7 +97,24 @@
         <servlet-name>FindGoodByCity</servlet-name>
         <url-pattern>/findGoodByCity</url-pattern>
     </servlet-mapping>
-
+    <!--通过卖家查找商品-->
+    <servlet>
+        <servlet-name>FindBySeller</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.FindBySellerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindBySeller</servlet-name>
+        <url-pattern>/findBySeller</url-pattern>
+    </servlet-mapping>
+    <!--查找卖家信息-->
+    <servlet>
+        <servlet-name>FindSeller</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.FindSellerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindSeller</servlet-name>
+        <url-pattern>/findSeller</url-pattern>
+    </servlet-mapping>
     <!-- 查找收藏夹详情 -->
     <servlet>
         <servlet-name>Love</servlet-name>

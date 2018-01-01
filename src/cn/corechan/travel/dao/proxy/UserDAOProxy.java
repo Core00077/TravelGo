@@ -52,13 +52,11 @@ public class UserDAOProxy implements IUserDAO {
 
     @Override
     public Status findByPhoneNumber(String phoneNumber) throws SQLException {
-        Status status;
         try {
-            status = userDAO.findByPhoneNumber(phoneNumber);
+           return userDAO.findByPhoneNumber(phoneNumber);
         } finally {
             dbc.close();
         }
-        return status;
     }
 
     public Status doLogin(String phoneNumber, String pwd) throws SQLException {

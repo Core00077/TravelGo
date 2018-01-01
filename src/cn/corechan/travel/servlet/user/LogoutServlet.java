@@ -16,7 +16,8 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(0);
-        session.removeAttribute("phoneNumber");
+        session.invalidate();
+//        session.removeAttribute("phoneNumber");
         Status status = new Status();
         status.setContent("success","Logout successfully!");
         ResponseUtil.Render(response, status);

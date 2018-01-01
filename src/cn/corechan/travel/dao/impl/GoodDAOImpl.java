@@ -66,10 +66,10 @@ public class GoodDAOImpl implements IGoodDAO {
                             good.setComment(URLEncoder.encode(str, "UTF-8"));
                         str = rsetGood.getString(7);
                         if (str != null) {
-                            HashMap<String,String> seller=new HashMap<>();
-                            seller.put("phoneNumber",rsetGood.getString(9));
-                            seller.put("name",rsetGood.getString(10));
-                            seller.put("headPicture",rsetGood.getString(11));
+                            HashMap<String, String> seller = new HashMap<>();
+                            seller.put("phoneNumber", rsetGood.getString(9));
+                            seller.put("name", rsetGood.getString(10));
+                            seller.put("headPicture", rsetGood.getString(11));
                             good.setSeller(seller);
                         }
                         str = rsetGood.getString(8);
@@ -146,6 +146,49 @@ public class GoodDAOImpl implements IGoodDAO {
     }
 
     @Override
+    public Status findBySeller(String phoneNumber) throws SQLException {
+        String findGoodsSQL = "SELECT Id, good.name,price,pubtime,seller,usertable.name,sex,introduction,headPicture FROM good JOIN usertable ON seller=usertable.phonenumber WHERE seller=?";
+        String findGoodPicSQL = "SELECT pictureURL FROM goodpicture WHERE goodId=? LIMIT 1;";
+        List<Good> goods = new ArrayList<>();
+        Status status = new Status();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(findGoodsSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Good good = new Good();
+                    good.setId(resultSet.getString("Id"));
+                    good.setName(URLEncoder.encode(resultSet.getString("good.name"),"UTF-8"));
+                    good.setPrice(Double.parseDouble(resultSet.getString("price")));
+                    good.setPubtime(resultSet.getString("pubtime"));
+                    try (PreparedStatement preparedStatement1 = conn.prepareStatement(findGoodPicSQL)) {
+                        preparedStatement1.setString(1, good.getId());
+                        try (ResultSet resultSet1 = preparedStatement1.executeQuery()) {
+                            if (resultSet1.next()) {
+                                List<String> pic = new ArrayList<>();
+                                pic.add(resultSet1.getString("pictureURL"));
+                                good.setPictures(pic);
+                            }
+                        }
+                    }
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("phoneNumber", resultSet.getString("seller"));
+                    map.put("name", resultSet.getString("usertable.name"));
+                    map.put("headPicture", resultSet.getString("headPicture"));
+                    map.put("sex",resultSet.getString("sex"));
+                    map.put("introduction",URLEncoder.encode(resultSet.getString("introduction"),"UTF-8"));
+                    good.setSeller(map);
+                    goods.add(good);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            status.setData(goods);
+            status.setContent("success", "seller goods found successfully!");
+        }
+        return status;
+    }
+
+    @Override
     public Status findAll() throws SQLException {
         // 初始化为查询失败
         Status status = new Status();
@@ -185,7 +228,7 @@ public class GoodDAOImpl implements IGoodDAO {
             pst.setString(5, good.getRoute());
             pst.setString(6, good.getDescription());
             pst.setString(7, good.getSeller().get("phoneNumber"));
-            pst.setString(8,good.getPubtime());
+            pst.setString(8, good.getPubtime());
             if (pst.executeUpdate() > 0) {
                 String goodId = good.getId();
                 List<String> picUrls = good.getPictures();

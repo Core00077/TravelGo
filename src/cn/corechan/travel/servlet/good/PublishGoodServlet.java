@@ -35,6 +35,8 @@ public class PublishGoodServlet extends HttpServlet {
         ServletContext servletContext = config.getServletContext();
         UPLOAD_BASE = servletContext.getRealPath("/img/goods");
         UPLOAD_BASE_TEMP = servletContext.getRealPath("/img/goods/temp");
+        new File(UPLOAD_BASE).mkdir();
+        new File(UPLOAD_BASE_TEMP).mkdir();
         upload = ServletFileUploadFactory.getMyUpload(UPLOAD_BASE_TEMP);
     }
 

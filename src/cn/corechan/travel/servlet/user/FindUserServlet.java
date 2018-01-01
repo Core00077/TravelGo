@@ -33,7 +33,7 @@ public class FindUserServlet extends HttpServlet {
             findStatus.setData(user);
             ResponseUtil.Render(response, findStatus);
         } catch (ClassNotFoundException | SQLException e) {
-            ResponseUtil.ResponseError(response);
+            ResponseUtil.ResponseError(response,e);
         }
     }
 }

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,9 @@ public class SubmitCertificateServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) {
         UPLOAD_BASE = config.getServletContext().getRealPath("/img/certificates");
-        UPLOAD_TEMP_BASE = config.getServletContext().getRealPath("/img/certificate/temp");
+        UPLOAD_TEMP_BASE = config.getServletContext().getRealPath("/img/certificates/temp");
+        new File(UPLOAD_BASE).mkdir();
+        new File(UPLOAD_TEMP_BASE).mkdir();
     }
 
     @Override
@@ -44,7 +47,7 @@ public class SubmitCertificateServlet extends HttpServlet {
         }
         try {
             status = new UserDAOProxy().checkCertificate(phoneNumber);
-            if (!status.getStatus().equals("IDNotExist") || !status.getStatus().equals("unpassed")) {
+            if (status.getStatus().equals("verifying") || status.getStatus().equals("passed")) {
                 ResponseUtil.Render(resp, status);
                 return;
             }
@@ -61,7 +64,7 @@ public class SubmitCertificateServlet extends HttpServlet {
                     map.put(fileItem.getFieldName(), fileItem.getString());
                 }
             }
-            if (map.get("ID") == null || map.get("realname") == null || map.get("contact") == null || map.get("address") == null) {
+            if (fileItems.size() < 5 || map.get("ID") == null || map.get("realname") == null || map.get("contact") == null || map.get("address") == null) {
                 ResponseUtil.ResponseArgsMissing(resp);
                 return;
             }
@@ -76,7 +79,7 @@ public class SubmitCertificateServlet extends HttpServlet {
                     if (fileItem.getFieldName().equals("picURL")) {//是picURL
                         if (type.substring(0, type.lastIndexOf("/")).equals("image")) {//的确是图片
                             //重命名文件为账户id+后缀名
-                            String savename = phoneNumber + System.currentTimeMillis() / 100000 + fileItem.getName().substring(fileItem.getName().lastIndexOf("."));
+                            String savename = phoneNumber + fileItem.getName().substring(fileItem.getName().lastIndexOf("."));
                             File file = new File(UPLOAD_BASE, savename);
                             if (file.getParentFile().exists())
                                 fileItem.write(file);
@@ -97,8 +100,10 @@ public class SubmitCertificateServlet extends HttpServlet {
             }
         } catch (Exception e) {
             ResponseUtil.ResponseError(resp, e);
+            return;
         }
-        Certificate certificate = new Certificate(phoneNumber, map.get("ID"), map.get("realname"), map.get("contact"), map.get("address"), picUrl, 1, "");
+        Certificate certificate = new Certificate(phoneNumber, map.get("ID"), URLDecoder.decode(map.get("realname"), "UTF-8"),
+                map.get("contact"), URLDecoder.decode(map.get("address"), "UTF-8"), picUrl, 1, "");
         try {
             UserDAOProxy userDAOProxy = new UserDAOProxy();
             status = userDAOProxy.doCertificate(certificate);
