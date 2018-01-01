@@ -6,15 +6,37 @@ import cn.corechan.travel.servlet.order.FindOrdersServlet;
 import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.Order;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class OrderDAOImpl implements IOrderDAO {
     private Connection conn;
+
+    private String getViewTable(int s) {
+        String table = "order_";
+        switch (s) {
+            case 0:
+                table += "unpay";
+                break;
+            case 1:
+                table += "ungo";
+                break;
+            case 2:
+                table += "uncomment";
+                break;
+            case 3:
+                table += "finished";
+                break;
+        }
+        return table;
+    }
 
     public OrderDAOImpl(Connection conn) {
         this.conn = conn;
@@ -65,17 +87,18 @@ public class OrderDAOImpl implements IOrderDAO {
     }
 
     @Override
-    public Status FindSellerOrders(String phoneNumber) throws SQLException {
-        String sellerOrdersSQL="SELECT orderId FROM `order` JOIN good ON `order`.goodId = good.Id WHERE seller=?";
-        Status status=new Status();
-        List<Order> orders=new ArrayList<>();
-        try(PreparedStatement preparedStatement=conn.prepareStatement(sellerOrdersSQL)){
-            preparedStatement.setString(1,phoneNumber);
-            try(ResultSet resultSet=preparedStatement.executeQuery()){
-                while (resultSet.next()){
-                    orders.add(FindOrder(resultSet.getString(1)));
+    public Status FindSellerOrders(String phoneNumber, int s) throws SQLException {
+        String table = getViewTable(s);
+        String sellerOrdersSQL = "SELECT orderId FROM "+table+" JOIN good ON "+table+".goodId = good.Id WHERE seller=?";
+        Status status = new Status();
+        List<Order> orders = new ArrayList<>();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sellerOrdersSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    orders.add(FindOrder(resultSet.getString(1),s));
                 }
-                status.setContent("success","Find Seller Orders successfully!");
+                status.setContent("success", "Find Seller Orders successfully!");
                 status.setData(orders);
             }
         }
@@ -83,15 +106,16 @@ public class OrderDAOImpl implements IOrderDAO {
     }
 
     @Override
-    public Status FindOrders(String phoneNumber) throws SQLException {
+    public Status FindOrders(String phoneNumber, int s) throws SQLException {
+        String table = getViewTable(s);
         Status status = new Status();
-        String orderIdsSQL = "SELECT orderId FROM `order` WHERE phonenumber=?";
+        String orderIdsSQL = "SELECT orderId FROM " + table + " WHERE phonenumber=?";
         List<Order> orders = new ArrayList<>();
         try (PreparedStatement preparedStatement = conn.prepareStatement(orderIdsSQL)) {
             preparedStatement.setString(1, phoneNumber);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    orders.add(FindOrder(resultSet.getString("orderId")));
+                    orders.add(FindOrder(resultSet.getString("orderId"), s));
                 }
             }
             status.setData(orders);
@@ -184,8 +208,23 @@ public class OrderDAOImpl implements IOrderDAO {
 
     @Override
     public Order FindOrder(String orderId) throws SQLException {
+        String orderSQL = "SELECT `order`.*,certificate.realname, certificate.contact,good.name,good.price " +
+                "FROM `order` JOIN good JOIN certificate ON `order`.goodId = good.Id AND seller=certificate.phonenumber " +
+                "WHERE orderId=?";
+        return getOrder(orderId, orderSQL);
+    }
+
+    @Override
+    public Order FindOrder(String orderId, int s) throws SQLException {
+        String table = getViewTable(s);
+        String orderSQL = "SELECT " + table + ".*,certificate.realname, certificate.contact,good.name,good.price " +
+                "FROM " + table + " JOIN good JOIN certificate ON " + table + ".goodId = good.Id AND seller=certificate.phonenumber " +
+                "WHERE orderId=?";
+        return getOrder(orderId, orderSQL);
+    }
+
+    private Order getOrder(String orderId, String orderSQL) throws SQLException {
         Order order = null;
-        String orderSQL = "SELECT * FROM `order` WHERE orderId=?";
         try (PreparedStatement preparedStatement = conn.prepareStatement(orderSQL)) {
             preparedStatement.setString(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -196,22 +235,37 @@ public class OrderDAOImpl implements IOrderDAO {
                         statement.setString(1, orderId);
                         try (ResultSet set = statement.executeQuery()) {
                             while (set.next()) {
-                                orderContacts.add(new Contact(set.getString("name"), set.getString("phonenumber")));
+                                orderContacts.add(new Contact(URLEncoder.encode(set.getString("name"), "UTF-8"), set.getString("phonenumber")));
                             }
                         }
                     }
+                    String orderGoodPicSQL = "SELECT pictureURL FROM travelgo.goodpicture WHERE goodId=? LIMIT 1";
+                    String picUrl = "";
+                    try (PreparedStatement pst = conn.prepareStatement(orderGoodPicSQL)) {
+                        pst.setString(1, resultSet.getString("goodId"));
+                        try (ResultSet set = pst.executeQuery()) {
+                            if (set.next())
+                                picUrl = set.getString("pictureURL");
+                        }
+                    }
+                    HashMap<String, String> seller = new HashMap<>();
+                    seller.put("realname", URLEncoder.encode(resultSet.getString("certificate.realname"), "UTF-8"));
+                    seller.put("phoneNumber", resultSet.getString("certificate.contact"));
+                    HashMap<String, String> good = new HashMap<>();
+                    good.put("name", URLEncoder.encode(resultSet.getString("good.name"), "UTF-8"));
+                    good.put("price", resultSet.getString("good.price"));
+                    good.put("picUrl", picUrl);
                     order = new Order(resultSet.getString("orderId"),
                             resultSet.getString("goodId"),
                             resultSet.getString("phoneNumber"),
                             resultSet.getString("ordertime"),
                             resultSet.getString("gotime"),
                             resultSet.getInt("people"),
-                            resultSet.getString("note"),
+                            URLEncoder.encode(resultSet.getString("note"), "UTF-8"),
                             resultSet.getInt("status"),
                             resultSet.getBoolean("customCancel"),
                             resultSet.getBoolean("sellerCancel"),
-                            orderContacts,null,null
-                            );
+                            orderContacts, seller, good);
                     //检查订单是否已过出行时间，如果已过，订单若未付款，则取消订单，若已付款，则更新状态
                     if (order.getGotime().compareTo(String.valueOf(System.currentTimeMillis())) < 0) {
                         if (order.getStatus() == 0) {
@@ -229,6 +283,8 @@ public class OrderDAOImpl implements IOrderDAO {
                         ChangeOrderStatus(order.getOrderId(), -1);
                     }
                 }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
         }
         return order;

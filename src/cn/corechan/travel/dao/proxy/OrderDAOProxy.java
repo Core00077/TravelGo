@@ -28,19 +28,19 @@ public class OrderDAOProxy implements IOrderDAO {
     }
 
     @Override
-    public Status FindOrders(String phoneNumber) throws SQLException {
+    public Status FindOrders(String phoneNumber, int s) throws SQLException {
         try {
-            return orderDAO.FindOrders(phoneNumber);
+            return orderDAO.FindOrders(phoneNumber, s);
         } finally {
             dbc.close();
         }
     }
 
     @Override
-    public Status FindSellerOrders(String phoneNumber) throws SQLException {
-        try{
-            return orderDAO.FindSellerOrders(phoneNumber);
-        }finally {
+    public Status FindSellerOrders(String phoneNumber, int s) throws SQLException {
+        try {
+            return orderDAO.FindSellerOrders(phoneNumber, s);
+        } finally {
             dbc.close();
         }
     }
@@ -49,7 +49,7 @@ public class OrderDAOProxy implements IOrderDAO {
     public Status CommentOrder(String orderId) throws SQLException {
         try {
             return orderDAO.CommentOrder(orderId);
-        }finally {
+        } finally {
             dbc.close();
         }
     }
@@ -58,7 +58,7 @@ public class OrderDAOProxy implements IOrderDAO {
     public Status PayOrder(String orderId) throws SQLException {
         try {
             return orderDAO.PayOrder(orderId);
-        }finally {
+        } finally {
             dbc.close();
         }
     }
@@ -85,6 +85,15 @@ public class OrderDAOProxy implements IOrderDAO {
     public Order FindOrder(String orderId) throws SQLException {
         try {
             return orderDAO.FindOrder(orderId);
+        } finally {
+            dbc.close();
+        }
+    }
+
+    @Override
+    public Order FindOrder(String orderId, int s) throws SQLException {
+        try {
+            return orderDAO.FindOrder(orderId, s);
         } finally {
             dbc.close();
         }

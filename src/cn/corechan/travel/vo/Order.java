@@ -109,4 +109,12 @@ public class Order {
     public List<Contact> getContacts() {
         return contacts;
     }
+
+    public HashMap<String, String> getSeller() {
+        return seller;
+    }
+
+    public HashMap<String, String> getGood() {
+        return good;
+    }
 }

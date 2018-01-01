@@ -109,7 +109,7 @@
     <!--查找卖家信息-->
     <servlet>
         <servlet-name>FindSeller</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.FindSellerServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.user.FindSellerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FindSeller</servlet-name>

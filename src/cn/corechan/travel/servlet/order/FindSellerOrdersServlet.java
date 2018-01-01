@@ -17,17 +17,27 @@ public class FindSellerOrdersServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("UTF-8");
-        String phoneNumber= (String) req.getSession().getAttribute("phoneNumber");
-        if(phoneNumber==null){
+        String phoneNumber = (String) req.getSession().getAttribute("phoneNumber");
+        if (phoneNumber == null) {
             ResponseUtil.ResponseUnlogin(resp);
             return;
         }
+        String ss=req.getParameter("status");
+        if(ss==null){
+            ResponseUtil.ResponseArgsMissing(resp);
+            return;
+        }
         try {
-            OrderDAOProxy orderDAOProxy=new OrderDAOProxy();
-            Status status=orderDAOProxy.FindSellerOrders(phoneNumber);
-            ResponseUtil.Render(resp,status);
+            int s = Integer.parseInt(ss);
+            if (s > 3 || s < 0) {
+                ResponseUtil.ResponseArgsMissing(resp);
+                return;
+            }
+            OrderDAOProxy orderDAOProxy = new OrderDAOProxy();
+            Status status = orderDAOProxy.FindSellerOrders(phoneNumber, s);
+            ResponseUtil.Render(resp, status);
         } catch (SQLException | ClassNotFoundException e) {
-            ResponseUtil.ResponseError(resp,e);
+            ResponseUtil.ResponseError(resp, e);
         }
     }
 }
