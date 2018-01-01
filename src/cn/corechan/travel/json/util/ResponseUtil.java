@@ -8,7 +8,7 @@ import java.net.URLEncoder;
 
 public class ResponseUtil {
     public static void Render(HttpServletResponse response, Status status) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setCharacterEncoding("UTF-8");
         String text = Jackson.toJson(status);
         response.getWriter().write(text);

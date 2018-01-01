@@ -175,7 +175,8 @@ public class GoodDAOImpl implements IGoodDAO {
                     map.put("name", resultSet.getString("usertable.name"));
                     map.put("headPicture", resultSet.getString("headPicture"));
                     map.put("sex",resultSet.getString("sex"));
-                    map.put("introduction",URLEncoder.encode(resultSet.getString("introduction"),"UTF-8"));
+                    if(resultSet.getString("introduction")!=null)
+                        map.put("introduction",URLEncoder.encode(resultSet.getString("introduction"),"UTF-8"));
                     good.setSeller(map);
                     goods.add(good);
                 }
