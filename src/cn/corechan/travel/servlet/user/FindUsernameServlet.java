@@ -3,6 +3,7 @@ package cn.corechan.travel.servlet.user;
 import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.json.util.SessionUtil;
 import cn.corechan.travel.vo.User;
 
 import javax.servlet.ServletException;
@@ -26,6 +27,11 @@ public class FindUsernameServlet extends HttpServlet {
         if (!session.isNew()) {
             String phoneNumber = (String) session.getAttribute("phoneNumber");
             if (phoneNumber != null) {
+                if (!SessionUtil.CheckUserOnline(request)) {
+                    ResponseUtil.ResponseLoginByOther(response);
+                    SessionUtil.SessionClean(session);
+                    return;
+                }
                 try {
                     findUserProxy = new UserDAOProxy();
                     findStatus = findUserProxy.findByPhoneNumber(phoneNumber);
@@ -50,7 +56,7 @@ public class FindUsernameServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doPost(req, resp);
     }
 }

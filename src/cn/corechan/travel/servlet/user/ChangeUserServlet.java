@@ -4,13 +4,12 @@ import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.factory.ServletFileUploadFactory;
 import cn.corechan.travel.json.Status;
 import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.json.util.SessionUtil;
 import cn.corechan.travel.vo.User;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +38,11 @@ public class ChangeUserServlet extends HttpServlet {
         String phoneNumber = (String) request.getSession().getAttribute("phoneNumber");
         if (phoneNumber == null) {
             ResponseUtil.ResponseUnlogin(response);
+            return;
+        }
+        if (!SessionUtil.CheckUserOnline(request)) {
+            ResponseUtil.ResponseLoginByOther(response);
+            SessionUtil.SessionClean(request.getSession());
             return;
         }
         Status status = new Status();
