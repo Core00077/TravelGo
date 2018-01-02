@@ -1,8 +1,8 @@
 package cn.corechan.travel.servlet.good;
 
 import cn.corechan.travel.dao.proxy.GoodDAOProxy;
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.ResponseUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FindBySellerServlet extends HttpServlet {

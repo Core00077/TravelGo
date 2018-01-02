@@ -2,8 +2,8 @@ package cn.corechan.travel.servlet.order;
 
 import cn.corechan.travel.dao.proxy.GoodDAOProxy;
 import cn.corechan.travel.dao.proxy.OrderDAOProxy;
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.ResponseUtil;
 import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.Order;
 

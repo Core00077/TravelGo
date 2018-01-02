@@ -1,10 +1,9 @@
 package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IUserDAO;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.Contact;
-import cn.corechan.travel.vo.Good;
 import cn.corechan.travel.vo.User;
 
 import java.io.UnsupportedEncodingException;

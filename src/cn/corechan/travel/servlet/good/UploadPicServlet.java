@@ -1,14 +1,12 @@
 package cn.corechan.travel.servlet.good;
 
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.Jackson;
-import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.Jackson;
+import cn.corechan.travel.util.ResponseUtil;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

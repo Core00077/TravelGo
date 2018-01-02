@@ -1,6 +1,6 @@
-package cn.corechan.travel.json.util;
+package cn.corechan.travel.util;
 
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

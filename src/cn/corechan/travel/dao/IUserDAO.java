@@ -1,6 +1,6 @@
 package cn.corechan.travel.dao;
 
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.User;

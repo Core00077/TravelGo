@@ -2,9 +2,9 @@ package cn.corechan.travel.servlet.user;
 
 import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.factory.ServletFileUploadFactory;
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.ResponseUtil;
-import cn.corechan.travel.json.util.SessionUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.ResponseUtil;
+import cn.corechan.travel.util.SessionUtil;
 import cn.corechan.travel.vo.User;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;

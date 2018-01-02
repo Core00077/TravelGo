@@ -1,7 +1,7 @@
 package cn.corechan.travel.servlet.user.certificate;
 
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.ResponseUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;

@@ -4,7 +4,7 @@ import cn.corechan.travel.dao.IOrderDAO;
 import cn.corechan.travel.dao.impl.OrderDAOImpl;
 import cn.corechan.travel.dbc.DatabaseConnection;
 import cn.corechan.travel.factory.DatabaseConnectionFactor;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Order;
 
 import java.sql.SQLException;

@@ -1,8 +1,8 @@
 package cn.corechan.travel.servlet.good.usergood;
 
 import cn.corechan.travel.dao.proxy.UserGoodDAOProxy;
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.ResponseUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class DeleteLovesServlet extends HttpServlet {
     @Override

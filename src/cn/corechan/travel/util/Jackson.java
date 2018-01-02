@@ -1,4 +1,4 @@
-package cn.corechan.travel.json.util;
+package cn.corechan.travel.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

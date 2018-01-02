@@ -1,4 +1,4 @@
-package cn.corechan.travel.json;
+package cn.corechan.travel.util.json;
 
 public class Status {
     private String status="fail";

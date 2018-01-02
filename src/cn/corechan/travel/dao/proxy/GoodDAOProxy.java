@@ -4,12 +4,10 @@ import cn.corechan.travel.dao.IGoodDAO;
 import cn.corechan.travel.dao.impl.GoodDAOImpl;
 import cn.corechan.travel.dbc.DatabaseConnection;
 import cn.corechan.travel.factory.DatabaseConnectionFactor;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Good;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GoodDAOProxy implements IGoodDAO {
     private DatabaseConnection dbc;

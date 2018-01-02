@@ -1,10 +1,9 @@
 package cn.corechan.travel.dao;
 
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Good;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public interface IGoodDAO {
 

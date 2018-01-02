@@ -1,7 +1,7 @@
 package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IAdminDAO;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Certificate;
 
 import java.sql.Connection;

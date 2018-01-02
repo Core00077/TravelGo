@@ -1,4 +1,4 @@
-package cn.corechan.travel.json.util;
+package cn.corechan.travel.util;
 
 import cn.corechan.travel.vo.UserOnline;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SessionUtil {
-    public static boolean CheckUserOnline(HttpServletRequest request) throws IOException {
+    public static boolean CheckUserOnline(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String phoneNumber = (String) session.getAttribute("phoneNumber");
         return UserOnline.getInstance().getOnlineMap().get(phoneNumber).equals(request.getSession().getId());

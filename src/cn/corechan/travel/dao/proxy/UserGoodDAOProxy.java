@@ -4,7 +4,7 @@ import cn.corechan.travel.dao.IUserGoodDAO;
 import cn.corechan.travel.dao.impl.UserGoodDAOImpl;
 import cn.corechan.travel.dbc.DatabaseConnection;
 import cn.corechan.travel.factory.DatabaseConnectionFactor;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

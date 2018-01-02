@@ -1,9 +1,8 @@
 package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IUserGoodDAO;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Good;
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

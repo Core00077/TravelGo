@@ -1,14 +1,10 @@
 package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IGoodDAO;
-import cn.corechan.travel.dao.proxy.UserDAOProxy;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Good;
-import cn.corechan.travel.vo.User;
-import com.mysql.jdbc.Statement;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

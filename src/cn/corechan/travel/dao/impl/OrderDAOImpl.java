@@ -1,8 +1,7 @@
 package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IOrderDAO;
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.servlet.order.FindOrdersServlet;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.Order;
 

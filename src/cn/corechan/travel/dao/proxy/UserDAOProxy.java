@@ -4,7 +4,7 @@ import cn.corechan.travel.dao.IUserDAO;
 import cn.corechan.travel.dao.impl.UserDAOImpl;
 import cn.corechan.travel.dbc.DatabaseConnection;
 import cn.corechan.travel.factory.DatabaseConnectionFactor;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.Contact;
 import cn.corechan.travel.vo.User;

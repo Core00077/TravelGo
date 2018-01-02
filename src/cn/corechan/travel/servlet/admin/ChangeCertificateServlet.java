@@ -1,8 +1,8 @@
 package cn.corechan.travel.servlet.admin;
 
 import cn.corechan.travel.dao.proxy.AdminDAOProxy;
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.ResponseUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
