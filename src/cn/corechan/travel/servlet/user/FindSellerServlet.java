@@ -1,6 +1,7 @@
 package cn.corechan.travel.servlet.user;
 
 import cn.corechan.travel.dao.proxy.GoodDAOProxy;
+import cn.corechan.travel.dao.proxy.UserDAOProxy;
 import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.util.ResponseUtil;
 
@@ -18,7 +19,7 @@ public class FindSellerServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");              // 过滤器
         String seller=req.getParameter("phoneNumber");
         try {
-            Status status=new GoodDAOProxy().findBySeller(seller);
+            Status status=new UserDAOProxy().findBySeller(seller);
             ResponseUtil.Render(resp,status);
         }  catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(resp,e);

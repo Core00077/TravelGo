@@ -14,7 +14,7 @@ public class Good {
     private String comment;
     private HashMap<String, String> seller;
     private String pubtime;
-
+    private int status = 1;
 
     public Good() {
     }
@@ -97,5 +97,13 @@ public class Good {
 
     public void setPubtime(String pubtime) {
         this.pubtime = pubtime;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

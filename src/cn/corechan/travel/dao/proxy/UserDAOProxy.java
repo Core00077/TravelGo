@@ -59,6 +59,15 @@ public class UserDAOProxy implements IUserDAO {
         }
     }
 
+    @Override
+    public Status findBySeller(String phoneNumber) throws SQLException {
+        try {
+            return userDAO.findBySeller(phoneNumber);
+        } finally {
+            dbc.close();
+        }
+    }
+
     public Status doLogin(String phoneNumber, String pwd) throws SQLException {
         Status status;
 

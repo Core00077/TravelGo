@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,8 +80,8 @@ public class SubmitCertificateServlet extends HttpServlet {
                     if (fileItem.getFieldName().equals("picURL")) {//是picURL
                         if (type.substring(0, type.lastIndexOf("/")).equals("image")) {//的确是图片
                             //重命名文件为账户id+后缀名
-                            String savename = phoneNumber + fileItem.getName().substring(fileItem.getName().lastIndexOf("."));
-                            File file = new File(UPLOAD_BASE, savename);
+                            String savename = new Date().getTime() + fileItem.getName().substring(fileItem.getName().lastIndexOf("."));
+                            File file = new File(UPLOAD_BASE + "/" + phoneNumber + "/", savename);
                             if (file.getParentFile().exists())
                                 fileItem.write(file);
                             else {
@@ -92,7 +93,7 @@ public class SubmitCertificateServlet extends HttpServlet {
                                     return;
                                 }
                             }
-                            picUrl = "/img/certificates/" + savename;
+                            picUrl = "/img/certificates/" + phoneNumber + "/" + savename;
                             break;//只需要一张图
                         }
                     }

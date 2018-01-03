@@ -28,7 +28,7 @@ public class GoodDAOImpl implements IGoodDAO {
         status.setContent("goodNotExist", "");
         status.setData(null);
         // 查询
-        String queryGood = "SELECT good.name,price,city,route,description,comment,seller,pubtime,phonenumber,usertable.name,headPicture " +
+        String queryGood = "SELECT good.name,price,city,route,description,comment,seller,pubtime,good.status,phonenumber,usertable.name,headPicture " +
                 "FROM good JOIN travelgo.usertable ON seller=usertable.phonenumber WHERE Id=?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
@@ -63,14 +63,15 @@ public class GoodDAOImpl implements IGoodDAO {
                         str = rsetGood.getString(7);
                         if (str != null) {
                             HashMap<String, String> seller = new HashMap<>();
-                            seller.put("phoneNumber", rsetGood.getString(9));
-                            seller.put("name", rsetGood.getString(10));
-                            seller.put("headPicture", rsetGood.getString(11));
+                            seller.put("phoneNumber", rsetGood.getString(10));
+                            seller.put("name", rsetGood.getString(11));
+                            seller.put("headPicture", rsetGood.getString(12));
                             good.setSeller(seller);
                         }
                         str = rsetGood.getString(8);
                         if (str != null)
                             good.setPubtime(URLEncoder.encode(str, "UTF-8"));
+                        good.setStatus(rsetGood.getInt(9));
                     } catch (Exception e) {
                         System.out.println(e.toString());
                     }
@@ -99,7 +100,7 @@ public class GoodDAOImpl implements IGoodDAO {
         findStatus.setData(null);
 
         // 查询
-        String queryGood = "SELECT Id,name,price,route FROM good WHERE city LIKE ?  " +
+        String queryGood = "SELECT Id,name,price,route,status FROM good WHERE city LIKE ?  " +
                 " OR comment LIKE ? OR name LIKE ? OR route LIKE ? OR  description LIKE ?";
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
@@ -113,6 +114,9 @@ public class GoodDAOImpl implements IGoodDAO {
             try (ResultSet rsetGood = pstmtGood.executeQuery()) {
                 List<Good> goods = new ArrayList<>();
                 while (rsetGood.next()) {
+                    if (rsetGood.getInt("status") == 0) {
+                        continue;
+                    }
                     Good good = new Good();
                     String goodId = rsetGood.getString(1);
                     good.setId(goodId);
@@ -144,7 +148,7 @@ public class GoodDAOImpl implements IGoodDAO {
 
     @Override
     public Status findBySeller(String phoneNumber) throws SQLException {
-        String findGoodsSQL = "SELECT Id, good.name,price,pubtime,seller,usertable.name,sex,introduction,headPicture FROM good JOIN usertable ON seller=usertable.phonenumber WHERE seller=?";
+        String findGoodsSQL = "SELECT Id, good.name,price,pubtime,seller,status FROM good WHERE seller=?";
         String findGoodPicSQL = "SELECT pictureURL FROM goodpicture WHERE goodId=? LIMIT 1;";
         List<Good> goods = new ArrayList<>();
         Status status = new Status();
@@ -157,9 +161,9 @@ public class GoodDAOImpl implements IGoodDAO {
                     good.setName(URLEncoder.encode(resultSet.getString("good.name"), "UTF-8"));
                     good.setPrice(Double.parseDouble(resultSet.getString("price")));
                     good.setPubtime(resultSet.getString("pubtime"));
-                    try (PreparedStatement preparedStatement1 = conn.prepareStatement(findGoodPicSQL)) {
-                        preparedStatement1.setString(1, good.getId());
-                        try (ResultSet resultSet1 = preparedStatement1.executeQuery()) {
+                    try (PreparedStatement statement = conn.prepareStatement(findGoodPicSQL)) {
+                        statement.setString(1, good.getId());
+                        try (ResultSet resultSet1 = statement.executeQuery()) {
                             if (resultSet1.next()) {
                                 List<String> pic = new ArrayList<>();
                                 pic.add(resultSet1.getString("pictureURL"));
@@ -167,14 +171,6 @@ public class GoodDAOImpl implements IGoodDAO {
                             }
                         }
                     }
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("phoneNumber", resultSet.getString("seller"));
-                    map.put("name", resultSet.getString("usertable.name"));
-                    map.put("headPicture", resultSet.getString("headPicture"));
-                    map.put("sex", resultSet.getString("sex"));
-                    if (resultSet.getString("introduction") != null)
-                        map.put("introduction", URLEncoder.encode(resultSet.getString("introduction"), "UTF-8"));
-                    good.setSeller(map);
                     goods.add(good);
                 }
             } catch (UnsupportedEncodingException e) {
@@ -194,11 +190,14 @@ public class GoodDAOImpl implements IGoodDAO {
         status.setData(null);
 
         // 查询goodId
-        String queryId = "SELECT Id FROM good";
+        String queryId = "SELECT Id,status FROM good";
         try (PreparedStatement pstmtId = conn.prepareStatement(queryId)) {
             try (ResultSet rsetId = pstmtId.executeQuery()) {
                 List<Good> goods = new ArrayList<>();
                 while (rsetId.next()) {
+                    if (rsetId.getInt("status") == 0) {
+                        continue;
+                    }
                     String goodId = rsetId.getString("Id");
                     Good good = (Good) findById(goodId).getData();
                     goods.add(good);
@@ -263,17 +262,12 @@ public class GoodDAOImpl implements IGoodDAO {
     @Override
     public Status deleteById(String goodId) throws SQLException {
         Status status = new Status();
-        String goodPicDeleteSQL = "DELETE FROM travelgo.goodpicture WHERE travelgo.goodpicture.goodId=?";
-        try (PreparedStatement preparedStatement = conn.prepareStatement(goodPicDeleteSQL)) {
-            preparedStatement.setString(1, goodId);
-            if (preparedStatement.executeUpdate() > 0) {
-                String goodDeleteSQL = "DELETE FROM travelgo.good WHERE travelgo.good.Id=?";
-                try (PreparedStatement pst = conn.prepareStatement(goodDeleteSQL)) {
-                    pst.setString(1,goodId);
-                    if(pst.executeUpdate()>0){
-                        status.setContent("success", "delete successfully!");
-                    }
-                }
+        String goodDeleteSQL = "UPDATE travelgo.good SET status=? WHERE travelgo.good.Id=?";
+        try (PreparedStatement pst = conn.prepareStatement(goodDeleteSQL)) {
+            pst.setInt(1, 0);
+            pst.setString(2, goodId);
+            if (pst.executeUpdate() > 0) {
+                status.setContent("success", "delete successfully!");
             }
         }
         return status;
