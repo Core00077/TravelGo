@@ -1,8 +1,8 @@
 out
 .idea
-web/css
+*.css
+*.html
+*.js
 web/fonts
-web/html
 web/img
-web/js
 web/.eslintrc.json
