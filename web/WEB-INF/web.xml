@@ -97,11 +97,37 @@
         <servlet-name>FindGoodByCity</servlet-name>
         <url-pattern>/findGoodByCity</url-pattern>
     </servlet-mapping>
-    
+    <!--通过卖家查找商品-->
+    <servlet>
+        <servlet-name>FindBySeller</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.FindBySellerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindBySeller</servlet-name>
+        <url-pattern>/findBySeller</url-pattern>
+    </servlet-mapping>
+    <!--删除商品-->
+    <servlet>
+        <servlet-name>DeleteGood</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.DeleteGoodServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteGood</servlet-name>
+        <url-pattern>/deleteGood</url-pattern>
+    </servlet-mapping>
+    <!--查找卖家信息-->
+    <servlet>
+        <servlet-name>FindSeller</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.FindSellerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindSeller</servlet-name>
+        <url-pattern>/findSeller</url-pattern>
+    </servlet-mapping>
     <!-- 查找收藏夹详情 -->
     <servlet>
         <servlet-name>Love</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.FindLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.FindLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Love</servlet-name>
@@ -111,7 +137,7 @@
     <!--添加收藏夹-->
     <servlet>
         <servlet-name>AddLove</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.AddLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.AddLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddLove</servlet-name>
@@ -121,7 +147,7 @@
     <!--判断收藏夹-->
     <servlet>
         <servlet-name>IsLove</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.IsLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.IsLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IsLove</servlet-name>
@@ -130,7 +156,7 @@
     <!--删除收藏夹-->
     <servlet>
         <servlet-name>DeleteLove</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.DeleteLoveServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.DeleteLoveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteLove</servlet-name>
@@ -139,10 +165,146 @@
     <!--删除多个收藏夹-->
     <servlet>
         <servlet-name>DeleteLoves</servlet-name>
-        <servlet-class>cn.corechan.travel.servlet.good.DeleteLovesServlet</servlet-class>
+        <servlet-class>cn.corechan.travel.servlet.good.usergood.DeleteLovesServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteLoves</servlet-name>
         <url-pattern>/deleteloves</url-pattern>
+    </servlet-mapping>
+
+    <!--发布商品-->
+    <servlet>
+        <servlet-name>PublishGood</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.PublishGoodServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PublishGood</servlet-name>
+        <url-pattern>/publishgood</url-pattern>
+    </servlet-mapping>
+    <!--查看认证-->
+    <servlet>
+        <servlet-name>viewCertificate</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.certificate.ViewCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>viewCertificate</servlet-name>
+        <url-pattern>/viewCertificate</url-pattern>
+    </servlet-mapping>
+    <!--提交认证-->
+    <servlet>
+        <servlet-name>SubmitCertificate</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.certificate.SubmitCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitCertificate</servlet-name>
+        <url-pattern>/submitCertificate</url-pattern>
+    </servlet-mapping>
+    <!--查找身份认证信息-->
+    <servlet>
+        <servlet-name>FindCertificates</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.admin.FindCertificatesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindCertificates</servlet-name>
+        <url-pattern>/findCertificates</url-pattern>
+    </servlet-mapping>
+    <!--检查身份认证信息-->
+    <servlet>
+        <servlet-name>CheckCertificates</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.certificate.CheckCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckCertificates</servlet-name>
+        <url-pattern>/checkCertificate</url-pattern>
+    </servlet-mapping>
+    <!--管理员登录-->
+    <servlet>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.admin.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <url-pattern>/adminLogin</url-pattern>
+    </servlet-mapping>
+    <!--管理员审核-->
+    <servlet>
+        <servlet-name>ChangeCertificate</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.admin.ChangeCertificateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeCertificate</servlet-name>
+        <url-pattern>/changeCertificate</url-pattern>
+    </servlet-mapping>
+    <!--订单创建-->
+    <servlet>
+        <servlet-name>CreateOrder</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CreateOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateOrder</servlet-name>
+        <url-pattern>/createOrder</url-pattern>
+    </servlet-mapping>
+    <!--订单查询-->
+    <servlet>
+        <servlet-name>FindOrders</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.FindOrdersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindOrders</servlet-name>
+        <url-pattern>/findOrders</url-pattern>
+    </servlet-mapping>
+    <!--卖家订单查询-->
+    <servlet>
+        <servlet-name>FindSellerOrders</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.FindSellerOrdersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindSellerOrders</servlet-name>
+        <url-pattern>/findSellerOrders</url-pattern>
+    </servlet-mapping>
+    <!--订单付款-->
+    <servlet>
+        <servlet-name>PayOrder</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.PayOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PayOrder</servlet-name>
+        <url-pattern>/payOrder</url-pattern>
+    </servlet-mapping>
+    <!--订单评论-->
+    <servlet>
+        <servlet-name>CommentOrder</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CommentOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommentOrder</servlet-name>
+        <url-pattern>/commentOrder</url-pattern>
+    </servlet-mapping>
+    <!--买家订单取消-->
+    <servlet>
+        <servlet-name>CancelOrderCustomer</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CancelOrderCustomerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CancelOrderCustomer</servlet-name>
+        <url-pattern>/cancelOrderCustomer</url-pattern>
+    </servlet-mapping>
+    <!--卖家订单取消-->
+    <servlet>
+        <servlet-name>CancelOrderSeller</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.order.CancelOrderSellerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CancelOrderSeller</servlet-name>
+        <url-pattern>/cancelOrderSeller</url-pattern>
+    </servlet-mapping>
+    <!--新增常用联系人-->
+    <servlet>
+        <servlet-name>AddContact</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.user.AddContactServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddContact</servlet-name>
+        <url-pattern>/addContact</url-pattern>
     </servlet-mapping>
 </web-app>

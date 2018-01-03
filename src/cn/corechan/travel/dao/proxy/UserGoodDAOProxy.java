@@ -4,14 +4,14 @@ import cn.corechan.travel.dao.IUserGoodDAO;
 import cn.corechan.travel.dao.impl.UserGoodDAOImpl;
 import cn.corechan.travel.dbc.DatabaseConnection;
 import cn.corechan.travel.factory.DatabaseConnectionFactor;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserGoodDAOProxy implements IUserGoodDAO {
-    private DatabaseConnection dbc = null;
-    private IUserGoodDAO userGoodDAO = null;
+    private DatabaseConnection dbc;
+    private IUserGoodDAO userGoodDAO;
 
     public UserGoodDAOProxy() throws ClassNotFoundException, SQLException {
         dbc = DatabaseConnectionFactor.getMySQLDatabaseConnection();

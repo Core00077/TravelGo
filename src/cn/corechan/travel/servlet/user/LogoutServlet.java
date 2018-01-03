@@ -1,7 +1,9 @@
 package cn.corechan.travel.servlet.user;
 
-import cn.corechan.travel.json.Status;
-import cn.corechan.travel.json.util.ResponseUtil;
+import cn.corechan.travel.util.json.Status;
+import cn.corechan.travel.util.ResponseUtil;
+import cn.corechan.travel.util.SessionUtil;
+import cn.corechan.travel.vo.UserOnline;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,13 +14,14 @@ import java.io.IOException;
 
 public class LogoutServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(0);
-        session.removeAttribute("phoneNumber");
+        String phoneNumber = (String) session.getAttribute("phoneNumber");
+        UserOnline.getInstance().getOnlineMap().remove(phoneNumber);
+        SessionUtil.SessionClean(request.getSession());
+//        session.removeAttribute("phoneNumber");
         Status status = new Status();
-        status.setContent("success","Logout successfully!");
+        status.setContent("success", "Logout successfully!");
         ResponseUtil.Render(response, status);
     }
 

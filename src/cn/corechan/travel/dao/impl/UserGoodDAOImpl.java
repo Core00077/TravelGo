@@ -1,9 +1,8 @@
 package cn.corechan.travel.dao.impl;
 
 import cn.corechan.travel.dao.IUserGoodDAO;
-import cn.corechan.travel.json.Status;
+import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Good;
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserGoodDAOImpl implements IUserGoodDAO {
-    private Connection conn = null;
+    private Connection conn ;
 
     public UserGoodDAOImpl(Connection conn) {
         this.conn = conn;
@@ -67,9 +66,6 @@ public class UserGoodDAOImpl implements IUserGoodDAO {
                 status.setContent("success", "love query OK!");
                 status.setData(goods);
             }
-        } catch (SQLException e) {
-            status.setContent("SQLError", e.toString());
-            System.out.println(e.toString());
         }
         return status;
     }

@@ -2,10 +2,10 @@
   <artifact type="exploded-war" name="TRAVALlGO:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/TRAVALlGO_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="TRAVALlGO/web/Web" />
+      <element id="javaee-facet-resources" facet="TravelGO/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="TRAVALlGO" />
+          <element id="module-output" name="TravelGO" />
         </element>
       </element>
     </root>

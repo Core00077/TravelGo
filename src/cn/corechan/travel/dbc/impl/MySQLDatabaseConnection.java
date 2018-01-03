@@ -6,11 +6,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MySQLDatabaseConnection implements DatabaseConnection{
+public class MySQLDatabaseConnection implements DatabaseConnection {
     private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-    private static final String DBURL = "jdbc:mysql://115.159.148.175:3306/travelgo";
+    private static final String DBURL = "jdbc:mysql://localhost:3306/travelgo?autoReconnect=true&useSSL=false&characterEncoding = UTF-8 ";
     private static final String DBUSER = "root";
-    private static final String DBPASSWORD = "travelgo666";
+    private static final String DBPASSWORD = "CHR00077";//"travelgo666";
     private Connection conn = null;
 
     public MySQLDatabaseConnection() throws ClassNotFoundException, SQLException {
@@ -18,7 +18,7 @@ public class MySQLDatabaseConnection implements DatabaseConnection{
             Class.forName(DBDRIVER);
             this.conn = DriverManager.getConnection(DBURL, DBUSER, DBPASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
-            throw e;
+            System.out.println(e.toString());
         }
     }
 
@@ -53,7 +53,7 @@ public class MySQLDatabaseConnection implements DatabaseConnection{
             try {
                 this.conn.close();
             } catch (SQLException e) {
-                throw e;
+                System.out.println(e.toString());
             }
         }
     }
