@@ -29,4 +29,9 @@ public class FindBySellerServlet extends HttpServlet {
             ResponseUtil.ResponseError(resp,e);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 }

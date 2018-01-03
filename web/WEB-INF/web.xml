@@ -106,6 +106,15 @@
         <servlet-name>FindBySeller</servlet-name>
         <url-pattern>/findBySeller</url-pattern>
     </servlet-mapping>
+    <!--删除商品-->
+    <servlet>
+        <servlet-name>DeleteGood</servlet-name>
+        <servlet-class>cn.corechan.travel.servlet.good.DeleteGoodServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteGood</servlet-name>
+        <url-pattern>/deleteGood</url-pattern>
+    </servlet-mapping>
     <!--查找卖家信息-->
     <servlet>
         <servlet-name>FindSeller</servlet-name>

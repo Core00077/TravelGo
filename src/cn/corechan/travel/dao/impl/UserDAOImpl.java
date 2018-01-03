@@ -49,7 +49,7 @@ public class UserDAOImpl implements IUserDAO {
 
         // 修改用户数据
         String query = "UPDATE usertable SET name=?, realname=?," +
-                "sex=?, hometown=?, introduction=?  WHERE phonenumber=?";
+                "sex=?, hometown=?, introduction=?, travelgo.usertable.headPicture=?  WHERE phonenumber=?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, newUser.getName());
             String realName = newUser.getRealName();
@@ -68,7 +68,8 @@ public class UserDAOImpl implements IUserDAO {
                 pstmt.setString(5, URLDecoder.decode(introduction, "UTF-8"));
             else
                 pstmt.setString(5, null);
-            pstmt.setString(6, newUser.getPhoneNumber());
+            pstmt.setString(6, newUser.getHeadPicture());
+            pstmt.setString(7, newUser.getPhoneNumber());
             if (pstmt.executeUpdate() > 0) {
                 status.setContent("success", "");
             }
@@ -109,7 +110,7 @@ public class UserDAOImpl implements IUserDAO {
                         if (introduction != null) {
                             user.setIntroduction(URLEncoder.encode(introduction, "UTF-8"));
                         }
-                        user.setHeadPictrue(rset.getString(7));
+                        user.setHeadPicture(rset.getString(7));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -137,8 +138,10 @@ public class UserDAOImpl implements IUserDAO {
                     String picURL = resultSet.getString(6);
                     int s = resultSet.getInt(7);
                     String msg = resultSet.getString(8);
-                    Certificate certificate = new Certificate(phoneNumber, ID, URLEncoder.encode(realname,"UTF-8"), contact,
-                            URLEncoder.encode(address,"UTF-8"), picURL, s, URLEncoder.encode(msg,"UTF-8"));
+                    if (msg != null)
+                        msg = URLEncoder.encode(msg, "UTF-8");
+                    Certificate certificate = new Certificate(phoneNumber, ID, URLEncoder.encode(realname, "UTF-8"), contact,
+                            URLEncoder.encode(address, "UTF-8"), picURL, s, msg);
                     switch (s) {
                         case 0:
                             status.setContent("unpassed", "Certificate not passed!");

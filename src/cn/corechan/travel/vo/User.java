@@ -11,7 +11,7 @@ public class User {
     private String realName;
     private String hometown;
     private String introduction;
-    private String headPictrue;
+    private String headPicture;
     private List<Contact> userContacts=new ArrayList<>();
 
 
@@ -79,11 +79,11 @@ public class User {
         this.userContacts = userContacts;
     }
 
-    public String getHeadPictrue() {
-        return headPictrue;
+    public String getHeadPicture() {
+        return headPicture;
     }
 
-    public void setHeadPictrue(String headPictrue) {
-        this.headPictrue = headPictrue;
+    public void setHeadPicture(String headPicture) {
+        this.headPicture = headPicture;
     }
 }

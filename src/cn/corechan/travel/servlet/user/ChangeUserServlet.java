@@ -29,6 +29,8 @@ public class ChangeUserServlet extends HttpServlet {
         UPLOAD_BASE = config.getServletContext().getRealPath("/img/headpics");
         UPLOAD_TEMP_BASE = config.getServletContext().getRealPath("/img/headpics/temp");
         upload = ServletFileUploadFactory.getMyUpload(UPLOAD_TEMP_BASE);
+        new File(UPLOAD_BASE).mkdir();
+        new File(UPLOAD_TEMP_BASE).mkdir();
     }
 
     @Override
@@ -78,13 +80,18 @@ public class ChangeUserServlet extends HttpServlet {
         User newUser = new User();
         newUser.setPhoneNumber(phoneNumber);
         newUser.setName(map.get("username"));
-        newUser.setRealName(map.get("realname"));
+        newUser.setRealName(map.get("realName"));
         newUser.setSex(map.get("sex"));
         newUser.setHometown(map.get("hometown"));
         newUser.setIntroduction(map.get("intro"));
-        newUser.setHeadPictrue(headPic);
+        newUser.setHeadPicture(headPic);
         try {
             UserDAOProxy changeProxy = new UserDAOProxy();
+
+            if(map.get("headPicture").equals("init")){
+                newUser.setHeadPicture(((User)new UserDAOProxy().findByPhoneNumber(phoneNumber).getData()).getHeadPicture());
+            }
+
             status = changeProxy.doChange(newUser);
             ResponseUtil.Render(response, status);
         } catch (ClassNotFoundException | SQLException e) {

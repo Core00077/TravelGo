@@ -153,7 +153,7 @@ public class GoodDAOImpl implements IGoodDAO {
                 while (resultSet.next()) {
                     Good good = new Good();
                     good.setId(resultSet.getString("Id"));
-                    good.setName(URLEncoder.encode(resultSet.getString("good.name"),"UTF-8"));
+                    good.setName(URLEncoder.encode(resultSet.getString("good.name"), "UTF-8"));
                     good.setPrice(Double.parseDouble(resultSet.getString("price")));
                     good.setPubtime(resultSet.getString("pubtime"));
                     try (PreparedStatement preparedStatement1 = conn.prepareStatement(findGoodPicSQL)) {
@@ -170,9 +170,9 @@ public class GoodDAOImpl implements IGoodDAO {
                     map.put("phoneNumber", resultSet.getString("seller"));
                     map.put("name", resultSet.getString("usertable.name"));
                     map.put("headPicture", resultSet.getString("headPicture"));
-                    map.put("sex",resultSet.getString("sex"));
-                    if(resultSet.getString("introduction")!=null)
-                        map.put("introduction",URLEncoder.encode(resultSet.getString("introduction"),"UTF-8"));
+                    map.put("sex", resultSet.getString("sex"));
+                    if (resultSet.getString("introduction") != null)
+                        map.put("introduction", URLEncoder.encode(resultSet.getString("introduction"), "UTF-8"));
                     good.setSeller(map);
                     goods.add(good);
                 }
@@ -252,6 +252,25 @@ public class GoodDAOImpl implements IGoodDAO {
                     } else {
                         status.setContent("fail", "");
                         status.setData(errorResult);
+                    }
+                }
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public Status deleteById(String goodId) throws SQLException {
+        Status status = new Status();
+        String goodPicDeleteSQL = "DELETE FROM travelgo.goodpicture WHERE travelgo.goodpicture.goodId=?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(goodPicDeleteSQL)) {
+            preparedStatement.setString(1, goodId);
+            if (preparedStatement.executeUpdate() > 0) {
+                String goodDeleteSQL = "DELETE FROM travelgo.good WHERE travelgo.good.Id=?";
+                try (PreparedStatement pst = conn.prepareStatement(goodDeleteSQL)) {
+                    pst.setString(1,goodId);
+                    if(pst.executeUpdate()>0){
+                        status.setContent("success", "delete successfully!");
                     }
                 }
             }

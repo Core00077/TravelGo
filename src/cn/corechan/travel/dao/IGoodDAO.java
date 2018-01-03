@@ -16,4 +16,6 @@ public interface IGoodDAO {
     Status findAll() throws SQLException;
 
     Status publishGood(Good good) throws SQLException;
+
+    Status deleteById(String goodId) throws SQLException;
 }

@@ -88,7 +88,7 @@ public class OrderDAOImpl implements IOrderDAO {
     @Override
     public Status FindSellerOrders(String phoneNumber, int s) throws SQLException {
         String table = getViewTable(s);
-        String sellerOrdersSQL = "SELECT orderId FROM "+table+" JOIN good ON "+table+".goodId = good.Id WHERE seller=?";
+        String sellerOrdersSQL = "SELECT orderId FROM "+table+" JOIN good ON "+table+".goodId = good.Id WHERE seller=? ORDER BY ordertime DESC ";
         Status status = new Status();
         List<Order> orders = new ArrayList<>();
         try (PreparedStatement preparedStatement = conn.prepareStatement(sellerOrdersSQL)) {
@@ -108,7 +108,7 @@ public class OrderDAOImpl implements IOrderDAO {
     public Status FindOrders(String phoneNumber, int s) throws SQLException {
         String table = getViewTable(s);
         Status status = new Status();
-        String orderIdsSQL = "SELECT orderId FROM " + table + " WHERE phonenumber=?";
+        String orderIdsSQL = "SELECT orderId FROM " + table + " WHERE phonenumber=? ORDER BY ordertime DESC";
         List<Order> orders = new ArrayList<>();
         try (PreparedStatement preparedStatement = conn.prepareStatement(orderIdsSQL)) {
             preparedStatement.setString(1, phoneNumber);

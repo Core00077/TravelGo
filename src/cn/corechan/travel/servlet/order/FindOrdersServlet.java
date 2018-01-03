@@ -4,6 +4,7 @@ import cn.corechan.travel.dao.proxy.OrderDAOProxy;
 import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.util.ResponseUtil;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,5 +39,10 @@ public class FindOrdersServlet extends HttpServlet {
         } catch (SQLException | ClassNotFoundException | NumberFormatException e) {
             ResponseUtil.ResponseError(resp, e);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }

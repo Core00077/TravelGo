@@ -17,8 +17,10 @@ public class CheckCertificateServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("UTF-8");
         String phoneNumber = (String) req.getSession().getAttribute("phoneNumber");
-        if(phoneNumber==null)
+        if(phoneNumber==null) {
             ResponseUtil.ResponseUnlogin(resp);
+            return;
+        }
         Status status = new Status();
         try {
             UserDAOProxy userDAOProxy = new UserDAOProxy();

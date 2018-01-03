@@ -84,5 +84,14 @@ public class GoodDAOProxy implements IGoodDAO {
         return status;
     }
 
+    @Override
+    public Status deleteById(String goodId) throws SQLException {
+        try {
+            return goodDAO.deleteById(goodId);
+        } finally {
+            dbc.close();
+        }
+    }
+
 
 }

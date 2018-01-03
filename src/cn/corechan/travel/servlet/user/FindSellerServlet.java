@@ -16,12 +16,6 @@ public class FindSellerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");              // 过滤器
-        HttpSession session = req.getSession();
-        String phoneNumber = (String) session.getAttribute("phoneNumber");
-        if (phoneNumber == null) {
-            ResponseUtil.ResponseUnlogin(resp);
-            return;
-        }
         String seller=req.getParameter("phoneNumber");
         try {
             Status status=new GoodDAOProxy().findBySeller(seller);
@@ -29,5 +23,10 @@ public class FindSellerServlet extends HttpServlet {
         }  catch (ClassNotFoundException | SQLException e) {
             ResponseUtil.ResponseError(resp,e);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }
