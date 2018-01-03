@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class MySQLDatabaseConnection implements DatabaseConnection {
     private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-    private static final String DBURL = "jdbc:mysql://localhost:3306/travelgo?autoReconnect=true&useSSL=false";
+    private static final String DBURL = "jdbc:mysql://localhost:3306/travelgo?autoReconnect=true&useSSL=false&characterEncoding = UTF-8 ";
     private static final String DBUSER = "root";
     private static final String DBPASSWORD = "CHR00077";//"travelgo666";
     private Connection conn = null;

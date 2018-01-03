@@ -87,8 +87,8 @@ public class ChangeUserServlet extends HttpServlet {
         newUser.setHeadPicture(headPic);
         try {
             UserDAOProxy changeProxy = new UserDAOProxy();
-
-            if(map.get("headPicture").equals("init")){
+            String headPicture=map.get("headPicture");
+            if(headPicture!=null&&headPicture.equals("init")){
                 newUser.setHeadPicture(((User)new UserDAOProxy().findByPhoneNumber(phoneNumber).getData()).getHeadPicture());
             }
 

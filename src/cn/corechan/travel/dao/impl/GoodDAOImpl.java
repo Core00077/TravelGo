@@ -104,6 +104,7 @@ public class GoodDAOImpl implements IGoodDAO {
         String queryPictures = "SELECT pictureURL FROM goodpicture WHERE goodId=?";
         try (PreparedStatement pstmtGood = conn.prepareStatement(queryGood);
              PreparedStatement pstmtPictures = conn.prepareStatement(queryPictures)) {
+
             pstmtGood.setString(1, "%" + city + "%");
             pstmtGood.setString(2, "%" + city + "%");
             pstmtGood.setString(3, "%" + city + "%");
