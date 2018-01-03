@@ -85,7 +85,7 @@ public class PublishGoodServlet extends HttpServlet {
                     String filename = fileItem.getName();
                     String savename = i + filename.substring(filename.lastIndexOf("."));
                     String picUrl = "/img/goods/" + id + "/" + savename;
-                    File file = new File(UPLOAD_BASE + "\\" + id, savename);
+                    File file = new File(UPLOAD_BASE + "/" + id, savename);
                     if (!file.getParentFile().exists()) {
                         if (file.getParentFile().mkdir())
                             fileItem.write(file);

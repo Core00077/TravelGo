@@ -44,6 +44,9 @@ public class CreateOrderServlet extends HttpServlet {
         List<Contact> contacts = new ArrayList<>();
         for (String i : rawContacts) {
             String[] rawContact = i.split("\\@");
+            if(rawContact.length<2){
+                ResponseUtil.ResponseArgsMissing(resp);
+            }
             contacts.add(new Contact(rawContact[0], rawContact[1]));
         }
         Order order = new Order(goodId, phoneNumber, gotime, people, note, contacts);

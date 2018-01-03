@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,9 +58,9 @@ public class ChangeUserServlet extends HttpServlet {
                     map.put(fileitem.getFieldName(), fileitem.getString());
                 } else {
                     if (fileitem.getFieldName().equals("headPicture")) {
-                        String savename = phoneNumber + fileitem.getName().substring(fileitem.getName().lastIndexOf("."));
-                        headPic = "/img/headpics/" + savename;
-                        File file = new File(UPLOAD_BASE, savename);
+                        String savename = new Date().getTime() + fileitem.getName().substring(fileitem.getName().lastIndexOf("."));
+                        headPic = "/img/headpics/" +phoneNumber+"/"+ savename;
+                        File file = new File(UPLOAD_BASE+"/"+phoneNumber+"/", savename);
                         if (file.getParentFile().exists())
                             fileitem.write(file);
                         else {

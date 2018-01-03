@@ -4,6 +4,7 @@ import cn.corechan.travel.dao.IUserDAO;
 import cn.corechan.travel.util.json.Status;
 import cn.corechan.travel.vo.Certificate;
 import cn.corechan.travel.vo.Contact;
+import cn.corechan.travel.vo.Good;
 import cn.corechan.travel.vo.User;
 
 import java.io.UnsupportedEncodingException;
@@ -11,6 +12,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserDAOImpl implements IUserDAO {
@@ -123,6 +125,52 @@ public class UserDAOImpl implements IUserDAO {
         return status;
     }
 
+    public Status findBySeller(String phoneNumber) throws SQLException {
+        String findGoodsSQL = "SELECT Id, good.name,price,pubtime,seller,usertable.name,sex,introduction,headPicture,status FROM good JOIN usertable ON seller=usertable.phonenumber WHERE seller=?";
+        String findGoodPicSQL = "SELECT pictureURL FROM goodpicture WHERE goodId=? LIMIT 1;";
+        List<Good> goods = new ArrayList<>();
+        Status status = new Status();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(findGoodsSQL)) {
+            preparedStatement.setString(1, phoneNumber);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    if(resultSet.getInt("status")==0){
+                        continue;
+                    }
+                    Good good = new Good();
+                    good.setId(resultSet.getString("Id"));
+                    good.setName(URLEncoder.encode(resultSet.getString("good.name"), "UTF-8"));
+                    good.setPrice(Double.parseDouble(resultSet.getString("price")));
+                    good.setPubtime(resultSet.getString("pubtime"));
+                    try (PreparedStatement preparedStatement1 = conn.prepareStatement(findGoodPicSQL)) {
+                        preparedStatement1.setString(1, good.getId());
+                        try (ResultSet resultSet1 = preparedStatement1.executeQuery()) {
+                            if (resultSet1.next()) {
+                                List<String> pic = new ArrayList<>();
+                                pic.add(resultSet1.getString("pictureURL"));
+                                good.setPictures(pic);
+                            }
+                        }
+                    }
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("phoneNumber", resultSet.getString("seller"));
+                    map.put("name", resultSet.getString("usertable.name"));
+                    map.put("headPicture", resultSet.getString("headPicture"));
+                    map.put("sex", resultSet.getString("sex"));
+                    if (resultSet.getString("introduction") != null)
+                        map.put("introduction", URLEncoder.encode(resultSet.getString("introduction"), "UTF-8"));
+                    good.setSeller(map);
+                    goods.add(good);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            status.setData(goods);
+            status.setContent("success", "seller goods found successfully!");
+        }
+        return status;
+    }
+
     @Override
     public Status findCertificate(String phoneNumber) throws SQLException {
         String query = "SELECT * FROM certificate WHERE phonenumber=?";
@@ -190,7 +238,7 @@ public class UserDAOImpl implements IUserDAO {
                 }
             }
         } else {
-            String updateSQL = "UPDATE certificate SET ID=?,realname=?,contact=?,address=?,ID_in_hand_picURL=?,status=?,msg=?";
+            String updateSQL = "UPDATE certificate SET ID=?,realname=?,contact=?,address=?,ID_in_hand_picURL=?,status=?,msg=? WHERE travelgo.certificate.phonenumber=?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(updateSQL)) {
                 preparedStatement.setString(1, certificate.getID());
                 preparedStatement.setString(2, certificate.getRealname());
@@ -199,6 +247,7 @@ public class UserDAOImpl implements IUserDAO {
                 preparedStatement.setString(5, certificate.getIDpicURL());
                 preparedStatement.setInt(6, certificate.getStatus());
                 preparedStatement.setString(7, certificate.getMsg());
+                preparedStatement.setString(8,certificate.getPhoneNumber());
 
                 if (preparedStatement.executeUpdate() > 0) {
                     status.setContent("success", "");
