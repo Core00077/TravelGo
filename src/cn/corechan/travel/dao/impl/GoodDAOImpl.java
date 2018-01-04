@@ -148,8 +148,8 @@ public class GoodDAOImpl implements IGoodDAO {
 
     @Override
     public Status findBySeller(String phoneNumber) throws SQLException {
-        String findGoodsSQL = "SELECT Id, good.name,price,pubtime,seller,status FROM good WHERE seller=?";
-        String findGoodPicSQL = "SELECT pictureURL FROM goodpicture WHERE goodId=? LIMIT 1;";
+        String findGoodsSQL = "SELECT Id, good.name,price,pubtime,seller,status FROM good WHERE seller=? ORDER BY pubtime DESC";
+        String findGoodPicSQL = "SELECT pictureURL FROM goodpicture WHERE goodId=? LIMIT 1";
         List<Good> goods = new ArrayList<>();
         Status status = new Status();
         try (PreparedStatement preparedStatement = conn.prepareStatement(findGoodsSQL)) {
@@ -161,6 +161,7 @@ public class GoodDAOImpl implements IGoodDAO {
                     good.setName(URLEncoder.encode(resultSet.getString("good.name"), "UTF-8"));
                     good.setPrice(Double.parseDouble(resultSet.getString("price")));
                     good.setPubtime(resultSet.getString("pubtime"));
+                    good.setStatus(resultSet.getInt("status"));
                     try (PreparedStatement statement = conn.prepareStatement(findGoodPicSQL)) {
                         statement.setString(1, good.getId());
                         try (ResultSet resultSet1 = statement.executeQuery()) {
