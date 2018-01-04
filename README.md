@@ -1,4 +1,5 @@
 # TravelGo #
+travel.corechan.cn[travel.corechan.cn](http://travel.corechan.cn)
 ## 开发申明 ##
 TravelGo平台将用于下列开发者关于web技术、软件工程、数据库课程的作业提交以及各类比赛的参与。
 
