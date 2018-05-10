@@ -1,17 +1,14 @@
 # TravelGo #
 [travel.corechan.cn](http://travel.corechan.cn)
+链接已失效
 ## 开发申明 ##
-TravelGo平台将用于下列开发者关于web技术、软件工程、数据库课程的作业提交以及各类比赛的参与。
+j2EE 原生java后台，完成了理工大软工、数据库、web技术课程的大作业23333
+欢迎参考。
 
-所有除开发者以外对本项目的使用均需联系项目开发者授权。
-
-未经授权，请勿滥用。
+[i@corechan.cn](mailto:i@corechan.cn)
 ## JavaWeb后台 ##
 ### 开发者 ###
 陈睿 赖伟文
-## C#桌面应用 ##
-### 开发者 ###
-杨海锐
 ## Web前端 ##
 ### 开发者 ###
-万承意 侯忠博
+万承意
